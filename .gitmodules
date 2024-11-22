@@ -1,0 +1,4 @@
+[submodule "momoim-BE-config"]
+	path = momoim-BE-config
+	url = https://github.com/mo-moim/momoim-BE-config.git
+  branch = main

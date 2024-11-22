@@ -1,0 +1,19 @@
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Multi Module Implementation
+    implementation(project(":momoim-auth"))
+    implementation(project(":momoim-core"))
+    implementation(project(":momoim-infrastructure"))
+    implementation(project(":momoim-support"))
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir '../momoim-BE-config'
+        }
+    }
+}
+
+jar.enabled = false
