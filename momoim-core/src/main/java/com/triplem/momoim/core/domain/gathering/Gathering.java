@@ -11,8 +11,8 @@ import lombok.Getter;
 public class Gathering {
     private Long id;
     private Long managerId;
-    private GatheringCategory category;
-    private GatheringSubCategory subCategory;
+    private String category;
+    private String subCategory;
     private RecruitStatus recruitStatus;
     private String name;
     private String image;

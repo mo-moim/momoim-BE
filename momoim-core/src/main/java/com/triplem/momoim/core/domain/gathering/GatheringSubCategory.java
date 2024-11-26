@@ -15,7 +15,7 @@ public enum GatheringSubCategory {
     HIKING(GatheringCategory.TRAVEL), FISHING(GatheringCategory.TRAVEL), CAMPING(GatheringCategory.TRAVEL),
 
     LANGUAGE(GatheringCategory.STUDY), FINANCE(GatheringCategory.STUDY), SELFDEVELOP(GatheringCategory.STUDY),
-    
+
     LOVE(GatheringCategory.MEETING), COFFEECHAT(GatheringCategory.MEETING);
     private final GatheringCategory parentCategory;
 

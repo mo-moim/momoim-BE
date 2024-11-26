@@ -27,11 +27,9 @@ public class GatheringEntity {
 
     private Long managerId;
 
-    @Enumerated(EnumType.STRING)
-    private GatheringCategory category;
+    private String category;
 
-    @Enumerated(EnumType.STRING)
-    private GatheringSubCategory subCategory;
+    private String subCategory;
 
     @Enumerated(EnumType.STRING)
     private RecruitStatus recruitStatus;
