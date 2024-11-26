@@ -63,4 +63,20 @@ public class GatheringEntity {
             .createdAt(gathering.getCreatedAt())
             .build();
     }
+
+    public Gathering toModel() {
+        return Gathering.builder()
+            .id(id)
+            .managerId(managerId)
+            .category(category)
+            .subCategory(subCategory)
+            .recruitStatus(recruitStatus)
+            .name(name)
+            .image(image)
+            .capacity(capacity)
+            .startAt(startAt)
+            .endAt(endAt)
+            .createdAt(createdAt)
+            .build();
+    }
 }
