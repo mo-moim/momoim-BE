@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,11 +27,14 @@ public class GatheringMemberEntity {
 
     private Long gatheringId;
 
+    private LocalDateTime joinedAt;
+
     public static GatheringMemberEntity from(GatheringMember gatheringMember) {
         return GatheringMemberEntity.builder()
             .id(gatheringMember.getId())
             .userId(gatheringMember.getUserId())
             .gatheringId(gatheringMember.getGatheringId())
+            .joinedAt(gatheringMember.getJoinedAt())
             .build();
     }
 
@@ -39,6 +43,7 @@ public class GatheringMemberEntity {
             .id(id)
             .userId(userId)
             .gatheringId(gatheringId)
+            .joinedAt(joinedAt)
             .build();
     }
 }
