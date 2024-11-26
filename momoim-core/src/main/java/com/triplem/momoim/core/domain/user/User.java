@@ -13,7 +13,6 @@ public class User {
     private String email;
     private String password;
     private String name;
-    private String companyName;
     private String profileImage;
     private String biography;
     private AccountType accountType;

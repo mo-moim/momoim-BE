@@ -30,9 +30,7 @@ public class UserEntity {
     private String password;
 
     private String name;
-
-    private String companyName;
-
+    
     private String profileImage;
 
     private String biography;
@@ -50,7 +48,6 @@ public class UserEntity {
             .email(user.getEmail())
             .password(user.getPassword())
             .name(user.getName())
-            .companyName(user.getCompanyName())
             .profileImage(user.getProfileImage())
             .biography(user.getBiography())
             .accountType(user.getAccountType())
@@ -65,7 +62,6 @@ public class UserEntity {
             .email(email)
             .password(password)
             .name(name)
-            .companyName(companyName)
             .profileImage(profileImage)
             .biography(biography)
             .accountType(accountType)
