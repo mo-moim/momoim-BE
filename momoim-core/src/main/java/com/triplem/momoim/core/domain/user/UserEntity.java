@@ -55,4 +55,18 @@ public class UserEntity {
             .createdAt(user.getCreatedAt())
             .build();
     }
+
+    public User toModel() {
+        return User.builder()
+            .id(id)
+            .email(email)
+            .password(password)
+            .name(name)
+            .companyName(companyName)
+            .profileImage(profileImage)
+            .accountType(accountType)
+            .socialUid(socialUid)
+            .createdAt(createdAt)
+            .build();
+    }
 }
