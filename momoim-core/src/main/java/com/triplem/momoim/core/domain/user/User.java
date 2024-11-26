@@ -15,6 +15,7 @@ public class User {
     private String name;
     private String companyName;
     private String profileImage;
+    private String biography;
     private AccountType accountType;
     private String socialUid;
     private LocalDateTime createdAt;

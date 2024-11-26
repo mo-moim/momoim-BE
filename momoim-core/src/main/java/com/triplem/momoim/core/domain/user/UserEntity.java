@@ -35,6 +35,8 @@ public class UserEntity {
 
     private String profileImage;
 
+    private String biography;
+
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
@@ -50,6 +52,7 @@ public class UserEntity {
             .name(user.getName())
             .companyName(user.getCompanyName())
             .profileImage(user.getProfileImage())
+            .biography(user.getBiography())
             .accountType(user.getAccountType())
             .socialUid(user.getSocialUid())
             .createdAt(user.getCreatedAt())
@@ -64,6 +67,7 @@ public class UserEntity {
             .name(name)
             .companyName(companyName)
             .profileImage(profileImage)
+            .biography(biography)
             .accountType(accountType)
             .socialUid(socialUid)
             .createdAt(createdAt)
