@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,20 +41,6 @@ public class UserEntity {
     private String socialUid;
 
     private LocalDateTime createdAt;
-
-    @Builder
-    public UserEntity(Long id, String email, String password, String name, String companyName, String profileImage, AccountType accountType,
-        String socialUid, LocalDateTime createdAt) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.companyName = companyName;
-        this.profileImage = profileImage;
-        this.accountType = accountType;
-        this.socialUid = socialUid;
-        this.createdAt = createdAt;
-    }
 
     public static UserEntity from(User user) {
         return UserEntity.builder()
