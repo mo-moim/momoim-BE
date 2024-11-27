@@ -49,6 +49,9 @@ public class GatheringEntity {
     private int capacity;
 
     @Column(nullable = false)
+    private int participantCount;
+
+    @Column(nullable = false)
     private LocalDateTime startAt;
 
     @Column(nullable = false)
@@ -67,6 +70,7 @@ public class GatheringEntity {
             .name(gathering.getName())
             .image(gathering.getImage())
             .capacity(gathering.getCapacity())
+            .participantCount(gathering.getParticipantCount())
             .startAt(gathering.getStartAt())
             .endAt(gathering.getEndAt())
             .createdAt(gathering.getCreatedAt())
@@ -83,6 +87,7 @@ public class GatheringEntity {
             .name(name)
             .image(image)
             .capacity(capacity)
+            .participantCount(participantCount)
             .startAt(startAt)
             .endAt(endAt)
             .createdAt(createdAt)
