@@ -22,7 +22,7 @@ public class Gathering {
     private LocalDateTime endAt;
     private LocalDateTime createdAt;
 
-    public Boolean isRecurring() {
+    public Boolean isRecruiting() {
         return recruitStatus == RecruitStatus.RECRUITING;
     }
 

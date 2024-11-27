@@ -14,7 +14,7 @@ public class GatheringMemberAppender {
     public void append(Long userId, Long gatheringId) {
         Gathering gathering = gatheringRepository.findById(gatheringId);
 
-        if (!gathering.isRecurring()) {
+        if (!gathering.isRecruiting()) {
             throw new RuntimeException("모집 중인 모임이 아닙니다.");
         }
 
