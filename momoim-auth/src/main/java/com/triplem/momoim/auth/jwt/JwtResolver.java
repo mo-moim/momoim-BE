@@ -38,16 +38,10 @@ public class JwtResolver {
             Long userId = Long.valueOf(claims.getSubject());
             return AuthUser.from(userId);
 
-        } catch (SignatureException e) {
-            throw new RuntimeException("Jwt signature exception");
-        } catch (MalformedJwtException e) {
-            throw new RuntimeException("Malformed jwt exception ");
         } catch (ExpiredJwtException e) {
             throw new RuntimeException("Expired jwt exception");
-        } catch (UnsupportedJwtException e) {
-            throw new RuntimeException("Unsupported jwt exception");
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Empty jwt exception");
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid jwt exception ");
         }
     }
 }
