@@ -27,7 +27,7 @@ public class JwtProvider {
                 .setIssuedAt(now)
                 .setExpiration(expiredDate)
                 .signWith(jwtProperties.getSecretKey(), SignatureAlgorithm.HS512)
-                .setId(jwtType.name())
+                .claim(JwtProperties.TOKEN_TYPE, jwtType.name())
                 .compact();
 
         return TokenInfo.of(accessToken, expiredDate);

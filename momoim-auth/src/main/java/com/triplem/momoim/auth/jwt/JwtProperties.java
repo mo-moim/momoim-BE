@@ -7,6 +7,7 @@ import javax.crypto.SecretKey;
 
 @Component
 public class JwtProperties {
+    protected static final String TOKEN_TYPE = "token_type";
 
     private final String accessTokenSecretKey;
     private final long accessTokenExpireTime;
