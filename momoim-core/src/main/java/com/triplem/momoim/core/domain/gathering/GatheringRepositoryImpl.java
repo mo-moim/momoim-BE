@@ -13,4 +13,11 @@ public class GatheringRepositoryImpl implements GatheringRepository {
         return gatheringJpaRepository.save(GatheringEntity.from(gathering))
             .toModel();
     }
+
+    @Override
+    public Gathering findById(Long id) {
+        return gatheringJpaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("존재하지 않는 모임입니다."))
+            .toModel();
+    }
 }

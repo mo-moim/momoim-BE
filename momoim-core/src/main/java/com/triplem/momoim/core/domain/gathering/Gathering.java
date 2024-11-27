@@ -21,4 +21,12 @@ public class Gathering {
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private LocalDateTime createdAt;
+
+    public Boolean isRecurring() {
+        return recruitStatus == RecruitStatus.RECRUITING;
+    }
+
+    public Boolean isFull() {
+        return capacity == participantCount;
+    }
 }

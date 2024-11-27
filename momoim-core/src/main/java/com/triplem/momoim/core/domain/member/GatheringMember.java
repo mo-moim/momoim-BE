@@ -13,4 +13,12 @@ public class GatheringMember {
     private Long userId;
     private Long gatheringId;
     private LocalDateTime joinedAt;
+
+    public static GatheringMember create(Long userId, Long gatheringId) {
+        return GatheringMember.builder()
+            .userId(userId)
+            .gatheringId(gatheringId)
+            .joinedAt(LocalDateTime.now())
+            .build();
+    }
 }
