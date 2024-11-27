@@ -1,5 +1,6 @@
 package com.triplem.momoim.core.domain.gathering;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -25,25 +26,35 @@ public class GatheringEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long managerId;
 
+    @Column(nullable = false)
     private String category;
 
+    @Column(nullable = false)
     private String subCategory;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private RecruitStatus recruitStatus;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String image;
 
+    @Column(nullable = false)
     private int capacity;
 
+    @Column(nullable = false)
     private LocalDateTime startAt;
 
+    @Column(nullable = false)
     private LocalDateTime endAt;
 
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     public static GatheringEntity from(Gathering gathering) {

@@ -1,5 +1,6 @@
 package com.triplem.momoim.core.domain.review;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,14 +24,19 @@ public class ReviewEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long userId;
 
+    @Column(nullable = false)
     private Long gatheringId;
 
+    @Column(nullable = false)
     private int score;
 
+    @Column(nullable = false)
     private String comment;
 
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     public static ReviewEntity from(Review review) {

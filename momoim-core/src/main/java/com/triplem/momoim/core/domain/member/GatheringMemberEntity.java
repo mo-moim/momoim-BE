@@ -1,5 +1,6 @@
 package com.triplem.momoim.core.domain.member;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,10 +24,13 @@ public class GatheringMemberEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long userId;
 
+    @Column(nullable = false)
     private Long gatheringId;
 
+    @Column(nullable = false)
     private LocalDateTime joinedAt;
 
     public static GatheringMemberEntity from(GatheringMember gatheringMember) {
