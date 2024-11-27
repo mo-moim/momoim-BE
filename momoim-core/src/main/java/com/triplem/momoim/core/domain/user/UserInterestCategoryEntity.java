@@ -1,5 +1,6 @@
 package com.triplem.momoim.core.domain.user;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,8 +23,10 @@ public class UserInterestCategoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long userId;
 
+    @Column(nullable = false)
     private String category;
 
     public static UserInterestCategoryEntity from(UserInterestCategory userInterestCategory) {
