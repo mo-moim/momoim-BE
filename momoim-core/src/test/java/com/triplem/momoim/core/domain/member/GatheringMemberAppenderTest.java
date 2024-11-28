@@ -51,7 +51,7 @@ class GatheringMemberAppenderTest {
         gatheringMemberAppender.append(newMemberUserId, gathering.getId());
 
         // then
-        Boolean isSuccessAppend = gatheringMemberRepository.isExistsByUserIdAndGatheringId(newMemberUserId, gathering.getId());
+        Boolean isSuccessAppend = gatheringMemberRepository.isGatheringMember(newMemberUserId, gathering.getId());
         assertThat(isSuccessAppend).isTrue();
     }
 
@@ -79,7 +79,7 @@ class GatheringMemberAppenderTest {
         assertThatThrownBy(() -> gatheringMemberAppender.append(newMemberUserId, gathering.getId()))
             .hasMessageContaining("모집 중인 모임이 아닙니다.");
 
-        Boolean isSuccessAppend = gatheringMemberRepository.isExistsByUserIdAndGatheringId(newMemberUserId, gathering.getId());
+        Boolean isSuccessAppend = gatheringMemberRepository.isGatheringMember(newMemberUserId, gathering.getId());
         assertThat(isSuccessAppend).isFalse();
     }
 
@@ -107,7 +107,7 @@ class GatheringMemberAppenderTest {
         assertThatThrownBy(() -> gatheringMemberAppender.append(newMemberUserId, gathering.getId()))
             .hasMessageContaining("인원이 다 찬 모임입니다.");
 
-        Boolean isSuccessAppend = gatheringMemberRepository.isExistsByUserIdAndGatheringId(newMemberUserId, gathering.getId());
+        Boolean isSuccessAppend = gatheringMemberRepository.isGatheringMember(newMemberUserId, gathering.getId());
         assertThat(isSuccessAppend).isFalse();
     }
 

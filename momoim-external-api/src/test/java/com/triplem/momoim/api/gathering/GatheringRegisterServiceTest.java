@@ -46,7 +46,7 @@ class GatheringRegisterServiceTest {
         Gathering savedGathering = gatheringRegisterService.register(gathering);
 
         //then
-        Boolean isSuccessRegisteredMaster = gatheringMemberRepository.isExistsByUserIdAndGatheringId(
+        Boolean isSuccessRegisteredMaster = gatheringMemberRepository.isGatheringMember(
             gathering.getManagerId(),
             savedGathering.getId());
 

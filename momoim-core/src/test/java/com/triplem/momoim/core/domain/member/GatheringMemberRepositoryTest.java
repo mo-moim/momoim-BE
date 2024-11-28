@@ -41,7 +41,7 @@ class GatheringMemberRepositoryTest {
         gatheringMemberRepository.save(gatheringMember);
 
         //when
-        Boolean result = gatheringMemberRepository.isExistsByUserIdAndGatheringId(userId, gatheringId);
+        Boolean result = gatheringMemberRepository.isGatheringMember(userId, gatheringId);
 
         //then
         assertThat(result).isTrue();
@@ -55,7 +55,7 @@ class GatheringMemberRepositoryTest {
         Long userId = 1L;
 
         //when
-        Boolean result = gatheringMemberRepository.isExistsByUserIdAndGatheringId(userId, gatheringId);
+        Boolean result = gatheringMemberRepository.isGatheringMember(userId, gatheringId);
 
         //then
         assertThat(result).isFalse();

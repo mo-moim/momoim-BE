@@ -22,7 +22,7 @@ public class GatheringMemberAppender {
             throw new RuntimeException("인원이 다 찬 모임입니다.");
         }
 
-        if (gatheringMemberRepository.isExistsByUserIdAndGatheringId(userId, gatheringId)) {
+        if (gatheringMemberRepository.isGatheringMember(userId, gatheringId)) {
             throw new RuntimeException("이미 가입 한 모임입니다.");
         }
 

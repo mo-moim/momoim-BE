@@ -14,7 +14,7 @@ public class GatheringMemberRepositoryImpl implements GatheringMemberRepository 
     }
 
     @Override
-    public Boolean isExistsByUserIdAndGatheringId(Long userId, Long gatheringId) {
+    public Boolean isGatheringMember(Long userId, Long gatheringId) {
         return gatheringMemberJpaRepository.existsByUserIdAndGatheringId(userId, gatheringId);
     }
 }
