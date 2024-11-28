@@ -2,7 +2,6 @@ package com.triplem.momoim.auth.jwt;
 
 import com.triplem.momoim.auth.AuthUser;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -40,8 +39,8 @@ public class JwtResolver {
 
         } catch (ExpiredJwtException e) {
             throw new RuntimeException("Expired jwt exception");
-        } catch (Exception e) {
-            throw new RuntimeException("Invalid jwt exception ");
+        } catch (JwtException e) {
+            throw new RuntimeException("Invalid jwt exception");
         }
     }
 }
