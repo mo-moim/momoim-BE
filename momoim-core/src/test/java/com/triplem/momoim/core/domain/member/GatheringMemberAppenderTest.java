@@ -26,7 +26,7 @@ class GatheringMemberAppenderTest {
 
     @Autowired
     private GatheringMemberRepository gatheringMemberRepository;
-    
+
     @Test
     @DisplayName("모임에 멤버를 추가 할 수 있다.")
     void appendGatheringMember() {
@@ -83,5 +83,16 @@ class GatheringMemberAppenderTest {
         //when then
         assertThatThrownBy(() -> gatheringMemberAppender.append(member1.getUserId(), gathering.getId()))
             .hasMessageContaining("이미 가입 한 모임입니다.");
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 모임에 멤버가 추가 될 수 없다.")
+    void cannotAppendWhenIsNotExistsGathering() {
+        //given
+        Long notExistsGatheringId = 123L;
+        Long newMemberUserId = 2L;
+        //when then
+        assertThatThrownBy(() -> gatheringMemberAppender.append(notExistsGatheringId, newMemberUserId))
+            .hasMessageContaining("존재하지 않는 모임입니다.");
     }
 }
