@@ -10,13 +10,10 @@ class GatheringTest {
     @DisplayName("isRecruiting 메서드는 모임이 모집중인 상태라면 True를 반환한다.")
     void isRecruiting_returnsTrueWhenGatheringIsRecruiting() {
         //given
-        Gathering gathering = Gathering.builder()
-            .id(1L)
-            .recruitStatus(RecruitStatus.RECRUITING)
-            .build();
+        Gathering recruitingGathering = GatheringFixture.createGathering(1L, RecruitStatus.RECRUITING, 10, 0);
 
         //when
-        Boolean isRecruiting = gathering.isRecruiting();
+        Boolean isRecruiting = recruitingGathering.isRecruiting();
 
         //then
         assertThat(isRecruiting).isTrue();
@@ -26,13 +23,10 @@ class GatheringTest {
     @DisplayName("isRecruiting 메서드는 모임이 모집중인 상태가 아니라면 False를 반환한다.")
     void isRecruiting_returnsFalseWhenGatheringIsNotRecruiting() {
         //given
-        Gathering gathering = Gathering.builder()
-            .id(1L)
-            .recruitStatus(RecruitStatus.STOP)
-            .build();
+        Gathering stopGathering = GatheringFixture.createGathering(1L, RecruitStatus.STOP, 10, 0);
 
         //when
-        Boolean isRecruiting = gathering.isRecruiting();
+        Boolean isRecruiting = stopGathering.isRecruiting();
 
         //then
         assertThat(isRecruiting).isFalse();
@@ -42,14 +36,10 @@ class GatheringTest {
     @DisplayName("isFull 메서드는 모집 인원이 다 찼을 경우 True를 반환한다.")
     void isFull_returnsTrueWhenParticipantCountIsFull() {
         //given
-        Gathering gathering = Gathering.builder()
-            .id(1L)
-            .capacity(10)
-            .participantCount(10)
-            .build();
+        Gathering fullGathering = GatheringFixture.createGathering(1L, RecruitStatus.RECRUITING, 10, 10);
 
         //when
-        Boolean isFull = gathering.isFull();
+        Boolean isFull = fullGathering.isFull();
 
         //then
         assertThat(isFull).isTrue();
@@ -59,14 +49,10 @@ class GatheringTest {
     @DisplayName("isFull 메서드는 모집 인원에 여유가 있을 경우 False를 반환한다.")
     void isFull_returnsFalseWhenParticipantCountIsNotFull() {
         //given
-        Gathering gathering = Gathering.builder()
-            .id(1L)
-            .capacity(10)
-            .participantCount(5)
-            .build();
+        Gathering notFullGathering = GatheringFixture.createGathering(1L, RecruitStatus.RECRUITING, 10, 0);
 
         //when
-        Boolean isFull = gathering.isFull();
+        Boolean isFull = notFullGathering.isFull();
 
         //then
         assertThat(isFull).isFalse();
