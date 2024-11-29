@@ -17,7 +17,16 @@ public class Gathering {
     private String name;
     private String image;
     private int capacity;
+    private int participantCount;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private LocalDateTime createdAt;
+
+    public Boolean isRecruiting() {
+        return recruitStatus == RecruitStatus.RECRUITING;
+    }
+
+    public Boolean isFull() {
+        return capacity == participantCount;
+    }
 }
