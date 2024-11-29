@@ -23,19 +23,7 @@ class GatheringRepositoryTest {
     void saveGathering() {
         //given
         LocalDateTime now = LocalDateTime.now();
-        Gathering gathering = Gathering.builder()
-            .managerId(1L)
-            .category("FOOD")
-            .subCategory("COOK")
-            .recruitStatus(RecruitStatus.RECRUITING)
-            .name("요리 모임")
-            .image("https://placehold.co/600x400")
-            .capacity(10)
-            .participantCount(0)
-            .startAt(LocalDateTime.of(2024, 1, 1, 0, 0))
-            .endAt(LocalDateTime.of(2024, 12, 31, 23, 59))
-            .createdAt(now)
-            .build();
+        Gathering gathering = GatheringFixture.createGathering(1L, RecruitStatus.RECRUITING, 10, 0);
 
         //when
         Gathering savedGathering = gatheringRepository.save(gathering);
@@ -58,19 +46,7 @@ class GatheringRepositoryTest {
     void findGatheringById() {
         //given
         LocalDateTime now = LocalDateTime.now();
-        Gathering gathering = Gathering.builder()
-            .managerId(1L)
-            .category("FOOD")
-            .subCategory("COOK")
-            .recruitStatus(RecruitStatus.RECRUITING)
-            .name("요리 모임")
-            .image("https://placehold.co/600x400")
-            .capacity(10)
-            .participantCount(0)
-            .startAt(LocalDateTime.of(2024, 1, 1, 0, 0))
-            .endAt(LocalDateTime.of(2024, 12, 31, 23, 59))
-            .createdAt(now)
-            .build();
+        Gathering gathering = GatheringFixture.createGathering(1L, RecruitStatus.RECRUITING, 10, 0);
         Gathering savedGathering = gatheringRepository.save(gathering);
 
         //when
