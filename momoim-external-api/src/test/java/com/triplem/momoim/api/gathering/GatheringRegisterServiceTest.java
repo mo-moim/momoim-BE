@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringLocation;
-import com.triplem.momoim.core.domain.gathering.RecruitStatus;
 import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,7 +32,6 @@ class GatheringRegisterServiceTest {
             .managerId(5L)
             .category("FOOD")
             .subCategory("COOK")
-            .recruitStatus(RecruitStatus.RECRUITING)
             .name("요리 모임")
             .image("https://placehold.co/600x400")
             .description("요리를 배우며 즐기는 모임입니다.")

@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringBuilder;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
-import com.triplem.momoim.core.domain.gathering.RecruitStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,27 +39,6 @@ class GatheringMemberAppenderTest {
         // then
         Boolean isSuccessAppend = gatheringMemberRepository.isGatheringMember(newMemberUserId, gathering.getId());
         assertThat(isSuccessAppend).isTrue();
-    }
-
-    @Test
-    @DisplayName("모집 중인 모임이 아니면 멤버를 추가 할 수 없다.")
-    void cannotAppendWhenGatheringIsNotRecruiting() {
-        //given
-        Gathering notRecruitingGathering = gatheringRepository.save(
-            GatheringBuilder
-                .builder()
-                .recruitStatus(RecruitStatus.STOP)
-                .build()
-                .toGathering()
-        );
-        Long newMemberUserId = 2L;
-
-        //when then
-        assertThatThrownBy(() -> gatheringMemberAppender.append(newMemberUserId, notRecruitingGathering.getId()))
-            .hasMessageContaining("모집 중인 모임이 아닙니다.");
-
-        Boolean isSuccessAppend = gatheringMemberRepository.isGatheringMember(newMemberUserId, notRecruitingGathering.getId());
-        assertThat(isSuccessAppend).isFalse();
     }
 
     @Test

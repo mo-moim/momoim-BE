@@ -37,10 +37,6 @@ public class GatheringEntity {
     @Column(nullable = false)
     private String subCategory;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private RecruitStatus recruitStatus;
-
     @Column(nullable = false)
     private String name;
 
@@ -82,7 +78,6 @@ public class GatheringEntity {
             .managerId(gathering.getManagerId())
             .category(gathering.getCategory())
             .subCategory(gathering.getSubCategory())
-            .recruitStatus(gathering.getRecruitStatus())
             .name(gathering.getName())
             .image(gathering.getImage())
             .description(gathering.getDescription())
@@ -103,7 +98,6 @@ public class GatheringEntity {
             .managerId(managerId)
             .category(category)
             .subCategory(subCategory)
-            .recruitStatus(recruitStatus)
             .name(name)
             .image(image)
             .description(description)

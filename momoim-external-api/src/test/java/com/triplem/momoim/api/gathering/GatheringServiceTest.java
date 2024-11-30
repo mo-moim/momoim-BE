@@ -8,7 +8,6 @@ import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchSortOrder;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchSortType;
-import com.triplem.momoim.core.domain.gathering.RecruitStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +36,6 @@ class GatheringServiceTest {
                 .managerId(5L)
                 .category("FOOD")
                 .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
                 .name("gathering1")
                 .image("image1")
                 .description("description1")
@@ -57,7 +55,6 @@ class GatheringServiceTest {
                 .managerId(5L)
                 .category("FOOD")
                 .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
                 .name("gathering2")
                 .image("image2")
                 .description("description2")
@@ -77,7 +74,6 @@ class GatheringServiceTest {
                 .managerId(5L)
                 .category("TRAVEL")
                 .subCategory("FISHING")
-                .recruitStatus(RecruitStatus.RECRUITING)
                 .name("gathering3")
                 .image("image2")
                 .description("description3")

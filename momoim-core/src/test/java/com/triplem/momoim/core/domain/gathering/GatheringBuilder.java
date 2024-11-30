@@ -14,8 +14,6 @@ public class GatheringBuilder {
     @Builder.Default
     private String subCategory = "COOK";
     @Builder.Default
-    private RecruitStatus recruitStatus = RecruitStatus.RECRUITING;
-    @Builder.Default
     private String name = "gathering1";
     @Builder.Default
     private String image = "image1";
@@ -44,7 +42,6 @@ public class GatheringBuilder {
             .managerId(managerId)
             .category(category)
             .subCategory(subCategory)
-            .recruitStatus(recruitStatus)
             .name(name)
             .image(image)
             .description(description)
