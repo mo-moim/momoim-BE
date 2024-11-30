@@ -24,7 +24,7 @@ class GatheringRepositoryTest {
     @DisplayName("Gathering 도메인 데이터를 DB에 저장한다.")
     void saveGathering() {
         //given
-        Gathering gathering = GatheringFixture.createGathering(1L, RecruitStatus.RECRUITING, 10, 0);
+        Gathering gathering = GatheringBuilder.builder().build().toGathering();
 
         //when
         Gathering savedGathering = gatheringRepository.save(gathering);
@@ -50,7 +50,7 @@ class GatheringRepositoryTest {
     @DisplayName("gatheringId와 일치하는 모임을 조회할 수 있다.")
     void findGatheringById() {
         //given
-        Gathering gathering = GatheringFixture.createGathering(1L, RecruitStatus.RECRUITING, 10, 0);
+        Gathering gathering = GatheringBuilder.builder().build().toGathering();
         Gathering savedGathering = gatheringRepository.save(gathering);
 
         //when
@@ -74,48 +74,26 @@ class GatheringRepositoryTest {
     @DisplayName("카테고리 필터를 통해 모임을 조회 할 수 있다.")
     void findByGatheringSearchOptionCategory() {
         //given
+        String targetCategory = "FOOD";
+        String anotherCategory = "TRAVEL";
+
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering1")
-                .image("image1")
-                .description("description1")
-                .tags(List.of("tag1"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(10)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2024, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
+            GatheringBuilder
+                .builder()
+                .category(targetCategory)
                 .build()
+                .toGathering()
         );
 
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("TRAVEL")
-                .subCategory("FISHING")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering2")
-                .image("image2")
-                .description("description2")
-                .tags(List.of("tag2"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(20)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2024, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
+            GatheringBuilder.builder()
+                .category(anotherCategory)
                 .build()
+                .toGathering()
         );
 
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
-            .category("FOOD")
+            .category(targetCategory)
             .sortType(GatheringSearchSortType.GATHERING_AT)
             .sortOrder(GatheringSearchSortOrder.ASC)
             .build();
@@ -132,48 +110,25 @@ class GatheringRepositoryTest {
     @DisplayName("서브 카테고리 필터를 통해 모임을 조회 할 수 있다.")
     void findByGatheringSearchOptionSubCategory() {
         //given
+        String targetSubCategory = "COOK";
+        String anotherSubCategory = "FISHING";
+
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering1")
-                .image("image1")
-                .description("description1")
-                .tags(List.of("tag1"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(10)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2024, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
+            GatheringBuilder.builder()
+                .subCategory(targetSubCategory)
                 .build()
+                .toGathering()
         );
 
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("RESTAURANT")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering2")
-                .image("image2")
-                .description("description2")
-                .tags(List.of("tag2"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(20)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2024, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
+            GatheringBuilder.builder()
+                .subCategory(anotherSubCategory)
                 .build()
+                .toGathering()
         );
 
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
-            .subCategory("RESTAURANT")
+            .subCategory(targetSubCategory)
             .sortType(GatheringSearchSortType.GATHERING_AT)
             .sortOrder(GatheringSearchSortOrder.ASC)
             .build();
@@ -190,48 +145,25 @@ class GatheringRepositoryTest {
     @DisplayName("모임 위치 필터를 통해 모임을 조회 할 수 있다.")
     void findByGatheringSearchOptionLocation() {
         //given
+        GatheringLocation targetLocation = GatheringLocation.INCHEON;
+        GatheringLocation anotherLocation = GatheringLocation.SEOUL;
+
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering1")
-                .image("image1")
-                .description("description1")
-                .tags(List.of("tag1"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(10)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2024, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
+            GatheringBuilder.builder()
+                .location(targetLocation)
                 .build()
+                .toGathering()
         );
 
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering2")
-                .image("image2")
-                .description("description2")
-                .tags(List.of("tag2"))
-                .location(GatheringLocation.SEOUL)
-                .capacity(100)
-                .participantCount(20)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2024, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
+            GatheringBuilder.builder()
+                .location(anotherLocation)
                 .build()
+                .toGathering()
         );
 
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
-            .location(GatheringLocation.INCHEON)
+            .location(targetLocation)
             .sortType(GatheringSearchSortType.GATHERING_AT)
             .sortOrder(GatheringSearchSortOrder.ASC)
             .build();
@@ -248,48 +180,26 @@ class GatheringRepositoryTest {
     @DisplayName("모임 날짜 필터를 통해 모임을 조회 할 수 있다.")
     void findByGatheringSearchOptionGatheringDate() {
         //given
+        LocalDate targetGatheringDate = LocalDate.of(2024, 12, 10);
+        LocalDate anotherGatheringDate = LocalDate.of(2024, 12, 12);
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering1")
-                .image("image1")
-                .description("description1")
-                .tags(List.of("tag1"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(10)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2024, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
+            GatheringBuilder
+                .builder()
+                .nextGatheringAt(targetGatheringDate.atTime(10, 0, 0))
                 .build()
+                .toGathering()
         );
 
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering2")
-                .image("image2")
-                .description("description2")
-                .tags(List.of("tag2"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(20)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 10, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2024, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
+            GatheringBuilder
+                .builder()
+                .nextGatheringAt(anotherGatheringDate.atTime(10, 0, 0))
                 .build()
+                .toGathering()
         );
 
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
-            .gatheringDate(LocalDate.of(2024, 12, 10))
+            .gatheringDate(targetGatheringDate)
             .sortType(GatheringSearchSortType.GATHERING_AT)
             .sortOrder(GatheringSearchSortOrder.ASC)
             .build();
@@ -305,48 +215,26 @@ class GatheringRepositoryTest {
     @DisplayName("방장 ID 필터를 통해 모임을 조회 할 수 있다.")
     void findByGatheringSearchOptionManagerId() {
         //given
+        Long targetManagerId = 1L;
+        Long anotherManagerId = 2L;
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering1")
-                .image("image1")
-                .description("description1")
-                .tags(List.of("tag1"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(10)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2024, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
+            GatheringBuilder
+                .builder()
+                .managerId(targetManagerId)
                 .build()
+                .toGathering()
         );
 
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(8L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering2")
-                .image("image2")
-                .description("description2")
-                .tags(List.of("tag2"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(20)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2024, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
+            GatheringBuilder
+                .builder()
+                .managerId(anotherManagerId)
                 .build()
+                .toGathering()
         );
 
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
-            .managerId(5L)
+            .managerId(targetManagerId)
             .sortType(GatheringSearchSortType.GATHERING_AT)
             .sortOrder(GatheringSearchSortOrder.ASC)
             .build();
@@ -364,43 +252,19 @@ class GatheringRepositoryTest {
     void sortByGatheringAt() {
         //given
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering1")
-                .image("image1")
-                .description("description1")
-                .tags(List.of("tag1"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(10)
+            GatheringBuilder
+                .builder()
                 .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2024, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
                 .build()
+                .toGathering()
         );
 
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering2")
-                .image("image2")
-                .description("description2")
-                .tags(List.of("tag2"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(20)
+            GatheringBuilder
+                .builder()
                 .nextGatheringAt(LocalDateTime.of(2024, 12, 30, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2024, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
                 .build()
+                .toGathering()
         );
 
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
@@ -421,43 +285,19 @@ class GatheringRepositoryTest {
     void sortByEndAt() {
         //given
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering1")
-                .image("image1")
-                .description("description1")
-                .tags(List.of("tag1"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(10)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
+            GatheringBuilder
+                .builder()
                 .endAt(LocalDateTime.of(2025, 12, 10, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
                 .build()
+                .toGathering()
         );
 
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering2")
-                .image("image2")
-                .description("description2")
-                .tags(List.of("tag2"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(20)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 30, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
+            GatheringBuilder
+                .builder()
                 .endAt(LocalDateTime.of(2025, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
                 .build()
+                .toGathering()
         );
 
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
@@ -478,43 +318,19 @@ class GatheringRepositoryTest {
     void sortByParticipantCount() {
         //given
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering1")
-                .image("image1")
-                .description("description1")
-                .tags(List.of("tag1"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
+            GatheringBuilder
+                .builder()
                 .participantCount(10)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2025, 12, 10, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
                 .build()
+                .toGathering()
         );
 
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
-                .recruitStatus(RecruitStatus.RECRUITING)
-                .name("gathering2")
-                .image("image2")
-                .description("description2")
-                .tags(List.of("tag2"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
+            GatheringBuilder
+                .builder()
                 .participantCount(20)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 30, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2025, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
                 .build()
+                .toGathering()
         );
 
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
