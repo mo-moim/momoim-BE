@@ -59,7 +59,7 @@ class GatheringRepositoryTest {
 
     @Test
     @DisplayName("존재하지 않는 id로 조회 시 예외가 발생한다.")
-    void test() {
+    void throwExceptionWhenFindWrongGatheringId() {
         //given
         Long wrongGatheringId = 1L;
 
