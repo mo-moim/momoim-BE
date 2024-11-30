@@ -3,7 +3,6 @@ package com.triplem.momoim.core.domain.gathering;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ class GatheringRepositoryTest {
     @DisplayName("Gathering 도메인 데이터를 DB에 저장한다.")
     void saveGathering() {
         //given
-        LocalDateTime now = LocalDateTime.now();
         Gathering gathering = GatheringFixture.createGathering(1L, RecruitStatus.RECRUITING, 10, 0);
 
         //when
@@ -49,7 +47,6 @@ class GatheringRepositoryTest {
     @DisplayName("gatheringId와 일치하는 모임을 조회할 수 있다.")
     void findGatheringById() {
         //given
-        LocalDateTime now = LocalDateTime.now();
         Gathering gathering = GatheringFixture.createGathering(1L, RecruitStatus.RECRUITING, 10, 0);
         Gathering savedGathering = gatheringRepository.save(gathering);
 
