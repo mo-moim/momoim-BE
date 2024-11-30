@@ -1,13 +1,15 @@
 package com.triplem.momoim.core.domain.gathering;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
+import lombok.Getter;
 
+@Getter
 public class GatheringSearchOption {
     private List<Long> gatheringIds;
     private String category;
     private GatheringLocation location;
-    private LocalDateTime gatheringAt;
+    private LocalDate gatheringDate;
     private Long managerId;
     private GatheringSearchSortType sortType;
     private GatheringSearchSortOrder sortOrder;
