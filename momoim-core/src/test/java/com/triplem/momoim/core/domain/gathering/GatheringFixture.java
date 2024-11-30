@@ -17,6 +17,7 @@ public class GatheringFixture {
             .location(GatheringLocation.INCHEON)
             .capacity(capacity)
             .participantCount(participantCount)
+            .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 0, 0))
             .startAt(LocalDateTime.of(2024, 1, 1, 0, 0))
             .endAt(LocalDateTime.of(2024, 12, 31, 23, 59))
             .createdAt(LocalDateTime.now())
