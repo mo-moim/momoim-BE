@@ -1,6 +1,7 @@
 package com.triplem.momoim.core.domain.gathering;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +48,17 @@ public class GatheringEntity {
     private String image;
 
     @Column(nullable = false)
+    private String description;
+
+    @Column
+    @Convert(converter = GatheringTagConverter.class)
+    private List<String> tags;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private GatheringLocation location;
+
+    @Column(nullable = false)
     private int capacity;
 
     @Column(nullable = false)
@@ -69,6 +82,9 @@ public class GatheringEntity {
             .recruitStatus(gathering.getRecruitStatus())
             .name(gathering.getName())
             .image(gathering.getImage())
+            .description(gathering.getDescription())
+            .tags(gathering.getTags())
+            .location(gathering.getLocation())
             .capacity(gathering.getCapacity())
             .participantCount(gathering.getParticipantCount())
             .startAt(gathering.getStartAt())
@@ -86,6 +102,9 @@ public class GatheringEntity {
             .recruitStatus(recruitStatus)
             .name(name)
             .image(image)
+            .description(description)
+            .tags(tags)
+            .location(location)
             .capacity(capacity)
             .participantCount(participantCount)
             .startAt(startAt)

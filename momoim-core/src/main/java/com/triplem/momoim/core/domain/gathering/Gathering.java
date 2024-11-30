@@ -1,6 +1,7 @@
 package com.triplem.momoim.core.domain.gathering;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +17,9 @@ public class Gathering {
     private RecruitStatus recruitStatus;
     private String name;
     private String image;
+    private String description;
+    private List<String> tags;
+    private GatheringLocation location;
     private int capacity;
     private int participantCount;
     private LocalDateTime startAt;
