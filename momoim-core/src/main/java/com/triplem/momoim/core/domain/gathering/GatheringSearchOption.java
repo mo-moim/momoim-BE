@@ -8,6 +8,7 @@ import lombok.Getter;
 public class GatheringSearchOption {
     private List<Long> gatheringIds;
     private String category;
+    private String subCategory;
     private GatheringLocation location;
     private LocalDate gatheringDate;
     private Long managerId;
