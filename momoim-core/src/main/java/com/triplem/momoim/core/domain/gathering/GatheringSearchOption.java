@@ -2,9 +2,11 @@ package com.triplem.momoim.core.domain.gathering;
 
 import java.time.LocalDate;
 import java.util.List;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class GatheringSearchOption {
     private List<Long> gatheringIds;
     private String category;
