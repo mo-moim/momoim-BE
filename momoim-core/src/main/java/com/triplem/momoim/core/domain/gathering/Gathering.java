@@ -22,6 +22,7 @@ public class Gathering {
     private GatheringLocation location;
     private int capacity;
     private int participantCount;
+    private LocalDateTime nextGatheringAt;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private LocalDateTime createdAt;
