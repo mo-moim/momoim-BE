@@ -50,7 +50,7 @@ public class GatheringBuilder {
             .description(description)
             .tags(tags)
             .location(location)
-            .category(category)
+            .capacity(capacity)
             .participantCount(participantCount)
             .nextGatheringAt(nextGatheringAt)
             .startAt(startAt)
