@@ -345,4 +345,29 @@ class GatheringRepositoryTest {
         assertThat(gatherings).hasSize(2);
         assertThat(gatherings.get(0).getParticipantCount()).isLessThan(gatherings.get(1).getParticipantCount());
     }
+
+    @Test
+    @DisplayName("모임 목록 조회 시 페이징 처리를 할 수 있다.")
+    void gatheringSearchWithPagination() {
+        //given
+        GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
+            .sortType(GatheringSearchSortType.PARTICIPANT_COUNT)
+            .sortOrder(GatheringSearchSortOrder.ASC)
+            .offset(0)
+            .limit(2)
+            .build();
+
+        Gathering gathering1 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        Gathering gathering2 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        Gathering gathering3 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        Gathering gathering4 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+
+        //when
+        List<Gathering> gatherings = gatheringRepository.findBySearchOption(gatheringSearchOption);
+
+        //then
+        assertThat(gatherings).hasSize(2);
+        assertThat(gatherings.get(0).getId()).isEqualTo(gathering1.getId());
+        assertThat(gatherings.get(1).getId()).isEqualTo(gathering2.getId());
+    }
 }

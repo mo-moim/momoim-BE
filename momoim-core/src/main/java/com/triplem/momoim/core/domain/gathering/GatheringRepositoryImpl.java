@@ -35,6 +35,8 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             .from(gatheringEntity)
             .where(whereGatheringSearchOption(searchOption))
             .orderBy(sortGatheringSearch(searchOption.getSortType(), searchOption.getSortOrder()))
+            .limit(searchOption.getLimit())
+            .offset(searchOption.getOffset())
             .fetch()
             .stream()
             .map(GatheringEntity::toModel)
