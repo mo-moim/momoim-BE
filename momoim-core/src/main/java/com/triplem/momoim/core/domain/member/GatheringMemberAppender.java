@@ -22,6 +22,9 @@ public class GatheringMemberAppender {
         }
 
         gatheringMemberRepository.save(GatheringMember.create(userId, gatheringId));
+
+        gathering.increaseParticipantCount();
+        gatheringRepository.save(gathering);
     }
 
 }

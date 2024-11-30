@@ -29,4 +29,8 @@ public class Gathering {
     public Boolean isFull() {
         return capacity == participantCount;
     }
+
+    public void increaseParticipantCount() {
+        participantCount++;
+    }
 }

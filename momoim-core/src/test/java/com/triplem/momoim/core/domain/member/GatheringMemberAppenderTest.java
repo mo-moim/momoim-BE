@@ -39,6 +39,9 @@ class GatheringMemberAppenderTest {
         // then
         Boolean isSuccessAppend = gatheringMemberRepository.isGatheringMember(newMemberUserId, gathering.getId());
         assertThat(isSuccessAppend).isTrue();
+
+        Gathering savedGathering = gatheringRepository.findById(gathering.getId());
+        assertThat(savedGathering.getParticipantCount()).isEqualTo(gathering.getParticipantCount() + 1);
     }
 
     @Test
