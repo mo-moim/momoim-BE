@@ -37,4 +37,11 @@ public class GatheringService {
 
         return members;
     }
+
+    public List<GatheringItem> getMyGatherings(Long userId, int offset, int limit) {
+        return gatheringRepository.getMyGatherings(userId, offset, limit)
+            .stream()
+            .map(GatheringItem::from)
+            .collect(Collectors.toList());
+    }
 }

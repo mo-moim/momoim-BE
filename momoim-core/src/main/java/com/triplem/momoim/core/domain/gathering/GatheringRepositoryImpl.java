@@ -1,6 +1,7 @@
 package com.triplem.momoim.core.domain.gathering;
 
 import static com.triplem.momoim.core.domain.gathering.QGatheringEntity.gatheringEntity;
+import static com.triplem.momoim.core.domain.member.QGatheringMemberEntity.gatheringMemberEntity;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
@@ -37,6 +38,21 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             .orderBy(sortGatheringSearch(searchOption.getSortType(), searchOption.getSortOrder()))
             .limit(searchOption.getLimit())
             .offset(searchOption.getOffset())
+            .fetch()
+            .stream()
+            .map(GatheringEntity::toModel)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Gathering> getMyGatherings(Long userId, int offset, int limit) {
+        return jpaQueryFactory.select(gatheringEntity)
+            .from(gatheringMemberEntity)
+            .where(gatheringMemberEntity.userId.eq(userId))
+            .offset(offset)
+            .limit(limit)
+            .orderBy(gatheringEntity.id.desc())
+            .innerJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
             .fetch()
             .stream()
             .map(GatheringEntity::toModel)

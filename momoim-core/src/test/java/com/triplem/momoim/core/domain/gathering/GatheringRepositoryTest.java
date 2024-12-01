@@ -3,6 +3,8 @@ package com.triplem.momoim.core.domain.gathering;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.triplem.momoim.core.domain.member.GatheringMember;
+import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 class GatheringRepositoryTest {
     @Autowired
     private GatheringRepository gatheringRepository;
+
+    @Autowired
+    private GatheringMemberRepository gatheringMemberRepository;
 
     @Test
     @DisplayName("Gathering 도메인 데이터를 DB에 저장한다.")
@@ -385,5 +390,34 @@ class GatheringRepositoryTest {
         assertThat(gatherings).hasSize(2);
         assertThat(gatherings.get(0).getId()).isEqualTo(gathering1.getId());
         assertThat(gatherings.get(1).getId()).isEqualTo(gathering2.getId());
+    }
+
+    @Test
+    @DisplayName("내가 참여한 모임을 조회 할 수 있다.")
+    void getMyGatherings() {
+        //given
+        Long userId = 1L;
+        int offset = 0;
+        int size = 10;
+
+        Gathering gathering1 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        Gathering gathering2 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        Gathering gathering3 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        Gathering gathering4 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        Gathering gathering5 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+
+        gatheringMemberRepository.save(GatheringMember.create(userId, gathering1.getId()));
+        gatheringMemberRepository.save(GatheringMember.create(userId, gathering2.getId()));
+        gatheringMemberRepository.save(GatheringMember.create(userId, gathering3.getId()));
+        gatheringMemberRepository.save(GatheringMember.create(userId, gathering4.getId()));
+        gatheringMemberRepository.save(GatheringMember.create(userId, gathering5.getId()));
+
+        //when
+        List<Gathering> gatherings = gatheringRepository.getMyGatherings(userId, offset, size);
+
+        //then
+        assertThat(gatherings).hasSize(5)
+            .extracting("id")
+            .contains(gathering1.getId(), gathering2.getId(), gathering3.getId(), gathering4.getId(), gathering5.getId());
     }
 }
