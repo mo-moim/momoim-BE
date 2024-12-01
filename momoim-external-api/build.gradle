@@ -1,4 +1,6 @@
 dependencies {
+    implementation("org.springframework:spring-tx")
+
     // Multi Module Implementation
     implementation(project(":momoim-auth"))
     implementation(project(":momoim-core"))
