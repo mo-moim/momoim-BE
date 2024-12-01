@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringLocation;
+import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,6 +24,9 @@ class GatheringManagementServiceTest {
 
     @Autowired
     private GatheringMemberRepository gatheringMemberRepository;
+
+    @Autowired
+    private GatheringRepository gatheringRepository;
 
     @Test
     @DisplayName("모임을 등록할 수 있다.")
@@ -54,5 +58,25 @@ class GatheringManagementServiceTest {
             savedGathering.getId());
 
         assertThat(isSuccessRegisteredMaster).isTrue();
+    }
+
+    @Test
+    @DisplayName("모임을 취소할 수 있다.")
+    void cancelGathering() {
+        //given
+        Long requesterId = 1L;
+        Gathering gathering = gatheringRepository.save(
+            GatheringBuilder.builder()
+                .managerId(requesterId)
+                .build()
+                .toGathering()
+        );
+
+        //when
+        gatheringManagementService.cancel(requesterId, gathering.getId());
+
+        //then
+        Gathering canceledGathering = gatheringRepository.findById(gathering.getId());
+        assertThat(canceledGathering.getIsCanceled()).isTrue();
     }
 }

@@ -37,6 +37,22 @@ public class Gathering {
         }
     }
 
+    public void cancel(Long requesterId) {
+        if (!managerId.equals(requesterId)) {
+            throw new RuntimeException("모임을 취소할 권한이 없습니다.");
+        }
+
+        if (isCanceled) {
+            throw new RuntimeException("이미 취소 된 모임입니다.");
+        }
+
+        if (isEnd()) {
+            throw new RuntimeException("종료 된 모임입니다.");
+        }
+
+        this.isCanceled = true;
+    }
+
     public Boolean isFull() {
         return capacity == participantCount;
     }

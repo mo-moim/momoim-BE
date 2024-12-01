@@ -19,4 +19,10 @@ public class GatheringManagementService {
         gatheringMemberAppender.append(savedGathering.getManagerId(), savedGathering.getId());
         return savedGathering;
     }
+
+    public void cancel(Long requesterId, Long gatheringId) {
+        Gathering gathering = gatheringRepository.findById(gatheringId);
+        gathering.cancel(requesterId);
+        gatheringRepository.save(gathering);
+    }
 }

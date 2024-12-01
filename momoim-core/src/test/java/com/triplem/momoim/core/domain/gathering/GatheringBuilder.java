@@ -28,6 +28,8 @@ public class GatheringBuilder {
     @Builder.Default
     private int participantCount = 10;
     @Builder.Default
+    private Boolean isCanceled = false;
+    @Builder.Default
     private LocalDateTime nextGatheringAt = LocalDateTime.of(2024, 1, 1, 0, 0, 0);
     @Builder.Default
     private LocalDateTime startAt = LocalDateTime.of(2024, 1, 1, 0, 0, 0);
@@ -49,6 +51,7 @@ public class GatheringBuilder {
             .location(location)
             .capacity(capacity)
             .participantCount(participantCount)
+            .isCanceled(isCanceled)
             .nextGatheringAt(nextGatheringAt)
             .startAt(startAt)
             .endAt(endAt)

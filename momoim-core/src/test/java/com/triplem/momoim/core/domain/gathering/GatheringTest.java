@@ -40,6 +40,59 @@ class GatheringTest {
     }
 
     @Test
+    @DisplayName("모임을 취소 상태로 변경할 수 있다.")
+    void cancel() {
+        //given
+        Long requesterId = 1L;
+
+        Gathering gathering = GatheringBuilder.builder()
+            .managerId(requesterId)
+            .build()
+            .toGathering();
+
+        //when
+        gathering.cancel(requesterId);
+
+        //then
+        assertThat(gathering.getIsCanceled()).isTrue();
+    }
+
+    @Test
+    @DisplayName("모임 생성자가 아니면 모임을 취소 할 수 없다.")
+    void cannotCancelWhenRequesterIsNotManager() {
+        //given
+        Long managerId = 1L;
+        Long requesterId = 2L;
+        Gathering gathering = GatheringBuilder.builder()
+            .managerId(managerId)
+            .build()
+            .toGathering();
+
+        //when then
+        assertThatThrownBy(() -> gathering.cancel(requesterId))
+            .hasMessage("모임을 취소할 권한이 없습니다.");
+
+        assertThat(gathering.getIsCanceled()).isFalse();
+    }
+
+    @Test
+    @DisplayName("이미 종료된 모임은 취소할 수 없다.")
+    void cannotCancelEndGathering() {
+        //given
+        Long requesterId = 1L;
+        Gathering gathering = GatheringBuilder.builder()
+            .endAt(LocalDateTime.now().minusDays(10))
+            .build()
+            .toGathering();
+
+        //when then
+        assertThatThrownBy(() -> gathering.cancel(requesterId))
+            .hasMessage("종료 된 모임입니다.");
+
+        assertThat(gathering.getIsCanceled()).isFalse();
+    }
+
+    @Test
     @DisplayName("isFull 메서드는 모집 인원이 다 찼을 경우 True를 반환한다.")
     void isFull_returnsTrueWhenParticipantCountIsFull() {
         //given
