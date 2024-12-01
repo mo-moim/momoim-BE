@@ -36,7 +36,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
         return jpaQueryFactory.select(gatheringEntity)
             .from(gatheringEntity)
             .where(whereGatheringSearchOption(searchOption))
-            .orderBy(sortGatheringSearch(searchOption.getSortType(), searchOption.getSortOrder()))
+            .orderBy(sortGatheringSearch())
             .limit(searchOption.getPaginationInformation().getLimit())
             .offset(searchOption.getPaginationInformation().getOffset())
             .fetch()
@@ -62,9 +62,6 @@ public class GatheringRepositoryImpl implements GatheringRepository {
 
     private BooleanBuilder whereGatheringSearchOption(GatheringSearchOption searchOption) {
         BooleanBuilder builder = new BooleanBuilder();
-        if (searchOption.getGatheringIds() != null && !searchOption.getGatheringIds().isEmpty()) {
-            builder.and(gatheringEntity.id.in(searchOption.getGatheringIds()));
-        }
 
         if (searchOption.getCategory() != null) {
             builder.and(gatheringEntity.category.eq(searchOption.getCategory()));
@@ -73,40 +70,11 @@ public class GatheringRepositoryImpl implements GatheringRepository {
         if (searchOption.getSubCategory() != null) {
             builder.and(gatheringEntity.subCategory.eq(searchOption.getSubCategory()));
         }
-
-        if (searchOption.getLocation() != null) {
-            builder.and(gatheringEntity.location.eq(searchOption.getLocation()));
-        }
-
-        if (searchOption.getGatheringDate() != null) {
-            builder.and(gatheringEntity.nextGatheringAt.between(
-                searchOption.getGatheringDate().atTime(0, 0, 0),
-                searchOption.getGatheringDate().atTime(23, 59, 59))
-            );
-        }
-
-        if (searchOption.getManagerId() != null) {
-            builder.and(gatheringEntity.managerId.eq(searchOption.getManagerId()));
-        }
-
         return builder;
     }
 
-    private OrderSpecifier<?> sortGatheringSearch(GatheringSearchSortType sort, GatheringSearchSortOrder sortOrder) {
-        switch (sort) {
-            case GATHERING_AT -> {
-                return sortOrder.equals(GatheringSearchSortOrder.ASC) ? gatheringEntity.nextGatheringAt.asc()
-                    : gatheringEntity.nextGatheringAt.desc();
-            }
-            case END_AT -> {
-                return sortOrder.equals(GatheringSearchSortOrder.ASC) ? gatheringEntity.endAt.asc() : gatheringEntity.endAt.desc();
-            }
-            case PARTICIPANT_COUNT -> {
-                return sortOrder.equals(GatheringSearchSortOrder.ASC) ? gatheringEntity.participantCount.asc() : gatheringEntity.endAt.desc();
-            }
-            default -> {
-                return null;
-            }
-        }
+    //TODO createdAt -> lastUpdatedAt 변경하기
+    private OrderSpecifier<?> sortGatheringSearch() {
+        return gatheringEntity.createdAt.desc();
     }
 }

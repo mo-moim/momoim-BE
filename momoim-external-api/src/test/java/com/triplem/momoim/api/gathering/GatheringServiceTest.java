@@ -7,8 +7,6 @@ import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
-import com.triplem.momoim.core.domain.gathering.GatheringSearchSortOrder;
-import com.triplem.momoim.core.domain.gathering.GatheringSearchSortType;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -90,10 +88,7 @@ class GatheringServiceTest {
         );
 
         GatheringSearchOption searchOption = GatheringSearchOption.builder()
-            .category("FOOD")
             .subCategory("COOK")
-            .sortType(GatheringSearchSortType.PARTICIPANT_COUNT)
-            .sortOrder(GatheringSearchSortOrder.ASC)
             .paginationInformation(new PaginationInformation(0, 10))
             .build();
 
@@ -101,9 +96,8 @@ class GatheringServiceTest {
         List<GatheringItem> gatheringItems = gatheringService.searchGathering(searchOption);
 
         //then
-        assertThat(gatheringItems).hasSize(2);
-
-        assertThat(gatheringItems.get(0).getName()).isEqualTo("gathering1");
-        assertThat(gatheringItems.get(1).getName()).isEqualTo("gathering2");
+        assertThat(gatheringItems).hasSize(2)
+            .extracting("name")
+            .contains("gathering1", "gathering2");
     }
 }
