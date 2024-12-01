@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class GatheringRegisterService {
+public class GatheringManagementService {
     private final GatheringRepository gatheringRepository;
     private final GatheringMemberAppender gatheringMemberAppender;
 

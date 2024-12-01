@@ -17,9 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @ActiveProfiles("local")
 @Transactional
-class GatheringRegisterServiceTest {
+class GatheringManagementServiceTest {
     @Autowired
-    private GatheringRegisterService gatheringRegisterService;
+    private GatheringManagementService gatheringManagementService;
 
     @Autowired
     private GatheringMemberRepository gatheringMemberRepository;
@@ -46,7 +46,7 @@ class GatheringRegisterServiceTest {
             .build();
 
         //when
-        Gathering savedGathering = gatheringRegisterService.register(gathering);
+        Gathering savedGathering = gatheringManagementService.register(gathering);
 
         //then
         Boolean isSuccessRegisteredMaster = gatheringMemberRepository.isGatheringMember(
