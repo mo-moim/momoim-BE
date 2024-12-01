@@ -1,5 +1,6 @@
 package com.triplem.momoim.api.gathering;
 
+import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import java.util.List;
@@ -17,5 +18,10 @@ public class GatheringService {
             .stream()
             .map(GatheringItem::from)
             .collect(Collectors.toList());
+    }
+
+    public GatheringItem getGathering(Long gatheringId) {
+        Gathering gathering = gatheringRepository.findById(gatheringId);
+        return GatheringItem.from(gathering);
     }
 }
