@@ -61,6 +61,9 @@ public class GatheringEntity {
     private int participantCount;
 
     @Column
+    private Boolean isCanceled;
+
+    @Column
     private LocalDateTime nextGatheringAt;
 
     @Column(nullable = false)
@@ -85,6 +88,7 @@ public class GatheringEntity {
             .location(gathering.getLocation())
             .capacity(gathering.getCapacity())
             .participantCount(gathering.getParticipantCount())
+            .isCanceled(gathering.getIsCanceled())
             .nextGatheringAt(gathering.getNextGatheringAt())
             .startAt(gathering.getStartAt())
             .endAt(gathering.getEndAt())
@@ -105,6 +109,7 @@ public class GatheringEntity {
             .location(location)
             .capacity(capacity)
             .participantCount(participantCount)
+            .isCanceled(isCanceled)
             .nextGatheringAt(nextGatheringAt)
             .startAt(startAt)
             .endAt(endAt)
