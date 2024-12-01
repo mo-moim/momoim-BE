@@ -6,6 +6,7 @@ import static com.triplem.momoim.core.domain.member.QGatheringMemberEntity.gathe
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.triplem.momoim.core.common.PaginationInformation;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -45,12 +46,12 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     }
 
     @Override
-    public List<Gathering> getMyGatherings(Long userId, int offset, int limit) {
+    public List<Gathering> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
         return jpaQueryFactory.select(gatheringEntity)
             .from(gatheringMemberEntity)
             .where(gatheringMemberEntity.userId.eq(userId))
-            .offset(offset)
-            .limit(limit)
+            .offset(paginationInformation.getOffset())
+            .limit(paginationInformation.getLimit())
             .orderBy(gatheringEntity.id.desc())
             .innerJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
             .fetch()

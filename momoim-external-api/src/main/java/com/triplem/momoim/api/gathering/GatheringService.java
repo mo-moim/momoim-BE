@@ -1,5 +1,6 @@
 package com.triplem.momoim.api.gathering;
 
+import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
@@ -38,8 +39,8 @@ public class GatheringService {
         return members;
     }
 
-    public List<GatheringItem> getMyGatherings(Long userId, int offset, int limit) {
-        return gatheringRepository.getMyGatherings(userId, offset, limit)
+    public List<GatheringItem> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
+        return gatheringRepository.getMyGatherings(userId, paginationInformation)
             .stream()
             .map(GatheringItem::from)
             .collect(Collectors.toList());

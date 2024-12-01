@@ -3,6 +3,7 @@ package com.triplem.momoim.core.domain.gathering;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.member.GatheringMember;
 import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
 import java.time.LocalDate;
@@ -398,7 +399,8 @@ class GatheringRepositoryTest {
         //given
         Long userId = 1L;
         int offset = 0;
-        int size = 10;
+        int limit = 10;
+        PaginationInformation paginationInformation = new PaginationInformation(offset, limit);
 
         Gathering gathering1 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
         Gathering gathering2 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
@@ -413,7 +415,7 @@ class GatheringRepositoryTest {
         gatheringMemberRepository.save(GatheringMember.create(userId, gathering5.getId()));
 
         //when
-        List<Gathering> gatherings = gatheringRepository.getMyGatherings(userId, offset, size);
+        List<Gathering> gatherings = gatheringRepository.getMyGatherings(userId, paginationInformation);
 
         //then
         assertThat(gatherings).hasSize(5)
