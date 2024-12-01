@@ -73,8 +73,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
         return builder;
     }
 
-    //TODO createdAt -> lastUpdatedAt 변경하기
     private OrderSpecifier<?> sortGatheringSearch() {
-        return gatheringEntity.createdAt.desc();
+        return gatheringEntity.lastModifiedAt.desc();
     }
 }
