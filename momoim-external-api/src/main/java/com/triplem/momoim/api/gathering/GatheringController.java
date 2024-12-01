@@ -2,6 +2,7 @@ package com.triplem.momoim.api.gathering;
 
 import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.api.gathering.dto.RegisterGatheringRequest;
+import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
@@ -51,5 +52,18 @@ public class GatheringController {
         @RequestBody RegisterGatheringRequest request) {
         Gathering gathering = gatheringManagementService.register(request.toGathering(userId));
         return ApiResponse.success(GatheringItem.from(gathering));
+    }
+
+    @GetMapping("/joined")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "참여중인 모임 목록 조회", summary = "참여중인 모임 목록 조회", tags = {"gatherings"}, description = "참여중인 모임 목록 조회")
+    public ApiResponse<List<GatheringItem>> getMyGatherings(
+        @Parameter(name = "userId", description = "인증 설계 완료 전까지 임시로 사용하는 userId") @RequestParam Long userId,
+        @Parameter(name = "페이징 offset") @RequestParam int offset,
+        @Parameter(name = "페이징 limit") @RequestParam int limit) {
+        List<GatheringItem> myGatherings = gatheringService.getMyGatherings(userId, new PaginationInformation(offset, limit));
+        return ApiResponse.success(myGatherings);
     }
 }
