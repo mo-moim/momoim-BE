@@ -2,7 +2,6 @@ package com.triplem.momoim.api.gathering;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringLocation;
-import com.triplem.momoim.core.domain.gathering.RecruitStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,6 @@ public class GatheringSearchItem {
     private String subCategory;
     private GatheringLocation location;
     private LocalDateTime nextGatheringAt;
-    private RecruitStatus recruitStatus;
     private List<String> tags;
     private int capacity;
     private int participantCount;
@@ -35,7 +33,6 @@ public class GatheringSearchItem {
             .subCategory(gathering.getSubCategory())
             .location(gathering.getLocation())
             .nextGatheringAt(gathering.getNextGatheringAt())
-            .recruitStatus(gathering.getRecruitStatus())
             .tags(gathering.getTags())
             .capacity(gathering.getCapacity())
             .participantCount(gathering.getParticipantCount())
