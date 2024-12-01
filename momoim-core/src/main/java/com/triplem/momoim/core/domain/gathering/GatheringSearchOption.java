@@ -1,5 +1,6 @@
 package com.triplem.momoim.core.domain.gathering;
 
+import com.triplem.momoim.core.common.PaginationInformation;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Builder;
@@ -16,6 +17,5 @@ public class GatheringSearchOption {
     private Long managerId;
     private GatheringSearchSortType sortType;
     private GatheringSearchSortOrder sortOrder;
-    private int offset;
-    private int limit;
+    private PaginationInformation paginationInformation;
 }

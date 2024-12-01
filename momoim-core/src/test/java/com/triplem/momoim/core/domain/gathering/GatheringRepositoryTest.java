@@ -102,8 +102,7 @@ class GatheringRepositoryTest {
             .category(targetCategory)
             .sortType(GatheringSearchSortType.GATHERING_AT)
             .sortOrder(GatheringSearchSortOrder.ASC)
-            .offset(0)
-            .limit(10)
+            .paginationInformation(new PaginationInformation(0, 10))
             .build();
 
         //when
@@ -139,8 +138,7 @@ class GatheringRepositoryTest {
             .subCategory(targetSubCategory)
             .sortType(GatheringSearchSortType.GATHERING_AT)
             .sortOrder(GatheringSearchSortOrder.ASC)
-            .offset(0)
-            .limit(10)
+            .paginationInformation(new PaginationInformation(0, 10))
             .build();
 
         //when
@@ -176,8 +174,7 @@ class GatheringRepositoryTest {
             .location(targetLocation)
             .sortType(GatheringSearchSortType.GATHERING_AT)
             .sortOrder(GatheringSearchSortOrder.ASC)
-            .offset(0)
-            .limit(10)
+            .paginationInformation(new PaginationInformation(0, 10))
             .build();
 
         //when
@@ -214,8 +211,7 @@ class GatheringRepositoryTest {
             .gatheringDate(targetGatheringDate)
             .sortType(GatheringSearchSortType.GATHERING_AT)
             .sortOrder(GatheringSearchSortOrder.ASC)
-            .offset(0)
-            .limit(10)
+            .paginationInformation(new PaginationInformation(0, 10))
             .build();
 
         //when
@@ -251,8 +247,7 @@ class GatheringRepositoryTest {
             .managerId(targetManagerId)
             .sortType(GatheringSearchSortType.GATHERING_AT)
             .sortOrder(GatheringSearchSortOrder.ASC)
-            .offset(0)
-            .limit(10)
+            .paginationInformation(new PaginationInformation(0, 10))
             .build();
 
         //when
@@ -286,8 +281,7 @@ class GatheringRepositoryTest {
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
             .sortType(GatheringSearchSortType.GATHERING_AT)
             .sortOrder(GatheringSearchSortOrder.ASC)
-            .offset(0)
-            .limit(10)
+            .paginationInformation(new PaginationInformation(0, 10))
             .build();
 
         //when
@@ -321,8 +315,7 @@ class GatheringRepositoryTest {
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
             .sortType(GatheringSearchSortType.END_AT)
             .sortOrder(GatheringSearchSortOrder.ASC)
-            .offset(0)
-            .limit(10)
+            .paginationInformation(new PaginationInformation(0, 10))
             .build();
 
         //when
@@ -356,8 +349,7 @@ class GatheringRepositoryTest {
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
             .sortType(GatheringSearchSortType.PARTICIPANT_COUNT)
             .sortOrder(GatheringSearchSortOrder.ASC)
-            .offset(0)
-            .limit(10)
+            .paginationInformation(new PaginationInformation(0, 10))
             .build();
 
         //when
@@ -372,11 +364,12 @@ class GatheringRepositoryTest {
     @DisplayName("모임 목록 조회 시 페이징 처리를 할 수 있다.")
     void gatheringSearchWithPagination() {
         //given
+        int offset = 0;
+        int limit = 2;
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
             .sortType(GatheringSearchSortType.PARTICIPANT_COUNT)
             .sortOrder(GatheringSearchSortOrder.ASC)
-            .offset(0)
-            .limit(2)
+            .paginationInformation(new PaginationInformation(offset, limit))
             .build();
 
         Gathering gathering1 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());

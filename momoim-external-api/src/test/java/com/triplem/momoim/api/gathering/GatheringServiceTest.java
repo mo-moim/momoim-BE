@@ -2,6 +2,7 @@ package com.triplem.momoim.api.gathering;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
@@ -93,6 +94,7 @@ class GatheringServiceTest {
             .subCategory("COOK")
             .sortType(GatheringSearchSortType.PARTICIPANT_COUNT)
             .sortOrder(GatheringSearchSortOrder.ASC)
+            .paginationInformation(new PaginationInformation(0, 10))
             .build();
 
         //when
