@@ -21,6 +21,7 @@ public class Gathering {
     private GatheringLocation location;
     private int capacity;
     private int participantCount;
+    private int viewCount;
     private Boolean isCanceled;
     private LocalDateTime nextGatheringAt;
     private LocalDateTime startAt;
