@@ -26,8 +26,22 @@ public class Gathering {
     private LocalDateTime endAt;
     private LocalDateTime createdAt;
 
+    public void validateJoin() {
+        if (isFull()) {
+            throw new RuntimeException("인원이 다 찬 모임입니다.");
+        }
+
+        if (isEnd()) {
+            throw new RuntimeException("종료 된 모임입니다.");
+        }
+    }
+
     public Boolean isFull() {
         return capacity == participantCount;
+    }
+
+    public Boolean isEnd() {
+        return endAt.isBefore(LocalDateTime.now());
     }
 
     public void increaseParticipantCount() {
