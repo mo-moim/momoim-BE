@@ -1,6 +1,8 @@
 package com.triplem.momoim.api.gathering;
 
 import com.triplem.momoim.api.common.ApiResponse;
+import com.triplem.momoim.api.gathering.dto.RegisterGatheringRequest;
+import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
@@ -10,6 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class GatheringController {
     private final GatheringService gatheringService;
+    private final GatheringManagementService gatheringManagementService;
 
     @GetMapping
     @ApiResponses(value = {
@@ -34,5 +39,17 @@ public class GatheringController {
         List<GatheringItem> gatherings = gatheringService.searchGathering(
             GatheringSearchOption.of(ids, category, subCategory, offset, limit));
         return ApiResponse.success(gatherings);
+    }
+
+    @PostMapping
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "모임 생성", summary = "모임 생성", tags = {"gatherings"}, description = "모임 생성")
+    public ApiResponse<GatheringItem> registerGathering(
+        @Parameter(name = "userId", description = "인증 설계 완료 전까지 임시로 사용하는 userId") @RequestParam Long userId,
+        @RequestBody RegisterGatheringRequest request) {
+        Gathering gathering = gatheringManagementService.register(request.toGathering(userId));
+        return ApiResponse.success(GatheringItem.from(gathering));
     }
 }
