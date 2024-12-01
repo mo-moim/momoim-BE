@@ -1,6 +1,4 @@
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-
     // Multi Module Implementation
     implementation(project(":momoim-auth"))
     implementation(project(":momoim-core"))
