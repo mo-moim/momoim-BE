@@ -3,6 +3,8 @@ package com.triplem.momoim.api.gathering;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
+import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
+import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GatheringService {
     private final GatheringRepository gatheringRepository;
+    private final GatheringMemberRepository gatheringMemberRepository;
 
     public List<GatheringItem> searchGathering(GatheringSearchOption searchOption) {
         return gatheringRepository.findBySearchOption(searchOption)
@@ -23,5 +26,15 @@ public class GatheringService {
     public GatheringItem getGathering(Long gatheringId) {
         Gathering gathering = gatheringRepository.findById(gatheringId);
         return GatheringItem.from(gathering);
+    }
+
+    public List<GatheringMemberDetail> getGatheringMembers(Long gatheringId) {
+        List<GatheringMemberDetail> members = gatheringMemberRepository.getGatheringMembers(gatheringId);
+
+        if (members.isEmpty()) {
+            throw new RuntimeException("모임을 찾을 수 없습니다.");
+        }
+
+        return members;
     }
 }
