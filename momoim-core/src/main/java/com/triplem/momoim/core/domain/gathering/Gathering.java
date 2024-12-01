@@ -47,4 +47,8 @@ public class Gathering {
     public void increaseParticipantCount() {
         participantCount++;
     }
+
+    public void decreaseParticipantCount() {
+        participantCount--;
+    }
 }
