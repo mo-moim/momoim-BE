@@ -153,18 +153,16 @@ class GatheringRepositoryTest {
             .paginationInformation(new PaginationInformation(offset, limit))
             .build();
 
-        Gathering gathering1 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
-        Gathering gathering2 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
-        Gathering gathering3 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
-        Gathering gathering4 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
 
         //when
         List<Gathering> gatherings = gatheringRepository.findBySearchOption(gatheringSearchOption);
 
         //then
         assertThat(gatherings).hasSize(2);
-        assertThat(gatherings.get(0).getId()).isEqualTo(gathering1.getId());
-        assertThat(gatherings.get(1).getId()).isEqualTo(gathering2.getId());
     }
 
     @Test

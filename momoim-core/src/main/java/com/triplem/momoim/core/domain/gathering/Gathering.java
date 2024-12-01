@@ -27,6 +27,7 @@ public class Gathering {
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private LocalDateTime createdAt;
+    private LocalDateTime lastModifiedAt;
 
     public void validateJoin() {
         if (isFull()) {

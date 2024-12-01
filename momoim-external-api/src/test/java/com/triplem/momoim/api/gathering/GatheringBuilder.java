@@ -34,13 +34,15 @@ public class GatheringBuilder {
     @Builder.Default
     private Boolean isCanceled = false;
     @Builder.Default
-    private LocalDateTime nextGatheringAt = LocalDateTime.of(2024, 1, 1, 0, 0, 0);
+    private LocalDateTime nextGatheringAt = LocalDateTime.now().plusDays(5);
     @Builder.Default
-    private LocalDateTime startAt = LocalDateTime.of(2024, 1, 1, 0, 0, 0);
+    private LocalDateTime startAt = LocalDateTime.now().minusYears(1);
     @Builder.Default
-    private LocalDateTime endAt = LocalDateTime.of(2024, 12, 31, 23, 59, 59);
+    private LocalDateTime endAt = LocalDateTime.now().plusYears(1);
     @Builder.Default
-    private LocalDateTime createdAt = LocalDateTime.of(2024, 1, 1, 0, 0, 0);
+    private LocalDateTime createdAt = LocalDateTime.now().minusYears(1);
+    @Builder.Default
+    private LocalDateTime lastModifiedAt = LocalDateTime.now().minusHours(3);
 
     public Gathering toGathering() {
         return Gathering.builder()
@@ -61,6 +63,7 @@ public class GatheringBuilder {
             .startAt(startAt)
             .endAt(endAt)
             .createdAt(createdAt)
+            .lastModifiedAt(lastModifiedAt)
             .build();
     }
 }

@@ -78,6 +78,9 @@ public class GatheringEntity {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(nullable = false)
+    private LocalDateTime lastModifiedAt;
+
     public static GatheringEntity from(Gathering gathering) {
         return GatheringEntity.builder()
             .id(gathering.getId())
@@ -97,6 +100,7 @@ public class GatheringEntity {
             .startAt(gathering.getStartAt())
             .endAt(gathering.getEndAt())
             .createdAt(gathering.getCreatedAt())
+            .lastModifiedAt(gathering.getLastModifiedAt())
             .build();
     }
 
@@ -119,6 +123,7 @@ public class GatheringEntity {
             .startAt(startAt)
             .endAt(endAt)
             .createdAt(createdAt)
+            .lastModifiedAt(lastModifiedAt)
             .build();
     }
 }

@@ -3,11 +3,8 @@ package com.triplem.momoim.api.gathering;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.triplem.momoim.core.common.PaginationInformation;
-import com.triplem.momoim.core.domain.gathering.Gathering;
-import com.triplem.momoim.core.domain.gathering.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,60 +28,27 @@ class GatheringServiceTest {
     void searchGatheringByGatheringSearchOption() {
         //given
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
-                .subCategory("COOK")
+            GatheringBuilder.builder()
                 .name("gathering1")
-                .image("image1")
-                .description("description1")
-                .tags(List.of("tag1"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(10)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 31, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2025, 12, 10, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
-                .build()
-        );
-
-        gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("FOOD")
                 .subCategory("COOK")
-                .name("gathering2")
-                .image("image2")
-                .description("description2")
-                .tags(List.of("tag2"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(20)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 30, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2025, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
                 .build()
+                .toGathering()
         );
 
         gatheringRepository.save(
-            Gathering.builder()
-                .managerId(5L)
-                .category("TRAVEL")
-                .subCategory("FISHING")
-                .name("gathering3")
-                .image("image2")
-                .description("description3")
-                .tags(List.of("tag3"))
-                .location(GatheringLocation.INCHEON)
-                .capacity(100)
-                .participantCount(20)
-                .nextGatheringAt(LocalDateTime.of(2024, 12, 30, 10, 0, 0))
-                .startAt(LocalDateTime.of(2024, 1, 1, 10, 0, 0))
-                .endAt(LocalDateTime.of(2025, 12, 31, 23, 59, 59))
-                .createdAt(LocalDateTime.now())
+            GatheringBuilder.builder()
+                .name("gathering2")
+                .subCategory("COOK")
                 .build()
+                .toGathering()
+        );
+
+        gatheringRepository.save(
+            GatheringBuilder.builder()
+                .name("gathering3")
+                .subCategory("FISHING")
+                .build()
+                .toGathering()
         );
 
         GatheringSearchOption searchOption = GatheringSearchOption.builder()
