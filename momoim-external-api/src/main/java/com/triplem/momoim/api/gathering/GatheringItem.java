@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class GatheringSearchItem {
+public class GatheringItem {
     private Long gatheringId;
     private String image;
     private String name;
@@ -23,8 +23,8 @@ public class GatheringSearchItem {
     private int capacity;
     private int participantCount;
 
-    public static GatheringSearchItem from(Gathering gathering) {
-        return GatheringSearchItem
+    public static GatheringItem from(Gathering gathering) {
+        return GatheringItem
             .builder()
             .gatheringId(gathering.getId())
             .image(gathering.getImage())

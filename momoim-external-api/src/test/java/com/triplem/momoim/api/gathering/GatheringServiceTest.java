@@ -96,12 +96,12 @@ class GatheringServiceTest {
             .build();
 
         //when
-        List<GatheringSearchItem> gatheringSearchItems = gatheringService.searchGathering(searchOption);
+        List<GatheringItem> gatheringItems = gatheringService.searchGathering(searchOption);
 
         //then
-        assertThat(gatheringSearchItems).hasSize(2);
+        assertThat(gatheringItems).hasSize(2);
 
-        assertThat(gatheringSearchItems.get(0).getName()).isEqualTo("gathering1");
-        assertThat(gatheringSearchItems.get(1).getName()).isEqualTo("gathering2");
+        assertThat(gatheringItems.get(0).getName()).isEqualTo("gathering1");
+        assertThat(gatheringItems.get(1).getName()).isEqualTo("gathering2");
     }
 }

@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 public class GatheringService {
     private final GatheringRepository gatheringRepository;
 
-    public List<GatheringSearchItem> searchGathering(GatheringSearchOption searchOption) {
+    public List<GatheringItem> searchGathering(GatheringSearchOption searchOption) {
         return gatheringRepository.findBySearchOption(searchOption)
             .stream()
-            .map(GatheringSearchItem::from)
+            .map(GatheringItem::from)
             .collect(Collectors.toList());
     }
 }
