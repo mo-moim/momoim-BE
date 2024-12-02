@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GatheringController {
     private final GatheringService gatheringService;
     private final GatheringManagementService gatheringManagementService;
+    private final GatheringJoinService gatheringJoinService;
 
     @GetMapping
     @ApiResponses(value = {
@@ -102,6 +103,18 @@ public class GatheringController {
         @Parameter(name = "userId", description = "인증 설계 완료 전까지 임시로 사용하는 userId") @RequestParam Long userId,
         @PathVariable Long gatheringId) {
         gatheringManagementService.cancel(userId, gatheringId);
+        return DefaultApiResponse.success();
+    }
+
+    @PostMapping("/{gatheringId}/join")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "모임 참여", summary = "모임 참여", tags = {"gatherings"}, description = "모임 참여")
+    public DefaultApiResponse joinGathering(
+        @Parameter(name = "userId", description = "인증 설계 완료 전까지 임시로 사용하는 userId") @RequestParam Long userId,
+        @Parameter(name = "모임 ID") @PathVariable Long gatheringId) {
+        gatheringJoinService.joinGathering(userId, gatheringId);
         return DefaultApiResponse.success();
     }
 }
