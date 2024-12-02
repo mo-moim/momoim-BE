@@ -1,5 +1,6 @@
-package com.triplem.momoim.api.gathering;
+package com.triplem.momoim.api.gathering.service;
 
+import com.triplem.momoim.api.gathering.dto.GatheringItem;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;

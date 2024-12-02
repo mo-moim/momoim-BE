@@ -1,8 +1,12 @@
-package com.triplem.momoim.api.gathering;
+package com.triplem.momoim.api.gathering.controller;
 
 import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.api.common.DefaultApiResponse;
+import com.triplem.momoim.api.gathering.dto.GatheringItem;
 import com.triplem.momoim.api.gathering.dto.RegisterGatheringRequest;
+import com.triplem.momoim.api.gathering.service.GatheringJoinService;
+import com.triplem.momoim.api.gathering.service.GatheringManagementService;
+import com.triplem.momoim.api.gathering.service.GatheringService;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringCategory;

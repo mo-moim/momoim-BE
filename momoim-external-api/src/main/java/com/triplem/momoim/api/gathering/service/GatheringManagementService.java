@@ -1,4 +1,4 @@
-package com.triplem.momoim.api.gathering;
+package com.triplem.momoim.api.gathering.service;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;

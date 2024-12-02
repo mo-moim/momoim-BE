@@ -2,6 +2,8 @@ package com.triplem.momoim.api.gathering;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.triplem.momoim.api.gathering.dto.GatheringItem;
+import com.triplem.momoim.api.gathering.service.GatheringService;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;

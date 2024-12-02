@@ -2,6 +2,7 @@ package com.triplem.momoim.api.gathering;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.triplem.momoim.api.gathering.service.GatheringManagementService;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.member.GatheringMemberRepository;

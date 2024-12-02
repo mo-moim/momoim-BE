@@ -1,4 +1,4 @@
-package com.triplem.momoim.api.gathering;
+package com.triplem.momoim.api.gathering.service;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
@@ -31,7 +31,7 @@ public class GatheringJoinService {
         if (gathering.isEnd()) {
             throw new RuntimeException("종료 된 모임입니다.");
         }
-        
+
         gatheringMemberRemover.removeGatheringMember(userId, gatheringId);
     }
 }

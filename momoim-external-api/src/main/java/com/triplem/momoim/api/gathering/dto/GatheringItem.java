@@ -1,4 +1,4 @@
-package com.triplem.momoim.api.gathering;
+package com.triplem.momoim.api.gathering.dto;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringLocation;
