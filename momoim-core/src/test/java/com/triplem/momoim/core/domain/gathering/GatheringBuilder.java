@@ -16,6 +16,8 @@ public class GatheringBuilder {
     @Builder.Default
     private String name = "gathering1";
     @Builder.Default
+    private GatheringType gatheringType = GatheringType.OFFLINE;
+    @Builder.Default
     private String image = "image1";
     @Builder.Default
     private String description = "description1";
@@ -45,6 +47,7 @@ public class GatheringBuilder {
             .category(category)
             .subCategory(subCategory)
             .name(name)
+            .gatheringType(gatheringType)
             .image(image)
             .description(description)
             .tags(tags)

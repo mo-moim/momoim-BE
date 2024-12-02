@@ -2,6 +2,7 @@ package com.triplem.momoim.api.gathering;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringLocation;
+import com.triplem.momoim.core.domain.gathering.GatheringType;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
@@ -17,6 +18,8 @@ public class GatheringBuilder {
     private String subCategory = "COOK";
     @Builder.Default
     private String name = "gathering1";
+    @Builder.Default
+    private GatheringType gatheringType = GatheringType.OFFLINE;
     @Builder.Default
     private String image = "image1";
     @Builder.Default
@@ -47,6 +50,7 @@ public class GatheringBuilder {
             .category(category)
             .subCategory(subCategory)
             .name(name)
+            .gatheringType(gatheringType)
             .image(image)
             .description(description)
             .tags(tags)

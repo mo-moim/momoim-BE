@@ -5,6 +5,7 @@ import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
+import com.triplem.momoim.core.domain.gathering.GatheringType;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
@@ -14,6 +15,7 @@ public class RegisterGatheringRequest {
     private GatheringCategory category;
     private GatheringSubCategory subCategory;
     private String name;
+    private GatheringType gatheringType;
     private String image;
     private String description;
     private List<String> tags;
@@ -28,6 +30,7 @@ public class RegisterGatheringRequest {
             .category(category.name())
             .subCategory(subCategory.name())
             .name(name)
+            .gatheringType(gatheringType)
             .image(image)
             .description(description)
             .tags(tags)

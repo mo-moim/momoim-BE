@@ -41,6 +41,10 @@ public class GatheringEntity {
     private String name;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private GatheringType gatheringType;
+
+    @Column(nullable = false)
     private String image;
 
     @Column(nullable = false)
@@ -82,6 +86,7 @@ public class GatheringEntity {
             .category(gathering.getCategory())
             .subCategory(gathering.getSubCategory())
             .name(gathering.getName())
+            .gatheringType(gathering.getGatheringType())
             .image(gathering.getImage())
             .description(gathering.getDescription())
             .tags(gathering.getTags())
@@ -103,6 +108,7 @@ public class GatheringEntity {
             .category(category)
             .subCategory(subCategory)
             .name(name)
+            .gatheringType(gatheringType)
             .image(image)
             .description(description)
             .tags(tags)

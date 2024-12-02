@@ -2,6 +2,7 @@ package com.triplem.momoim.api.gathering.dto;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringLocation;
+import com.triplem.momoim.core.domain.gathering.GatheringType;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ public class GatheringItem {
     private Long gatheringId;
     private String image;
     private String name;
+    private GatheringType gatheringType;
     private String category;
     private String subCategory;
     private GatheringLocation location;
@@ -29,6 +31,7 @@ public class GatheringItem {
             .gatheringId(gathering.getId())
             .image(gathering.getImage())
             .name(gathering.getName())
+            .gatheringType(gathering.getGatheringType())
             .category(gathering.getCategory())
             .subCategory(gathering.getSubCategory())
             .location(gathering.getLocation())
