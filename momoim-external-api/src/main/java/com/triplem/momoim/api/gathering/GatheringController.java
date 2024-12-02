@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -115,6 +116,18 @@ public class GatheringController {
         @Parameter(name = "userId", description = "인증 설계 완료 전까지 임시로 사용하는 userId") @RequestParam Long userId,
         @Parameter(name = "모임 ID") @PathVariable Long gatheringId) {
         gatheringJoinService.joinGathering(userId, gatheringId);
+        return DefaultApiResponse.success();
+    }
+
+    @DeleteMapping("/{gatheringId}/leave")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "모임 참여 취소", summary = "모임 참여 취소", tags = {"gatherings"}, description = "모임 참여 취소")
+    public DefaultApiResponse leaveGathering(
+        @Parameter(name = "userId", description = "인증 설계 완료 전까지 임시로 사용하는 userId") @RequestParam Long userId,
+        @Parameter(name = "모임 ID") @PathVariable Long gatheringId) {
+        gatheringJoinService.cancelJoinGathering(userId, gatheringId);
         return DefaultApiResponse.success();
     }
 }
