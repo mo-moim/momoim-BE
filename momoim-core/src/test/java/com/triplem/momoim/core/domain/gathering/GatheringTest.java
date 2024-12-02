@@ -62,7 +62,7 @@ class GatheringTest {
         gathering.cancel(requesterId);
 
         //then
-        assertThat(gathering.getIsCanceled()).isTrue();
+        assertThat(gathering.getStatus()).isEqualTo(GatheringStatus.DELETED);
     }
 
     @Test
@@ -79,8 +79,6 @@ class GatheringTest {
         //when then
         assertThatThrownBy(() -> gathering.cancel(requesterId))
             .hasMessage("모임을 취소할 권한이 없습니다.");
-
-        assertThat(gathering.getIsCanceled()).isFalse();
     }
 
     @Test

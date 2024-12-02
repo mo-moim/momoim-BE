@@ -36,8 +36,6 @@ public class GatheringBuilder {
     @Builder.Default
     private Boolean isPeriodic = false;
     @Builder.Default
-    private Boolean isCanceled = false;
-    @Builder.Default
     private LocalDateTime nextGatheringAt = LocalDateTime.now().plusDays(5);
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now().minusYears(1);
@@ -61,7 +59,6 @@ public class GatheringBuilder {
             .participantCount(participantCount)
             .viewCount(viewCount)
             .isPeriodic(isPeriodic)
-            .isCanceled(isCanceled)
             .nextGatheringAt(nextGatheringAt)
             .createdAt(createdAt)
             .lastModifiedAt(lastModifiedAt)

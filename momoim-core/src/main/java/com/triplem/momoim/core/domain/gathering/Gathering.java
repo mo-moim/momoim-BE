@@ -25,7 +25,6 @@ public class Gathering {
     private int participantCount;
     private int viewCount;
     private Boolean isPeriodic;
-    private Boolean isCanceled;
     private LocalDateTime nextGatheringAt;
     private LocalDateTime createdAt;
     private LocalDateTime lastModifiedAt;
@@ -34,7 +33,7 @@ public class Gathering {
         if (!isRecruiting()) {
             throw new RuntimeException("모집 중인 모임이 아닙니다.");
         }
-        
+
         if (isFull()) {
             throw new RuntimeException("인원이 다 찬 모임입니다.");
         }
@@ -45,11 +44,7 @@ public class Gathering {
             throw new RuntimeException("모임을 취소할 권한이 없습니다.");
         }
 
-        if (isCanceled) {
-            throw new RuntimeException("이미 취소 된 모임입니다.");
-        }
-
-        this.isCanceled = true;
+        this.status = GatheringStatus.DELETED;
     }
 
     public Boolean isFull() {

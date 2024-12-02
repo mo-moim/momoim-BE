@@ -42,7 +42,6 @@ public class RegisterGatheringRequest {
             .participantCount(0)
             .viewCount(0)
             .isPeriodic(isPeriodic)
-            .isCanceled(false)
             .nextGatheringAt(nextGatheringAt)
             .createdAt(LocalDateTime.now())
             .lastModifiedAt(LocalDateTime.now())

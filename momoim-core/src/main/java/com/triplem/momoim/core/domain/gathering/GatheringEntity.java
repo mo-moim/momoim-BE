@@ -75,9 +75,6 @@ public class GatheringEntity {
     private Boolean isPeriodic;
 
     @Column
-    private Boolean isCanceled;
-
-    @Column
     private LocalDateTime nextGatheringAt;
 
     @Column(nullable = false)
@@ -103,7 +100,6 @@ public class GatheringEntity {
             .participantCount(gathering.getParticipantCount())
             .viewCount(gathering.getViewCount())
             .isPeriodic(gathering.getIsPeriodic())
-            .isCanceled(gathering.getIsCanceled())
             .nextGatheringAt(gathering.getNextGatheringAt())
             .createdAt(gathering.getCreatedAt())
             .lastModifiedAt(gathering.getLastModifiedAt())
@@ -127,7 +123,6 @@ public class GatheringEntity {
             .participantCount(participantCount)
             .viewCount(viewCount)
             .isPeriodic(isPeriodic)
-            .isCanceled(isCanceled)
             .nextGatheringAt(nextGatheringAt)
             .createdAt(createdAt)
             .lastModifiedAt(lastModifiedAt)
