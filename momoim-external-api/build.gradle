@@ -8,6 +8,16 @@ dependencies {
     implementation(project(":momoim-support"))
 }
 
+processResources.dependsOn('copyPrivate')
+
+tasks.register('copyPrivate', Copy) {
+    copy {
+        from '../momoim-BE-Config'
+        include "*.yml"
+        into 'src/main/resources'
+    }
+}
+
 sourceSets {
     main {
         resources {
