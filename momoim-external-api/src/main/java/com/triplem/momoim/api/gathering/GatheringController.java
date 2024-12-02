@@ -1,6 +1,7 @@
 package com.triplem.momoim.api.gathering;
 
 import com.triplem.momoim.api.common.ApiResponse;
+import com.triplem.momoim.api.common.DefaultApiResponse;
 import com.triplem.momoim.api.gathering.dto.RegisterGatheringRequest;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.Gathering;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -89,5 +91,17 @@ public class GatheringController {
         @Parameter(name = "조회 할 모임 ID") @PathVariable Long gatheringId) {
         List<GatheringMemberDetail> members = gatheringService.getGatheringMembers(gatheringId);
         return ApiResponse.success(members);
+    }
+
+    @PutMapping("/{gatheringId}/cancel")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "모임 취소", summary = "모임 취소", tags = {"gatherings"}, description = "모임 취소")
+    public DefaultApiResponse cancelGathering(
+        @Parameter(name = "userId", description = "인증 설계 완료 전까지 임시로 사용하는 userId") @RequestParam Long userId,
+        @PathVariable Long gatheringId) {
+        gatheringManagementService.cancel(userId, gatheringId);
+        return DefaultApiResponse.success();
     }
 }
