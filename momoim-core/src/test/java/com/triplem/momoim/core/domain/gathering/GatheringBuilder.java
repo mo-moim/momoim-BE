@@ -18,6 +18,8 @@ public class GatheringBuilder {
     @Builder.Default
     private GatheringType gatheringType = GatheringType.OFFLINE;
     @Builder.Default
+    private GatheringStatus status = GatheringStatus.RECRUITING;
+    @Builder.Default
     private String image = "image1";
     @Builder.Default
     private String description = "description1";
@@ -50,6 +52,7 @@ public class GatheringBuilder {
             .subCategory(subCategory)
             .name(name)
             .gatheringType(gatheringType)
+            .status(status)
             .image(image)
             .description(description)
             .tags(tags)

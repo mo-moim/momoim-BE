@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.GatheringLocation;
+import com.triplem.momoim.core.domain.gathering.GatheringStatus;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
 import com.triplem.momoim.core.domain.gathering.GatheringType;
 import java.time.LocalDateTime;
@@ -32,6 +33,7 @@ public class RegisterGatheringRequest {
             .subCategory(subCategory.name())
             .name(name)
             .gatheringType(gatheringType)
+            .status(GatheringStatus.RECRUITING)
             .image(image)
             .description(description)
             .tags(tags)

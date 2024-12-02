@@ -40,12 +40,12 @@ class GatheringRepositoryTest {
                 "managerId", "category", "subCategory",
                 "name", "gatheringType", "image", "description", "location",
                 "capacity", "participantCount", "nextGatheringAt", "createdAt",
-                "isPeriodic")
+                "isPeriodic", "status")
             .containsExactly(
                 gathering.getManagerId(), gathering.getCategory(), gathering.getSubCategory(),
                 gathering.getName(), gathering.getGatheringType(), gathering.getImage(), gathering.getDescription(), gathering.getLocation(),
                 gathering.getCapacity(), gathering.getParticipantCount(), gathering.getNextGatheringAt(), gathering.getCreatedAt(),
-                gathering.getIsPeriodic());
+                gathering.getIsPeriodic(), gathering.getStatus());
 
         assertThat(savedGathering.getTags()).isEqualTo(gathering.getTags());
     }

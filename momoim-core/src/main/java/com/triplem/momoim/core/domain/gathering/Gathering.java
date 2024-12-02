@@ -16,6 +16,7 @@ public class Gathering {
     private String subCategory;
     private String name;
     private GatheringType gatheringType;
+    private GatheringStatus status;
     private String image;
     private String description;
     private List<String> tags;
