@@ -7,6 +7,7 @@ import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
+import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -77,5 +78,16 @@ public class GatheringController {
         @Parameter(name = "조회 할 모임 ID") @PathVariable Long gatheringId) {
         GatheringItem gathering = gatheringService.getGathering(gatheringId);
         return ApiResponse.success(gathering);
+    }
+
+    @GetMapping("/{gatheringId}/participants")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "모임 멤버 조회", summary = "모임 멤버 조회", tags = {"gatherings"}, description = "모임 멤버 조회")
+    public ApiResponse<List<GatheringMemberDetail>> getGatheringMembers(
+        @Parameter(name = "조회 할 모임 ID") @PathVariable Long gatheringId) {
+        List<GatheringMemberDetail> members = gatheringService.getGatheringMembers(gatheringId);
+        return ApiResponse.success(members);
     }
 }
