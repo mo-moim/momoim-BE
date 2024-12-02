@@ -1,4 +1,4 @@
-package com.triplem.momoim.api.gathering;
+package com.triplem.momoim.api.gathering.service;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class GatheringRegisterService {
+public class GatheringManagementService {
     private final GatheringRepository gatheringRepository;
     private final GatheringMemberAppender gatheringMemberAppender;
 
@@ -18,5 +18,11 @@ public class GatheringRegisterService {
         Gathering savedGathering = gatheringRepository.save(gathering);
         gatheringMemberAppender.append(savedGathering.getManagerId(), savedGathering.getId());
         return savedGathering;
+    }
+
+    public void cancel(Long requesterId, Long gatheringId) {
+        Gathering gathering = gatheringRepository.findById(gatheringId);
+        gathering.cancel(requesterId);
+        gatheringRepository.save(gathering);
     }
 }

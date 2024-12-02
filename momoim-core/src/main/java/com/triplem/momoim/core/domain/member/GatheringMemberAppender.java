@@ -13,11 +13,6 @@ public class GatheringMemberAppender {
 
     public void append(Long userId, Long gatheringId) {
         Gathering gathering = gatheringRepository.findById(gatheringId);
-
-        if (!gathering.isRecruiting()) {
-            throw new RuntimeException("모집 중인 모임이 아닙니다.");
-        }
-
         if (gathering.isFull()) {
             throw new RuntimeException("인원이 다 찬 모임입니다.");
         }
@@ -27,6 +22,9 @@ public class GatheringMemberAppender {
         }
 
         gatheringMemberRepository.save(GatheringMember.create(userId, gatheringId));
+
+        gathering.increaseParticipantCount();
+        gatheringRepository.save(gathering);
     }
 
 }

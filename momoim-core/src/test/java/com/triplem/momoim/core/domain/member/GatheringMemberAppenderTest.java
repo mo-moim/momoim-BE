@@ -4,9 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
-import com.triplem.momoim.core.domain.gathering.GatheringFixture;
+import com.triplem.momoim.core.domain.gathering.GatheringBuilder;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
-import com.triplem.momoim.core.domain.gathering.RecruitStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ class GatheringMemberAppenderTest {
     @DisplayName("모임에 멤버를 추가 할 수 있다.")
     void appendGatheringMember() {
         //given
-        Gathering gathering = gatheringRepository.save(GatheringFixture.createGathering(1L, RecruitStatus.RECRUITING, 10, 0));
+        Gathering gathering = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
         Long newMemberUserId = 2L;
 
         //when
@@ -40,28 +39,23 @@ class GatheringMemberAppenderTest {
         // then
         Boolean isSuccessAppend = gatheringMemberRepository.isGatheringMember(newMemberUserId, gathering.getId());
         assertThat(isSuccessAppend).isTrue();
-    }
 
-    @Test
-    @DisplayName("모집 중인 모임이 아니면 멤버를 추가 할 수 없다.")
-    void cannotAppendWhenGatheringIsNotRecruiting() {
-        //given
-        Gathering notRecruitingGathering = gatheringRepository.save(GatheringFixture.createGathering(1L, RecruitStatus.STOP, 10, 0));
-        Long newMemberUserId = 2L;
-
-        //when then
-        assertThatThrownBy(() -> gatheringMemberAppender.append(newMemberUserId, notRecruitingGathering.getId()))
-            .hasMessageContaining("모집 중인 모임이 아닙니다.");
-
-        Boolean isSuccessAppend = gatheringMemberRepository.isGatheringMember(newMemberUserId, notRecruitingGathering.getId());
-        assertThat(isSuccessAppend).isFalse();
+        Gathering savedGathering = gatheringRepository.findById(gathering.getId());
+        assertThat(savedGathering.getParticipantCount()).isEqualTo(gathering.getParticipantCount() + 1);
     }
 
     @Test
     @DisplayName("인원이 다 찬 모임은 멤버를 추가 할 수 없다.")
     void cannotAppendWhenIsFull() {
         //given
-        Gathering fullGathering = gatheringRepository.save(GatheringFixture.createGathering(1L, RecruitStatus.RECRUITING, 10, 10));
+        Gathering fullGathering = gatheringRepository.save(
+            GatheringBuilder
+                .builder()
+                .capacity(10)
+                .participantCount(10)
+                .build()
+                .toGathering()
+        );
         Long newMemberUserId = 2L;
 
         //when then
@@ -76,7 +70,7 @@ class GatheringMemberAppenderTest {
     @DisplayName("이미 모임에 참가중인 유저는 멤버로 추가 될 수 없다.")
     void cannotAppendWhenIsAlreadyMember() {
         //given
-        Gathering gathering = gatheringRepository.save(GatheringFixture.createGathering(1L, RecruitStatus.RECRUITING, 10, 1));
+        Gathering gathering = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
         GatheringMember member1 = GatheringMember.create(2L, gathering.getId());
         gatheringMemberRepository.save(member1);
 

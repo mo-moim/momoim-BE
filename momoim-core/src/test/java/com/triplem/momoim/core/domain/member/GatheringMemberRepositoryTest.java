@@ -2,6 +2,13 @@ package com.triplem.momoim.core.domain.member;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.triplem.momoim.core.domain.gathering.Gathering;
+import com.triplem.momoim.core.domain.gathering.GatheringBuilder;
+import com.triplem.momoim.core.domain.gathering.GatheringRepository;
+import com.triplem.momoim.core.domain.user.User;
+import com.triplem.momoim.core.domain.user.UserBuilder;
+import com.triplem.momoim.core.domain.user.UserRepository;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 class GatheringMemberRepositoryTest {
     @Autowired
     private GatheringMemberRepository gatheringMemberRepository;
+
+    @Autowired
+    private GatheringRepository gatheringRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     @DisplayName("모임 멤버를 저장할 수 있다.")
@@ -59,5 +72,33 @@ class GatheringMemberRepositoryTest {
 
         //then
         assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("모임에 참여 중인 멤버를 조회할 수 있다.")
+    void getGatheringMembers() {
+        //given
+        Gathering gathering = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+
+        User user1 = userRepository.save(UserBuilder.builder().name("user1").build().toUser());
+        User user2 = userRepository.save(UserBuilder.builder().name("user2").build().toUser());
+        User user3 = userRepository.save(UserBuilder.builder().name("user3").build().toUser());
+        User user4 = userRepository.save(UserBuilder.builder().name("user4").build().toUser());
+        User user5 = userRepository.save(UserBuilder.builder().name("user5").build().toUser());
+
+        gatheringMemberRepository.save(GatheringMember.create(user1.getId(), gathering.getId()));
+        gatheringMemberRepository.save(GatheringMember.create(user2.getId(), gathering.getId()));
+        gatheringMemberRepository.save(GatheringMember.create(user3.getId(), gathering.getId()));
+        gatheringMemberRepository.save(GatheringMember.create(user4.getId(), gathering.getId()));
+        gatheringMemberRepository.save(GatheringMember.create(user5.getId(), gathering.getId()));
+
+        //when
+        List<GatheringMemberDetail> members = gatheringMemberRepository.getGatheringMembers(gathering.getId());
+
+        //then
+        assertThat(members)
+            .hasSize(5)
+            .extracting("name")
+            .containsExactly("user1", "user2", "user3", "user4", "user5");
     }
 }
