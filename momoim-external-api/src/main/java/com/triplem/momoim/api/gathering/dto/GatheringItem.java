@@ -24,6 +24,7 @@ public class GatheringItem {
     private List<String> tags;
     private int capacity;
     private int participantCount;
+    private Boolean isPeriodic;
 
     public static GatheringItem from(Gathering gathering) {
         return GatheringItem
@@ -39,6 +40,7 @@ public class GatheringItem {
             .tags(gathering.getTags())
             .capacity(gathering.getCapacity())
             .participantCount(gathering.getParticipantCount())
+            .isPeriodic(gathering.getIsPeriodic())
             .build();
     }
 }

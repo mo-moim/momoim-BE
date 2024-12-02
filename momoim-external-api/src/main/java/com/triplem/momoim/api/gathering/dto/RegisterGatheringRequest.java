@@ -21,6 +21,7 @@ public class RegisterGatheringRequest {
     private List<String> tags;
     private GatheringLocation location;
     private int capacity;
+    private Boolean isPeriodic;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime nextGatheringAt;
 
@@ -38,6 +39,7 @@ public class RegisterGatheringRequest {
             .capacity(capacity)
             .participantCount(0)
             .viewCount(0)
+            .isPeriodic(isPeriodic)
             .isCanceled(false)
             .nextGatheringAt(nextGatheringAt)
             .createdAt(LocalDateTime.now())
