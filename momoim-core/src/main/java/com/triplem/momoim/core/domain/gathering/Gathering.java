@@ -31,6 +31,10 @@ public class Gathering {
     private LocalDateTime lastModifiedAt;
 
     public void validateJoin() {
+        if (!isRecruiting()) {
+            throw new RuntimeException("모집 중인 모임이 아닙니다.");
+        }
+        
         if (isFull()) {
             throw new RuntimeException("인원이 다 찬 모임입니다.");
         }
@@ -50,6 +54,10 @@ public class Gathering {
 
     public Boolean isFull() {
         return capacity == participantCount;
+    }
+
+    public Boolean isRecruiting() {
+        return status == GatheringStatus.RECRUITING;
     }
 
     public void increaseParticipantCount() {
