@@ -39,7 +39,6 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/api-docs/json/**",
             "/api/v1/token/**"
-//            "/api/v1/health-check"
     };
 
     private final StaticEndpointChecker endpointChecker;
