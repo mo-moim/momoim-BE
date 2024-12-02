@@ -34,10 +34,6 @@ public class GatheringBuilder {
     @Builder.Default
     private LocalDateTime nextGatheringAt = LocalDateTime.now().plusDays(5);
     @Builder.Default
-    private LocalDateTime startAt = LocalDateTime.now().minusYears(1);
-    @Builder.Default
-    private LocalDateTime endAt = LocalDateTime.now().plusYears(1);
-    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now().minusYears(1);
     @Builder.Default
     private LocalDateTime lastModifiedAt = LocalDateTime.now().minusHours(3);
@@ -58,8 +54,6 @@ public class GatheringBuilder {
             .viewCount(viewCount)
             .isCanceled(isCanceled)
             .nextGatheringAt(nextGatheringAt)
-            .startAt(startAt)
-            .endAt(endAt)
             .createdAt(createdAt)
             .lastModifiedAt(lastModifiedAt)
             .build();

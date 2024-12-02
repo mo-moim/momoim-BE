@@ -15,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-@ActiveProfiles("local")
+@ActiveProfiles("test")
 @Transactional
 class GatheringRepositoryTest {
     @Autowired
@@ -39,13 +39,11 @@ class GatheringRepositoryTest {
             .extracting(
                 "managerId", "category", "subCategory",
                 "name", "image", "description", "location",
-                "capacity", "participantCount", "nextGatheringAt", "startAt",
-                "endAt", "createdAt")
+                "capacity", "participantCount", "nextGatheringAt", "createdAt")
             .containsExactly(
                 gathering.getManagerId(), gathering.getCategory(), gathering.getSubCategory(),
                 gathering.getName(), gathering.getImage(), gathering.getDescription(), gathering.getLocation(),
-                gathering.getCapacity(), gathering.getParticipantCount(), gathering.getNextGatheringAt(), gathering.getStartAt(),
-                gathering.getEndAt(), gathering.getCreatedAt());
+                gathering.getCapacity(), gathering.getParticipantCount(), gathering.getNextGatheringAt(), gathering.getCreatedAt());
 
         assertThat(savedGathering.getTags()).isEqualTo(gathering.getTags());
     }

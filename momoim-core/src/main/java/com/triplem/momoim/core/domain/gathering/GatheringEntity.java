@@ -70,12 +70,6 @@ public class GatheringEntity {
     private LocalDateTime nextGatheringAt;
 
     @Column(nullable = false)
-    private LocalDateTime startAt;
-
-    @Column(nullable = false)
-    private LocalDateTime endAt;
-
-    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
@@ -97,8 +91,6 @@ public class GatheringEntity {
             .viewCount(gathering.getViewCount())
             .isCanceled(gathering.getIsCanceled())
             .nextGatheringAt(gathering.getNextGatheringAt())
-            .startAt(gathering.getStartAt())
-            .endAt(gathering.getEndAt())
             .createdAt(gathering.getCreatedAt())
             .lastModifiedAt(gathering.getLastModifiedAt())
             .build();
@@ -120,8 +112,6 @@ public class GatheringEntity {
             .viewCount(viewCount)
             .isCanceled(isCanceled)
             .nextGatheringAt(nextGatheringAt)
-            .startAt(startAt)
-            .endAt(endAt)
             .createdAt(createdAt)
             .lastModifiedAt(lastModifiedAt)
             .build();

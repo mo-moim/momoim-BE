@@ -41,8 +41,6 @@ public class RegisterGatheringRequest {
             .viewCount(0)
             .isCanceled(false)
             .nextGatheringAt(nextGatheringAt)
-            .startAt(startAt)
-            .endAt(endAt)
             .createdAt(LocalDateTime.now())
             .lastModifiedAt(LocalDateTime.now())
             .build();

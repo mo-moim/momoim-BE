@@ -27,11 +27,7 @@ public class GatheringJoinService {
         if (gathering.getManagerId().equals(userId)) {
             throw new RuntimeException("방장은 모임 취소를 할 수 없습니다.");
         }
-
-        if (gathering.isEnd()) {
-            throw new RuntimeException("종료 된 모임입니다.");
-        }
-
+        
         gatheringMemberRemover.removeGatheringMember(userId, gatheringId);
     }
 }
