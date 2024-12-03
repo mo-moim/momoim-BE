@@ -5,6 +5,7 @@ import static com.triplem.momoim.core.domain.member.QGatheringMemberEntity.gathe
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
 import java.util.List;
@@ -27,6 +28,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     @Override
     public Gathering findById(Long id) {
         return gatheringJpaRepository.findById(id)
+            .filter(gatheringEntity -> !gatheringEntity.getStatus().equals(GatheringStatus.DELETED))
             .orElseThrow(() -> new RuntimeException("존재하지 않는 모임입니다."))
             .toModel();
     }
@@ -35,7 +37,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     public List<Gathering> findBySearchOption(GatheringSearchOption searchOption) {
         return jpaQueryFactory.select(gatheringEntity)
             .from(gatheringEntity)
-            .where(whereGatheringSearchOption(searchOption))
+            .where(whereGatheringSearchOption(searchOption), defaultGatheringFilter())
             .orderBy(sortGatheringSearch())
             .limit(searchOption.getPaginationInformation().getLimit())
             .offset(searchOption.getPaginationInformation().getOffset())
@@ -49,7 +51,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     public List<Gathering> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
         return jpaQueryFactory.select(gatheringEntity)
             .from(gatheringMemberEntity)
-            .where(gatheringMemberEntity.userId.eq(userId))
+            .where(gatheringMemberEntity.userId.eq(userId), defaultGatheringFilter())
             .offset(paginationInformation.getOffset())
             .limit(paginationInformation.getLimit())
             .orderBy(gatheringEntity.id.desc())
@@ -75,5 +77,9 @@ public class GatheringRepositoryImpl implements GatheringRepository {
 
     private OrderSpecifier<?> sortGatheringSearch() {
         return gatheringEntity.lastModifiedAt.desc();
+    }
+
+    private BooleanExpression defaultGatheringFilter() {
+        return gatheringEntity.status.ne(GatheringStatus.DELETED);
     }
 }

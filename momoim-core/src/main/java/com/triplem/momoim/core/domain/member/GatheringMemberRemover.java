@@ -25,4 +25,22 @@ public class GatheringMemberRemover {
 
         gatheringMemberRepository.deleteByUserIdAndGatheringId(userId, gatheringId);
     }
+
+    public void kickMember(Long managerId, Long kickMemberId) {
+        GatheringMember kickMember = gatheringMemberRepository.findById(kickMemberId);
+        Gathering gathering = gatheringRepository.findById(kickMember.getGatheringId());
+
+        if (!gathering.isManager(managerId)) {
+            throw new RuntimeException("권한이 없습니다.");
+        }
+
+        if (!managerId.equals(kickMemberId)) {
+            throw new RuntimeException("자신을 강퇴할 수 없습니다.");
+        }
+
+        gatheringMemberRepository.deleteById(kickMemberId);
+
+        gathering.decreaseParticipantCount();
+        gatheringRepository.save(gathering);
+    }
 }

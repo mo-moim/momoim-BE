@@ -10,4 +10,8 @@ public interface GatheringMemberRepository {
     void deleteByUserIdAndGatheringId(Long userId, Long gatheringId);
 
     List<GatheringMemberDetail> getGatheringMembers(Long gatheringId);
+
+    GatheringMember findById(Long id);
+
+    void deleteById(Long id);
 }

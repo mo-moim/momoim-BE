@@ -41,10 +41,21 @@ public class GatheringEntity {
     private String name;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private GatheringType gatheringType;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private GatheringStatus status;
+
+    @Column(nullable = false)
     private String image;
 
     @Column(nullable = false)
     private String description;
+
+    @Column
+    private String address;
 
     @Column
     @Convert(converter = GatheringTagConverter.class)
@@ -61,19 +72,10 @@ public class GatheringEntity {
     private int participantCount;
 
     @Column(nullable = false)
-    private int viewCount;
-
-    @Column
-    private Boolean isCanceled;
+    private Boolean isPeriodic;
 
     @Column
     private LocalDateTime nextGatheringAt;
-
-    @Column(nullable = false)
-    private LocalDateTime startAt;
-
-    @Column(nullable = false)
-    private LocalDateTime endAt;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -88,17 +90,17 @@ public class GatheringEntity {
             .category(gathering.getCategory())
             .subCategory(gathering.getSubCategory())
             .name(gathering.getName())
+            .gatheringType(gathering.getGatheringType())
+            .status(gathering.getStatus())
             .image(gathering.getImage())
             .description(gathering.getDescription())
+            .address(gathering.getAddress())
             .tags(gathering.getTags())
             .location(gathering.getLocation())
             .capacity(gathering.getCapacity())
             .participantCount(gathering.getParticipantCount())
-            .viewCount(gathering.getViewCount())
-            .isCanceled(gathering.getIsCanceled())
+            .isPeriodic(gathering.getIsPeriodic())
             .nextGatheringAt(gathering.getNextGatheringAt())
-            .startAt(gathering.getStartAt())
-            .endAt(gathering.getEndAt())
             .createdAt(gathering.getCreatedAt())
             .lastModifiedAt(gathering.getLastModifiedAt())
             .build();
@@ -111,17 +113,17 @@ public class GatheringEntity {
             .category(category)
             .subCategory(subCategory)
             .name(name)
+            .gatheringType(gatheringType)
+            .status(status)
             .image(image)
             .description(description)
+            .address(address)
             .tags(tags)
             .location(location)
             .capacity(capacity)
             .participantCount(participantCount)
-            .viewCount(viewCount)
-            .isCanceled(isCanceled)
+            .isPeriodic(isPeriodic)
             .nextGatheringAt(nextGatheringAt)
-            .startAt(startAt)
-            .endAt(endAt)
             .createdAt(createdAt)
             .lastModifiedAt(lastModifiedAt)
             .build();

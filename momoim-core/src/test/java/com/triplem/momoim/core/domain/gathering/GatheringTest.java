@@ -3,11 +3,34 @@ package com.triplem.momoim.core.domain.gathering;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GatheringTest {
+    @Test
+    @DisplayName("모임 참여 검증 시 모집 중이지 않은 모임인 경우 예외를 발생시킨다.")
+    void throwExceptionWhenGatheringIsNotRecruiting() {
+        //given
+        Gathering stopRecruitingGathering = GatheringBuilder
+            .builder()
+            .status(GatheringStatus.STOP_RECRUITING)
+            .build()
+            .toGathering();
+
+        Gathering deletedGathering = GatheringBuilder
+            .builder()
+            .status(GatheringStatus.DELETED)
+            .build()
+            .toGathering();
+
+        //when then
+        assertThatThrownBy(stopRecruitingGathering::validateJoin)
+            .hasMessage("모집 중인 모임이 아닙니다.");
+
+        assertThatThrownBy(deletedGathering::validateJoin)
+            .hasMessage("모집 중인 모임이 아닙니다.");
+    }
+
     @Test
     @DisplayName("모임 참여 검증 시 인원이 다찬 경우 예외를 발생시킨다.")
     void throwExceptionWhenGatheringIsFull() {
@@ -25,21 +48,6 @@ class GatheringTest {
     }
 
     @Test
-    @DisplayName("모임 참여 검증 시 종료 된 모임인 경우 예외를 발생시킨다.")
-    void throwExceptionWhenGatheringIsEnd() {
-        //given
-        Gathering endGathering = GatheringBuilder
-            .builder()
-            .endAt(LocalDateTime.now().minusDays(10))
-            .build()
-            .toGathering();
-
-        //when then
-        assertThatThrownBy(endGathering::validateJoin)
-            .hasMessage("종료 된 모임입니다.");
-    }
-
-    @Test
     @DisplayName("모임을 취소 상태로 변경할 수 있다.")
     void cancel() {
         //given
@@ -54,7 +62,7 @@ class GatheringTest {
         gathering.cancel(requesterId);
 
         //then
-        assertThat(gathering.getIsCanceled()).isTrue();
+        assertThat(gathering.getStatus()).isEqualTo(GatheringStatus.DELETED);
     }
 
     @Test
@@ -71,25 +79,6 @@ class GatheringTest {
         //when then
         assertThatThrownBy(() -> gathering.cancel(requesterId))
             .hasMessage("모임을 취소할 권한이 없습니다.");
-
-        assertThat(gathering.getIsCanceled()).isFalse();
-    }
-
-    @Test
-    @DisplayName("이미 종료된 모임은 취소할 수 없다.")
-    void cannotCancelEndGathering() {
-        //given
-        Long requesterId = 1L;
-        Gathering gathering = GatheringBuilder.builder()
-            .endAt(LocalDateTime.now().minusDays(10))
-            .build()
-            .toGathering();
-
-        //when then
-        assertThatThrownBy(() -> gathering.cancel(requesterId))
-            .hasMessage("종료 된 모임입니다.");
-
-        assertThat(gathering.getIsCanceled()).isFalse();
     }
 
     @Test
@@ -128,36 +117,44 @@ class GatheringTest {
     }
 
     @Test
-    @DisplayName("isEnd 메서드는 종료된 모임인 경우 True를 반환한다.")
-    void isEnd_returnsTrueWhenGatheringIsEnd() {
+    @DisplayName("isRecruiting 메서드는 모집 중인 모임인 경우 True를 반환한다.")
+    void isRecruiting_returnsTrueWhenStatusIsRecruiting() {
         //given
-        LocalDateTime past = LocalDateTime.now().minusDays(10);
-        Gathering endGathering = GatheringBuilder.builder()
-            .endAt(past)
+        Gathering gathering = GatheringBuilder
+            .builder()
+            .status(GatheringStatus.RECRUITING)
             .build()
             .toGathering();
 
         //when
-        Boolean isEnd = endGathering.isEnd();
+        Boolean status = gathering.isRecruiting();
 
         //then
-        assertThat(isEnd).isTrue();
+        assertThat(status).isTrue();
     }
 
     @Test
-    @DisplayName("isEnd 메서드는 운영중인 모임인 경우 False를 반환한다.")
-    void isEnd_returnsFalseWhenGatheringIsNotEnd() {
+    @DisplayName("isRecruiting 메서드는 모집 중이지 않은 경우 False를 반환한다.")
+    void isRecruiting_returnsTrueWhenStatusIsNotRecruiting() {
         //given
-        LocalDateTime future = LocalDateTime.now().plusDays(10);
-        Gathering endGathering = GatheringBuilder.builder()
-            .endAt(future)
+        Gathering stopRecruitingGathering = GatheringBuilder
+            .builder()
+            .status(GatheringStatus.STOP_RECRUITING)
+            .build()
+            .toGathering();
+
+        Gathering deletedGathering = GatheringBuilder
+            .builder()
+            .status(GatheringStatus.DELETED)
             .build()
             .toGathering();
 
         //when
-        Boolean isEnd = endGathering.isEnd();
+        Boolean stopRecruitingGatheringStatus = stopRecruitingGathering.isRecruiting();
+        Boolean deletedGatheringStatus = deletedGathering.isRecruiting();
 
         //then
-        assertThat(isEnd).isFalse();
+        assertThat(stopRecruitingGatheringStatus).isFalse();
+        assertThat(deletedGatheringStatus).isFalse();
     }
 }

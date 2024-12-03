@@ -2,7 +2,7 @@ package com.triplem.momoim.api.gathering;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.triplem.momoim.api.gathering.dto.GatheringItem;
+import com.triplem.momoim.api.gathering.dto.GatheringListItem;
 import com.triplem.momoim.api.gathering.service.GatheringService;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
@@ -16,7 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-@ActiveProfiles("local")
+@ActiveProfiles("test")
 @Transactional
 class GatheringServiceTest {
     @Autowired
@@ -59,10 +59,10 @@ class GatheringServiceTest {
             .build();
 
         //when
-        List<GatheringItem> gatheringItems = gatheringService.searchGathering(searchOption);
+        List<GatheringListItem> gatheringListItems = gatheringService.searchGathering(searchOption);
 
         //then
-        assertThat(gatheringItems).hasSize(2)
+        assertThat(gatheringListItems).hasSize(2)
             .extracting("name")
             .contains("gathering1", "gathering2");
     }

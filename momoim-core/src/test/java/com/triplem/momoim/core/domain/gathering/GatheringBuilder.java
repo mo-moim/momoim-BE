@@ -16,9 +16,15 @@ public class GatheringBuilder {
     @Builder.Default
     private String name = "gathering1";
     @Builder.Default
+    private GatheringType gatheringType = GatheringType.OFFLINE;
+    @Builder.Default
+    private GatheringStatus status = GatheringStatus.RECRUITING;
+    @Builder.Default
     private String image = "image1";
     @Builder.Default
     private String description = "description1";
+    @Builder.Default
+    private String address = "홍대입구역 KFC";
     @Builder.Default
     private List<String> tags = List.of("tag1", "tag2");
     @Builder.Default
@@ -28,15 +34,9 @@ public class GatheringBuilder {
     @Builder.Default
     private int participantCount = 10;
     @Builder.Default
-    private int viewCount = 0;
-    @Builder.Default
-    private Boolean isCanceled = false;
+    private Boolean isPeriodic = false;
     @Builder.Default
     private LocalDateTime nextGatheringAt = LocalDateTime.now().plusDays(5);
-    @Builder.Default
-    private LocalDateTime startAt = LocalDateTime.now().minusYears(1);
-    @Builder.Default
-    private LocalDateTime endAt = LocalDateTime.now().plusYears(1);
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now().minusYears(1);
     @Builder.Default
@@ -49,17 +49,17 @@ public class GatheringBuilder {
             .category(category)
             .subCategory(subCategory)
             .name(name)
+            .gatheringType(gatheringType)
+            .status(status)
             .image(image)
             .description(description)
+            .address(address)
             .tags(tags)
             .location(location)
             .capacity(capacity)
             .participantCount(participantCount)
-            .viewCount(viewCount)
-            .isCanceled(isCanceled)
+            .isPeriodic(isPeriodic)
             .nextGatheringAt(nextGatheringAt)
-            .startAt(startAt)
-            .endAt(endAt)
             .createdAt(createdAt)
             .lastModifiedAt(lastModifiedAt)
             .build();
