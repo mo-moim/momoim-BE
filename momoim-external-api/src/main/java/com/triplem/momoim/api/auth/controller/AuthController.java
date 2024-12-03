@@ -41,7 +41,7 @@ public class AuthController {
         return ApiResponse.success(new SigninResponse(new Token("token", 123456L),"email", "name", "profileImage", List.of("BUSAN", "SEOUL"), List.of("CULTURE, FOOD")));
     }
 
-    @PostMapping("/user")
+    @GetMapping("/user")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공",  content = @Content(schema = @Schema(implementation = UserDetailResponse.class)))
     })
