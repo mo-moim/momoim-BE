@@ -1,6 +1,7 @@
 package com.triplem.momoim.api.gathering.service;
 
-import com.triplem.momoim.api.gathering.dto.GatheringItem;
+import com.triplem.momoim.api.gathering.dto.GatheringDetail;
+import com.triplem.momoim.api.gathering.dto.GatheringListItem;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
@@ -18,16 +19,16 @@ public class GatheringService {
     private final GatheringRepository gatheringRepository;
     private final GatheringMemberRepository gatheringMemberRepository;
 
-    public List<GatheringItem> searchGathering(GatheringSearchOption searchOption) {
+    public List<GatheringListItem> searchGathering(GatheringSearchOption searchOption) {
         return gatheringRepository.findBySearchOption(searchOption)
             .stream()
-            .map(GatheringItem::from)
+            .map(GatheringListItem::from)
             .collect(Collectors.toList());
     }
 
-    public GatheringItem getGathering(Long gatheringId) {
+    public GatheringDetail getGatheringDetail(Long gatheringId) {
         Gathering gathering = gatheringRepository.findById(gatheringId);
-        return GatheringItem.from(gathering);
+        return GatheringDetail.from(gathering);
     }
 
     public List<GatheringMemberDetail> getGatheringMembers(Long gatheringId) {
@@ -40,10 +41,10 @@ public class GatheringService {
         return members;
     }
 
-    public List<GatheringItem> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
+    public List<GatheringListItem> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
         return gatheringRepository.getMyGatherings(userId, paginationInformation)
             .stream()
-            .map(GatheringItem::from)
+            .map(GatheringListItem::from)
             .collect(Collectors.toList());
     }
 }

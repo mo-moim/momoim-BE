@@ -13,37 +13,42 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class GatheringItem {
-    private Long gatheringId;
-    private String image;
+public class GatheringDetail {
+    private Long id;
+    private Long managerId;
+    private String category;
+    private String subCategory;
     private String name;
     private GatheringType gatheringType;
     private GatheringStatus status;
-    private String category;
-    private String subCategory;
-    private GatheringLocation location;
-    private LocalDateTime nextGatheringAt;
+    private String image;
+    private String description;
+    private String address;
     private List<String> tags;
+    private GatheringLocation location;
     private int capacity;
     private int participantCount;
     private Boolean isPeriodic;
+    private LocalDateTime nextGatheringAt;
 
-    public static GatheringItem from(Gathering gathering) {
-        return GatheringItem
-            .builder()
-            .gatheringId(gathering.getId())
-            .image(gathering.getImage())
+    public static GatheringDetail from(Gathering gathering) {
+        return GatheringDetail.builder()
+            .id(gathering.getId())
+            .managerId(gathering.getManagerId())
+            .category(gathering.getCategory())
+            .subCategory(gathering.getSubCategory())
             .name(gathering.getName())
             .gatheringType(gathering.getGatheringType())
             .status(gathering.getStatus())
-            .category(gathering.getCategory())
-            .subCategory(gathering.getSubCategory())
-            .location(gathering.getLocation())
-            .nextGatheringAt(gathering.getNextGatheringAt())
+            .image(gathering.getImage())
+            .description(gathering.getDescription())
+            .address(gathering.getAddress())
             .tags(gathering.getTags())
+            .location(gathering.getLocation())
             .capacity(gathering.getCapacity())
             .participantCount(gathering.getParticipantCount())
             .isPeriodic(gathering.getIsPeriodic())
+            .nextGatheringAt(gathering.getNextGatheringAt())
             .build();
     }
 }
