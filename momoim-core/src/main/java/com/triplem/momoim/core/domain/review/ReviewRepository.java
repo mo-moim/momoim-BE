@@ -6,4 +6,6 @@ public interface ReviewRepository {
     Review findById(Long id);
 
     Boolean isWrittenReview(Long userId, Long gatheringId);
+
+    void deleteById(Long id);
 }

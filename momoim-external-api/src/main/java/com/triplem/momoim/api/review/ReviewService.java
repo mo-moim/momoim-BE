@@ -22,4 +22,14 @@ public class ReviewService {
         review.modify(modifyReview);
         reviewRepository.save(review);
     }
+
+    public void delete(Long requesterId, Long reviewId) {
+        Review review = reviewRepository.findById(reviewId);
+
+        if (!review.isWriter(requesterId)) {
+            throw new RuntimeException("권한이 없습니다.");
+        }
+        
+        reviewRepository.deleteById(reviewId);
+    }
 }

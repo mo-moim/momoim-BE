@@ -31,4 +31,9 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             .where(reviewEntity.userId.eq(userId), reviewEntity.gatheringId.eq(gatheringId))
             .fetchFirst() != null;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        reviewJpaRepository.deleteById(id);
+    }
 }
