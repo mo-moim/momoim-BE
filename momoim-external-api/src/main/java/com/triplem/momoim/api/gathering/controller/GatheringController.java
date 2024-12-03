@@ -163,4 +163,16 @@ public class GatheringController {
         gatheringManagementService.modify(userId, request.toContent(gatheringId));
         return DefaultApiResponse.success();
     }
+
+    @DeleteMapping("/member/{gatheringMemberId}")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "멤버 추방", summary = "멤버 추방", tags = {"gatherings"}, description = "멤버 추방")
+    public DefaultApiResponse kickMember(
+        @Parameter(name = "추방 할 gatheringMemberId") @PathVariable Long gatheringMemberId,
+        @Parameter(name = "userId", description = "인증 설계 완료 전까지 임시로 사용하는 userId") @RequestParam Long userId) {
+        gatheringManagementService.kickMember(userId, gatheringMemberId);
+        return DefaultApiResponse.success();
+    }
 }

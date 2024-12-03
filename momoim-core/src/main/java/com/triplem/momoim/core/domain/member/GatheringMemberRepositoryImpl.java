@@ -48,4 +48,16 @@ public class GatheringMemberRepositoryImpl implements GatheringMemberRepository 
             .leftJoin(userEntity).on(userEntity.id.eq(gatheringMemberEntity.userId))
             .fetch();
     }
+
+    @Override
+    public GatheringMember findById(Long id) {
+        return gatheringMemberJpaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("존재하지 않는 멤버입니다."))
+            .toModel();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        gatheringMemberJpaRepository.deleteById(id);
+    }
 }

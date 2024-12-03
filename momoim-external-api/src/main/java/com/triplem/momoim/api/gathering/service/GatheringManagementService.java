@@ -4,7 +4,7 @@ import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.ModifyGathering;
 import com.triplem.momoim.core.domain.member.GatheringMemberAppender;
-import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
+import com.triplem.momoim.core.domain.member.GatheringMemberRemover;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class GatheringManagementService {
     private final GatheringRepository gatheringRepository;
-    private final GatheringMemberRepository gatheringMemberRepository;
+    private final GatheringMemberRemover gatheringMemberRemover;
     private final GatheringMemberAppender gatheringMemberAppender;
 
     @Transactional
@@ -38,5 +38,9 @@ public class GatheringManagementService {
 
         gathering.modify(modifyGathering);
         gatheringRepository.save(gathering);
+    }
+
+    public void kickMember(Long requesterId, Long kickMemberId) {
+        gatheringMemberRemover.kickMember(requesterId, kickMemberId);
     }
 }
