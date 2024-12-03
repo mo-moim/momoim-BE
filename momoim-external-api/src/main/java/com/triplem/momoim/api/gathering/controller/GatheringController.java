@@ -5,6 +5,7 @@ import com.triplem.momoim.api.common.DefaultApiResponse;
 import com.triplem.momoim.api.gathering.dto.GatheringCategoryInformation;
 import com.triplem.momoim.api.gathering.dto.GatheringDetail;
 import com.triplem.momoim.api.gathering.dto.GatheringListItem;
+import com.triplem.momoim.api.gathering.dto.ModifyGatheringRequest;
 import com.triplem.momoim.api.gathering.dto.RegisterGatheringRequest;
 import com.triplem.momoim.api.gathering.service.GatheringJoinService;
 import com.triplem.momoim.api.gathering.service.GatheringManagementService;
@@ -22,6 +23,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -146,6 +148,19 @@ public class GatheringController {
         @Parameter(name = "userId", description = "인증 설계 완료 전까지 임시로 사용하는 userId") @RequestParam Long userId,
         @Parameter(name = "모임 ID") @PathVariable Long gatheringId) {
         gatheringJoinService.cancelJoinGathering(userId, gatheringId);
+        return DefaultApiResponse.success();
+    }
+
+    @PatchMapping("/{gatheringId}")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "모임 수정", summary = "모임 수정", tags = {"gatherings"}, description = "모임 수정")
+    public DefaultApiResponse modifyGathering(
+        @Parameter(name = "userId", description = "인증 설계 완료 전까지 임시로 사용하는 userId") @RequestParam Long userId,
+        @Parameter(name = "모임 ID") @PathVariable Long gatheringId,
+        @RequestBody ModifyGatheringRequest request) {
+        gatheringManagementService.modify(userId, request.toContent(gatheringId));
         return DefaultApiResponse.success();
     }
 }

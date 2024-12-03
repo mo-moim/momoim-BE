@@ -47,6 +47,25 @@ public class Gathering {
         this.status = GatheringStatus.DELETED;
     }
 
+    public Boolean isManager(Long userId) {
+        return this.managerId.equals(userId);
+    }
+
+    public void modify(ModifyGathering modifyGathering) {
+        this.subCategory = modifyGathering.getSubCategory().name();
+        this.name = modifyGathering.getName();
+        this.status = modifyGathering.getStatus();
+        this.image = modifyGathering.getImage();
+        this.description = modifyGathering.getDescription();
+        this.address = modifyGathering.getAddress();
+        this.tags = modifyGathering.getTags();
+        this.location = modifyGathering.getLocation();
+        this.capacity = modifyGathering.getCapacity();
+        this.isPeriodic = modifyGathering.getIsPeriodic();
+        this.nextGatheringAt = modifyGathering.getNextGatheringAt();
+        this.lastModifiedAt = LocalDateTime.now();
+    }
+
     public Boolean isFull() {
         return capacity == participantCount;
     }
