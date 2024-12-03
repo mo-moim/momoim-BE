@@ -1,8 +1,12 @@
 package com.triplem.momoim.core.domain.review;
 
 import static com.triplem.momoim.core.domain.review.QReviewEntity.reviewEntity;
+import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.triplem.momoim.core.common.PaginationInformation;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -35,5 +39,39 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public void deleteById(Long id) {
         reviewJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ReviewDetail> getReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
+        return jpaQueryFactory.select(
+                reviewEntity.id,
+                reviewEntity.userId,
+                userEntity.name,
+                userEntity.profileImage,
+                reviewEntity.title,
+                reviewEntity.comment,
+                reviewEntity.score,
+                reviewEntity.createdAt)
+            .from(reviewEntity)
+            .where(reviewEntity.gatheringId.eq(gatheringId))
+            .leftJoin(userEntity).on(userEntity.id.eq(reviewEntity.userId))
+            .offset(paginationInformation.getOffset())
+            .limit(paginationInformation.getLimit())
+            .orderBy(reviewEntity.id.desc())
+            .fetch()
+            .stream()
+            .map(
+                tuple -> ReviewDetail
+                    .builder()
+                    .reviewId(tuple.get(reviewEntity.id))
+                    .isWriter(userId.equals(tuple.get(reviewEntity.userId)))
+                    .writer(tuple.get(userEntity.name))
+                    .writerProfileImage(tuple.get(userEntity.profileImage))
+                    .title(tuple.get(reviewEntity.title))
+                    .comment(tuple.get(reviewEntity.comment))
+                    .createdAt(tuple.get(reviewEntity.createdAt))
+                    .build()
+            )
+            .collect(Collectors.toList());
     }
 }
