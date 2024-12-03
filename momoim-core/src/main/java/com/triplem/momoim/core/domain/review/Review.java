@@ -13,6 +13,7 @@ public class Review {
     private Long userId;
     private Long gatheringId;
     private int score;
+    private String title;
     private String comment;
     private LocalDateTime createdAt;
 }

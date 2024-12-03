@@ -8,6 +8,7 @@ import lombok.Getter;
 public class RegisterReviewRequest {
     private Long gatheringId;
     private int score;
+    private String title;
     private String comment;
 
     public Review toModel(Long userId) {
@@ -15,6 +16,7 @@ public class RegisterReviewRequest {
             .userId(userId)
             .gatheringId(gatheringId)
             .score(score)
+            .title(title)
             .comment(comment)
             .createdAt(LocalDateTime.now())
             .build();

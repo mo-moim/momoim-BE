@@ -34,6 +34,9 @@ public class ReviewEntity {
     private int score;
 
     @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
     private String comment;
 
     @Column(nullable = false)
@@ -45,6 +48,7 @@ public class ReviewEntity {
             .userId(review.getUserId())
             .gatheringId(review.getGatheringId())
             .score(review.getScore())
+            .title(review.getTitle())
             .comment(review.getComment())
             .createdAt(review.getCreatedAt())
             .build();
@@ -56,6 +60,7 @@ public class ReviewEntity {
             .userId(userId)
             .gatheringId(gatheringId)
             .score(score)
+            .title(title)
             .comment(comment)
             .createdAt(createdAt)
             .build();
