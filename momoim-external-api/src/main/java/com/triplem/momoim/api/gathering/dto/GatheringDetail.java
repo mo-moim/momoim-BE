@@ -30,8 +30,9 @@ public class GatheringDetail {
     private int participantCount;
     private Boolean isPeriodic;
     private LocalDateTime nextGatheringAt;
+    private Boolean isJoined;
 
-    public static GatheringDetail from(Gathering gathering) {
+    public static GatheringDetail of(Gathering gathering, Boolean isJoined) {
         return GatheringDetail.builder()
             .id(gathering.getId())
             .managerId(gathering.getManagerId())
@@ -49,6 +50,7 @@ public class GatheringDetail {
             .participantCount(gathering.getParticipantCount())
             .isPeriodic(gathering.getIsPeriodic())
             .nextGatheringAt(gathering.getNextGatheringAt())
+            .isJoined(isJoined)
             .build();
     }
 }

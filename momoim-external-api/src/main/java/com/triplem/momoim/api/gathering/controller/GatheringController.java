@@ -96,8 +96,9 @@ public class GatheringController {
     })
     @Operation(operationId = "모임 상세 조회", summary = "모임 상세 조회", tags = {"gatherings"}, description = "모임 상세 조회")
     public ApiResponse<GatheringDetail> getGathering(
+        @Parameter(name = "userId", description = "인증 설계 완료 전까지 임시로 사용하는 userId") @RequestParam(defaultValue = "-1") Long userId,
         @Parameter(name = "조회 할 모임 ID") @PathVariable Long gatheringId) {
-        GatheringDetail gathering = gatheringService.getGatheringDetail(gatheringId);
+        GatheringDetail gathering = gatheringService.getGatheringDetail(gatheringId, userId);
         return ApiResponse.success(gathering);
     }
 

@@ -30,9 +30,10 @@ public class GatheringService {
             .collect(Collectors.toList());
     }
 
-    public GatheringDetail getGatheringDetail(Long gatheringId) {
+    public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {
         Gathering gathering = gatheringRepository.findById(gatheringId);
-        return GatheringDetail.from(gathering);
+        Boolean isJoined = gatheringMemberRepository.isGatheringMember(userId, gatheringId);
+        return GatheringDetail.of(gathering, isJoined);
     }
 
     public List<GatheringMemberDetail> getGatheringMembers(Long gatheringId) {
