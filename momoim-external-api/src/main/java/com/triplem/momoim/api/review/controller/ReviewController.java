@@ -1,7 +1,10 @@
-package com.triplem.momoim.api.review;
+package com.triplem.momoim.api.review.controller;
 
 import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.api.common.DefaultApiResponse;
+import com.triplem.momoim.api.review.request.ModifyReviewRequest;
+import com.triplem.momoim.api.review.request.RegisterReviewRequest;
+import com.triplem.momoim.api.review.service.ReviewService;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.review.Review;
 import com.triplem.momoim.core.domain.review.ReviewDetail;

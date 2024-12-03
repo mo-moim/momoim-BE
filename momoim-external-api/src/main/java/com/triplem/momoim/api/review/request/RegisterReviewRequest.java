@@ -1,4 +1,4 @@
-package com.triplem.momoim.api.review;
+package com.triplem.momoim.api.review.request;
 
 import com.triplem.momoim.core.domain.review.Review;
 import java.time.LocalDateTime;

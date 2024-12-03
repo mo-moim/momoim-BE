@@ -1,4 +1,4 @@
-package com.triplem.momoim.api.review;
+package com.triplem.momoim.api.review.service;
 
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.review.ModifyReview;
