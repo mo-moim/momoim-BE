@@ -2,6 +2,7 @@ package com.triplem.momoim.api.gathering.controller;
 
 import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.api.common.DefaultApiResponse;
+import com.triplem.momoim.api.gathering.dto.GatheringCategoryInformation;
 import com.triplem.momoim.api.gathering.dto.GatheringDetail;
 import com.triplem.momoim.api.gathering.dto.GatheringListItem;
 import com.triplem.momoim.api.gathering.dto.RegisterGatheringRequest;
@@ -76,6 +77,17 @@ public class GatheringController {
         @Parameter(name = "페이징 limit") @RequestParam int limit) {
         List<GatheringListItem> myGatherings = gatheringService.getMyGatherings(userId, new PaginationInformation(offset, limit));
         return ApiResponse.success(myGatherings);
+    }
+
+    @GetMapping("/categories")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "모임 카테고리 정보 조회", summary = "모임 카테고리 정보 조회", tags = {"gatherings"}, description = "모임 카테고리 정보 조회")
+    public ApiResponse<GatheringCategoryInformation> getGatheringCategories() {
+        List<GatheringCategory> categories = gatheringService.getCategory();
+        List<GatheringSubCategory> subCategories = gatheringService.getSubCategory();
+        return ApiResponse.success(new GatheringCategoryInformation(categories, subCategories));
     }
 
     @GetMapping("/{gatheringId}")
