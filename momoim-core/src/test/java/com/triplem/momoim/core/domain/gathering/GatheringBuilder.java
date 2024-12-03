@@ -24,6 +24,8 @@ public class GatheringBuilder {
     @Builder.Default
     private String description = "description1";
     @Builder.Default
+    private String address = "홍대입구역 KFC";
+    @Builder.Default
     private List<String> tags = List.of("tag1", "tag2");
     @Builder.Default
     private GatheringLocation location = GatheringLocation.SEOUL;
@@ -51,6 +53,7 @@ public class GatheringBuilder {
             .status(status)
             .image(image)
             .description(description)
+            .address(address)
             .tags(tags)
             .location(location)
             .capacity(capacity)

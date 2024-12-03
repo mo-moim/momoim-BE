@@ -19,6 +19,7 @@ public class Gathering {
     private GatheringStatus status;
     private String image;
     private String description;
+    private String address;
     private List<String> tags;
     private GatheringLocation location;
     private int capacity;

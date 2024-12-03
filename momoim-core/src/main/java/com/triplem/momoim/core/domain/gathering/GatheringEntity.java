@@ -55,6 +55,9 @@ public class GatheringEntity {
     private String description;
 
     @Column
+    private String address;
+
+    @Column
     @Convert(converter = GatheringTagConverter.class)
     private List<String> tags;
 
@@ -91,6 +94,7 @@ public class GatheringEntity {
             .status(gathering.getStatus())
             .image(gathering.getImage())
             .description(gathering.getDescription())
+            .address(gathering.getAddress())
             .tags(gathering.getTags())
             .location(gathering.getLocation())
             .capacity(gathering.getCapacity())
@@ -113,6 +117,7 @@ public class GatheringEntity {
             .status(status)
             .image(image)
             .description(description)
+            .address(address)
             .tags(tags)
             .location(location)
             .capacity(capacity)
