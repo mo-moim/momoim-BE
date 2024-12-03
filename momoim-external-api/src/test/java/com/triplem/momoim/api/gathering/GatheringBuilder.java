@@ -36,8 +36,6 @@ public class GatheringBuilder {
     @Builder.Default
     private int participantCount = 10;
     @Builder.Default
-    private int viewCount = 0;
-    @Builder.Default
     private Boolean isPeriodic = false;
     @Builder.Default
     private LocalDateTime nextGatheringAt = LocalDateTime.now().plusDays(5);
@@ -61,7 +59,6 @@ public class GatheringBuilder {
             .location(location)
             .capacity(capacity)
             .participantCount(participantCount)
-            .viewCount(viewCount)
             .isPeriodic(isPeriodic)
             .nextGatheringAt(nextGatheringAt)
             .createdAt(createdAt)

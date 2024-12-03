@@ -23,7 +23,6 @@ public class Gathering {
     private GatheringLocation location;
     private int capacity;
     private int participantCount;
-    private int viewCount;
     private Boolean isPeriodic;
     private LocalDateTime nextGatheringAt;
     private LocalDateTime createdAt;

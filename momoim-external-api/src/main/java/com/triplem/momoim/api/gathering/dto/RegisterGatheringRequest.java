@@ -40,7 +40,6 @@ public class RegisterGatheringRequest {
             .location(location)
             .capacity(capacity)
             .participantCount(0)
-            .viewCount(0)
             .isPeriodic(isPeriodic)
             .nextGatheringAt(nextGatheringAt)
             .createdAt(LocalDateTime.now())
