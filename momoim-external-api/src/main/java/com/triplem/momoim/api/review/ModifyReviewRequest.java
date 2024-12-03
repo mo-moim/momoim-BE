@@ -5,12 +5,11 @@ import lombok.Getter;
 
 @Getter
 public class ModifyReviewRequest {
-    private Long reviewId;
     private int score;
     private String title;
     private String comment;
 
-    public ModifyReview toModel(Long userId) {
+    public ModifyReview toModel(Long reviewId, Long userId) {
         return ModifyReview.builder()
             .reviewId(reviewId)
             .userId(userId)

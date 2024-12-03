@@ -51,15 +51,16 @@ public class ReviewController {
         return ApiResponse.success(review);
     }
 
-    @PatchMapping
+    @PatchMapping("/{reviewId}")
     @ApiResponses(value = {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
     })
     @Operation(operationId = "모임 리뷰 수정", summary = "모임 리뷰 수정", tags = {"reviews"}, description = "모임 리뷰 수정")
     public DefaultApiResponse modifyReview(
         @Parameter(name = "userId", description = "인증 설계 완료 전까지 임시로 사용하는 userId") @RequestParam Long userId,
+        @Parameter(name = "reviewId", description = "수정 할 리뷰 ID") @PathVariable Long reviewId,
         @RequestBody ModifyReviewRequest request) {
-        reviewService.modify(request.toModel(userId));
+        reviewService.modify(request.toModel(reviewId, userId));
         return DefaultApiResponse.success();
     }
 
