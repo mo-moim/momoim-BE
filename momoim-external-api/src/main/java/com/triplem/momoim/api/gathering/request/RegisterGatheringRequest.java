@@ -1,4 +1,4 @@
-package com.triplem.momoim.api.gathering.dto;
+package com.triplem.momoim.api.gathering.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.triplem.momoim.core.domain.gathering.Gathering;
