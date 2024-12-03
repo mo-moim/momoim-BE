@@ -25,7 +25,12 @@ public class GatheringManagementService {
 
     public void cancel(Long requesterId, Long gatheringId) {
         Gathering gathering = gatheringRepository.findById(gatheringId);
-        gathering.cancel(requesterId);
+
+        if (!gathering.isManager(requesterId)) {
+            throw new RuntimeException("권한이 없습니다.");
+        }
+
+        gathering.cancel();
         gatheringRepository.save(gathering);
     }
 

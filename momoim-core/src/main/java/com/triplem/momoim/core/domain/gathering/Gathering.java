@@ -39,11 +39,7 @@ public class Gathering {
         }
     }
 
-    public void cancel(Long requesterId) {
-        if (!managerId.equals(requesterId)) {
-            throw new RuntimeException("모임을 취소할 권한이 없습니다.");
-        }
-
+    public void cancel() {
         this.status = GatheringStatus.DELETED;
     }
 
