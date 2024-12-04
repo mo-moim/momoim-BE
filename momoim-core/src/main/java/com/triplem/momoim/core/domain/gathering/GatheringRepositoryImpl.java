@@ -8,6 +8,7 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.util.List;
@@ -40,7 +41,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
         return jpaQueryFactory.select(gatheringEntity)
             .from(gatheringEntity)
             .where(whereGatheringSearchOption(searchOption), defaultGatheringFilter())
-            .orderBy(sortGatheringSearch())
+            .orderBy(sortGatheringSearch(searchOption.getSortType(), searchOption.getSortOrder()))
             .limit(searchOption.getPaginationInformation().getLimit())
             .offset(searchOption.getPaginationInformation().getOffset())
             .fetch()
@@ -77,8 +78,18 @@ public class GatheringRepositoryImpl implements GatheringRepository {
         return builder;
     }
 
-    private OrderSpecifier<?> sortGatheringSearch() {
-        return gatheringEntity.lastModifiedAt.desc();
+    private OrderSpecifier<?> sortGatheringSearch(GatheringSortType sortType, SortOrder sortOrder) {
+        switch (sortType) {
+            case UPDATE_AT -> {
+                return sortOrder.equals(SortOrder.ASC) ? gatheringEntity.lastModifiedAt.asc() : gatheringEntity.lastModifiedAt.desc();
+            }
+            case PARTICIPANT_COUNT -> {
+                return sortOrder.equals(SortOrder.ASC) ? gatheringEntity.participantCount.asc() : gatheringEntity.participantCount.desc();
+            }
+            default -> {
+                throw new BusinessException(ExceptionCode.BAD_REQUEST);
+            }
+        }
     }
 
     private BooleanExpression defaultGatheringFilter() {
