@@ -10,6 +10,8 @@ import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
 import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
 import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +42,7 @@ public class GatheringService {
         List<GatheringMemberDetail> members = gatheringMemberRepository.getGatheringMembers(gatheringId);
 
         if (members.isEmpty()) {
-            throw new RuntimeException("모임을 찾을 수 없습니다.");
+            throw new BusinessException(ExceptionCode.NOT_FOUND_GATHERING);
         }
 
         return members;

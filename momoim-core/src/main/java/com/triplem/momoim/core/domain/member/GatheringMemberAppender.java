@@ -2,6 +2,8 @@ package com.triplem.momoim.core.domain.member;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +16,11 @@ public class GatheringMemberAppender {
     public void append(Long userId, Long gatheringId) {
         Gathering gathering = gatheringRepository.findById(gatheringId);
         if (gathering.isFull()) {
-            throw new RuntimeException("인원이 다 찬 모임입니다.");
+            throw new BusinessException(ExceptionCode.FULL_PARTICIPANT_GATHERING);
         }
 
         if (gatheringMemberRepository.isGatheringMember(userId, gatheringId)) {
-            throw new RuntimeException("이미 가입 한 모임입니다.");
+            throw new BusinessException(ExceptionCode.ALREADY_JOINED_GATHERING);
         }
 
         gatheringMemberRepository.save(GatheringMember.create(userId, gatheringId));

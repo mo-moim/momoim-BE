@@ -1,5 +1,7 @@
 package com.triplem.momoim.core.domain.gathering;
 
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -31,11 +33,11 @@ public class Gathering {
 
     public void validateJoin() {
         if (!isRecruiting()) {
-            throw new RuntimeException("모집 중인 모임이 아닙니다.");
+            throw new BusinessException(ExceptionCode.NOT_RECRUITING_GATHERING);
         }
 
         if (isFull()) {
-            throw new RuntimeException("인원이 다 찬 모임입니다.");
+            throw new BusinessException(ExceptionCode.FULL_PARTICIPANT_GATHERING);
         }
     }
 

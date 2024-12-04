@@ -6,6 +6,8 @@ import com.triplem.momoim.core.domain.review.Review;
 import com.triplem.momoim.core.domain.review.ReviewDetail;
 import com.triplem.momoim.core.domain.review.ReviewRegister;
 import com.triplem.momoim.core.domain.review.ReviewRepository;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId);
 
         if (!review.isWriter(requesterId)) {
-            throw new RuntimeException("권한이 없습니다.");
+            throw new BusinessException(ExceptionCode.FORBIDDEN_REVIEW);
         }
 
         reviewRepository.deleteById(reviewId);
