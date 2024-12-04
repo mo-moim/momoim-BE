@@ -5,6 +5,8 @@ import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public Review findById(Long id) {
         return reviewJpaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("존재하지 않는 리뷰입니다."))
+            .orElseThrow(() -> new BusinessException(ExceptionCode.NOT_FOUND_REVIEW))
             .toModel();
     }
 

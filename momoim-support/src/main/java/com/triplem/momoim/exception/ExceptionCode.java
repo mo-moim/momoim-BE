@@ -36,11 +36,12 @@ public enum ExceptionCode {
     NOT_GATHERING_MEMBER(HttpStatus.FORBIDDEN, "NOT_GATHERING_MEMBER", "모임 멤버가 아닙니다."),
     UNAVAILABLE_MANAGER_LEAVE(HttpStatus.BAD_REQUEST, "UNAVAILABLE_MANAGER_LEAVE", "모임 매니저는 모임을 나갈 수 없습니다."),
     ALREADY_JOINED_GATHERING(HttpStatus.CONFLICT, "ALREADY_JOINED_GATHERING", "이미 참여중인 모임입니다."),
-
+    NOT_FOUND_GATHERING_MEMBER(HttpStatus.NOT_FOUND, "NOT_FOUND_GATHERING_MEMBER", "존재하지 않는 모임 멤버입니다."),
     // =============================================================
     // ==                         Review                          ==
     // =============================================================
     FORBIDDEN_REVIEW(HttpStatus.FORBIDDEN, "FORBIDDEN_REVIEW", "권한이 없습니다."),
+    NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "NOT_FOUND_REVIEW", "존재하지 않는 리뷰입니다."),
     ALREADY_REVIEWED(HttpStatus.CONFLICT, "ALREADY_REVIEWED", "이미 리뷰를 작성한 모임입니다.");
 
     private final HttpStatus status;
