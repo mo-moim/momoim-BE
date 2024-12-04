@@ -3,10 +3,7 @@ package com.triplem.momoim.config;
 import com.triplem.momoim.auth.config.JwtAuthenticationEntryPoint;
 import com.triplem.momoim.auth.config.filter.JwtFilter;
 import com.triplem.momoim.auth.config.handler.CustomAccessDeniedHandler;
-import com.triplem.momoim.auth.jwt.JwtProvider;
 import com.triplem.momoim.auth.jwt.JwtResolver;
-import com.triplem.momoim.auth.utils.StaticEndpointChecker;
-import java.util.List;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -42,11 +39,8 @@ public class SecurityConfig {
         "/api/v1/token/**",
         "/**"
     };
-
-    private final StaticEndpointChecker endpointChecker;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
-    private final JwtProvider jwtProvider;
     private final JwtResolver jwtResolver;
     private final CorsConfigurationSource corsConfigurationSource;
 
@@ -65,13 +59,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint) // 인증 실패 예외 처리
                 .accessDeniedHandler(customAccessDeniedHandler) // 권한 없음 예외 처리
             )
-            .addFilterBefore(new JwtFilter(jwtProvider, jwtResolver, endpointChecker, List.of(
-                "/swagger-ui/**",
-                "/api-docs/**",
-                "/api/v1/token/**",
-                "/**"
-            )
-            ), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new JwtFilter(jwtResolver), UsernamePasswordAuthenticationFilter.class)
             .build();
     }
 
