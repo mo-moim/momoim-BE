@@ -10,6 +10,7 @@ import com.triplem.momoim.api.auth.response.common.Token;
 import com.triplem.momoim.api.auth.service.AuthCommandService;
 import com.triplem.momoim.api.auth.service.AuthQueryService;
 import com.triplem.momoim.api.common.ApiResponse;
+import com.triplem.momoim.auth.utils.SecurityUtil;
 import com.triplem.momoim.core.domain.user.AccountType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -53,7 +54,9 @@ public class AuthController {
     })
     @Operation(operationId = "유저 프로필 조회", summary = "유저 프로필 조회", tags = {"auths"}, description = "유저 프로필 정보 조회")
     public ApiResponse<UserDetailResponse> getUserProfile() {
-        return ApiResponse.success(new UserDetailResponse("email", "name", "profileImage", AccountType.EMAIL.name(), List.of("BUSAN", "SEOUL"), List.of("CULTURE, FOOD")));
+        Long userId = SecurityUtil.getMemberIdByPrincipal();
+        UserDetailResponse response = authQueryService.getUserProfile(userId);
+        return ApiResponse.success(response);
     }
 
     @PutMapping("/user")

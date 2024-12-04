@@ -69,7 +69,8 @@ public class SecurityConfig {
                 "/swagger-ui/**",
                 "/api-docs/**",
                 "/api/v1/token/**",
-                "/**")
+                "/**"
+            )
             ), UsernamePasswordAuthenticationFilter.class)
             .build();
     }

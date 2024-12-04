@@ -1,9 +1,15 @@
 package com.triplem.momoim.api.auth.response;
 
+import com.triplem.momoim.core.domain.user.User;
+import com.triplem.momoim.core.domain.user.UserActiveLocation;
+import com.triplem.momoim.core.domain.user.UserInterestCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 import java.util.List;
 
+@Builder
+@Schema
 public record UserDetailResponse(
         @Schema(description = "이메일")
         String email,
@@ -23,4 +29,26 @@ public record UserDetailResponse(
         @Schema(description = "관심 카테고리", example = "['CULTURE', 'FOOD', 'SPORTS', 'HOBBY', 'TRAVEL', 'STUDY', 'MEETING'] or '[ALL]'")
         List<String> interestCategories
 ) {
+        public static UserDetailResponse from(
+                User user,
+                List<UserActiveLocation> userActiveLocations,
+                List<UserInterestCategory> userInterestCategories
+        ) {
+                List<String> regions = userActiveLocations.stream()
+                        .map(UserActiveLocation::getActiveLocationType)
+                        .toList();
+
+                List<String> interestCategories = userInterestCategories.stream()
+                        .map(UserInterestCategory::getCategory)
+                        .toList();
+
+                return UserDetailResponse.builder()
+                        .email(user.getEmail())
+                        .name(user.getName())
+                        .profileImage(user.getProfileImage())
+                        .accountType(user.getAccountType().name())
+                        .regions(regions)
+                        .interestCategories(interestCategories)
+                        .build();
+        }
 }

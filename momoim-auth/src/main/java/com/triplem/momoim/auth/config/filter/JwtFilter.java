@@ -27,7 +27,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
-    private static final String PREFIX_BEARER = "Bearer";
+    private static final String PREFIX_BEARER = "Bearer ";
     private static final String PREFIX_AUTHORIZATION = "Authorization";
     private static final String PREFIX_UN_AUTHORIZATION = "UnAuthorization";
 
@@ -54,10 +54,10 @@ public class JwtFilter extends OncePerRequestFilter {
             @Nonnull HttpServletResponse response,
             @Nonnull FilterChain filterChain
     ) throws ServletException, IOException {
-        if (isWhiteListRequest(request) || endpointChecker.isEndpointNotExist(request)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+//        if (isWhiteListRequest(request) || endpointChecker.isEndpointNotExist(request)) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
 
         try {
             String jwt = getJwtFromRequest(request);
@@ -73,7 +73,6 @@ public class JwtFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "유효하지 않은 인증 정보입니다.");
         }
-
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {

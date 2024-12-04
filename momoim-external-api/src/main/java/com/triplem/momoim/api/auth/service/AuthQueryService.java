@@ -2,6 +2,7 @@ package com.triplem.momoim.api.auth.service;
 
 import com.triplem.momoim.api.auth.request.SigninRequest;
 import com.triplem.momoim.api.auth.response.SigninResponse;
+import com.triplem.momoim.api.auth.response.UserDetailResponse;
 import com.triplem.momoim.auth.jwt.JwtProvider;
 import com.triplem.momoim.auth.jwt.TokenInfo;
 import com.triplem.momoim.core.domain.user.*;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Transactional(readOnly = true)
 @Service
@@ -35,5 +35,13 @@ public class AuthQueryService {
         List<UserInterestCategory> userInterestCategories = userInterestCategoryRepository.findAllByUserId(user.getId());
 
         return SigninResponse.from(user, tokenInfo, userActiveLocations, userInterestCategories);
+    }
+
+    public UserDetailResponse getUserProfile(Long userId) {
+        User user = userRepository.findById(userId);
+        List<UserActiveLocation> userActiveLocations = userActiveLocationRepository.findAllByUserId(user.getId());
+        List<UserInterestCategory> userInterestCategories = userInterestCategoryRepository.findAllByUserId(user.getId());
+
+        return UserDetailResponse.from(user, userActiveLocations, userInterestCategories);
     }
 }
