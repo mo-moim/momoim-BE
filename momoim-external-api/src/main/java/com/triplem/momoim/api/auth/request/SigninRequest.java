@@ -9,4 +9,4 @@ public record SigninRequest(
 
         @Schema(description = "비밀번호", example = "test1234!")
         String password
-) {}
+) { }

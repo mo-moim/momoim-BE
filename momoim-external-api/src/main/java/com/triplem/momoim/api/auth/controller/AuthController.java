@@ -7,6 +7,7 @@ import com.triplem.momoim.api.auth.response.SigninResponse;
 import com.triplem.momoim.api.auth.response.SignupResponse;
 import com.triplem.momoim.api.auth.response.UserDetailResponse;
 import com.triplem.momoim.api.auth.response.common.Token;
+import com.triplem.momoim.api.auth.service.AuthCommandService;
 import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.core.domain.user.AccountType;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,14 +23,15 @@ import java.util.List;
 @RequestMapping("/api/auths")
 @RequiredArgsConstructor
 public class AuthController {
-
+    private final AuthCommandService authCommandService;
     @PostMapping("/signup")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공",  content = @Content(schema = @Schema(implementation = SignupResponse.class)))
     })
     @Operation(operationId = "회원가입", summary = "회원가입", tags = {"auths"}, description = "이메일 로그인을 위한 회원가입")
     public ApiResponse<SignupResponse> signup(@RequestBody SignupRequest request) {
-        return ApiResponse.success(new SignupResponse("email", "name", "profileImage", "accountType"));
+        SignupResponse response = authCommandService.signup(request);
+        return ApiResponse.success(response);
     }
 
     @PostMapping("/signin")

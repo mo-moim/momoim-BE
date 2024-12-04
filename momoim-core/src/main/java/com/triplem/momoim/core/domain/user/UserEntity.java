@@ -34,10 +34,7 @@ public class UserEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private String profileImage;
-
-    private String biography;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -55,7 +52,6 @@ public class UserEntity {
             .password(user.getPassword())
             .name(user.getName())
             .profileImage(user.getProfileImage())
-            .biography(user.getBiography())
             .accountType(user.getAccountType())
             .socialUid(user.getSocialUid())
             .createdAt(user.getCreatedAt())
@@ -69,7 +65,6 @@ public class UserEntity {
             .password(password)
             .name(name)
             .profileImage(profileImage)
-            .biography(biography)
             .accountType(accountType)
             .socialUid(socialUid)
             .createdAt(createdAt)
