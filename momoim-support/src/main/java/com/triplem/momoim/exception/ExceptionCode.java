@@ -18,6 +18,7 @@ public enum ExceptionCode {
     UNSUPPORTED_BEARER_FORMAT(HttpStatus.UNAUTHORIZED, "UNSUPPORTED_BEARER_FORMAT", "지원하지 않는 Bearer token 형식입니다."),
     EXPIRED_JWT(HttpStatus.UNAUTHORIZED, "EXPIRED_JWT", "만료된 토큰입니다."),
     INVALID_PRINCIPAL(HttpStatus.BAD_REQUEST, "INVALID_PRINCIPAL", "로그인 객체의 정보가 유효하지 않거나, 존재하지 않습니다."),
+    INVALID_LOGIN(HttpStatus.BAD_REQUEST, "INVALID_LOGIN", "올바르지 않은 이메일 또는 비밀번호입니다."),
 
     // =============================================================
     // ==                         Member                          ==

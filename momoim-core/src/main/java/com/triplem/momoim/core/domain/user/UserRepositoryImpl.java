@@ -21,4 +21,11 @@ public class UserRepositoryImpl implements UserRepository {
             .orElseThrow(() -> new BusinessException(ExceptionCode.NOT_FOUND_MEMBER))
             .toModel();
     }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userJpaRepository.findUserByEmail(email)
+                .orElseThrow(() ->  new BusinessException(ExceptionCode.NOT_FOUND_MEMBER))
+                .toModel();
+    }
 }

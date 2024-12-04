@@ -19,11 +19,4 @@ public class GlobalExceptionHandler {
         log.error("Business exception has occurred: {}", ex.getMessage(), ex);
         return new ResponseEntity<>(response, response.getStatus());
     }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionResponse> handleExceptionHandler(Exception ex) {
-        ExceptionResponse response = ExceptionResponse.from(ExceptionCode.INTERNAL_SERVER_ERROR);
-        log.error(ex.getMessage(), ex);
-        return new ResponseEntity<>(response, response.getStatus());
-    }
 }
