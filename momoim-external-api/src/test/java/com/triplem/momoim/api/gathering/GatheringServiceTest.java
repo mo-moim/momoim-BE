@@ -5,8 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.triplem.momoim.api.gathering.dto.GatheringListItem;
 import com.triplem.momoim.api.gathering.service.GatheringService;
 import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
+import com.triplem.momoim.core.domain.gathering.GatheringSortType;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,6 +58,8 @@ class GatheringServiceTest {
         GatheringSearchOption searchOption = GatheringSearchOption.builder()
             .subCategory("COOK")
             .paginationInformation(new PaginationInformation(0, 10))
+            .sortType(GatheringSortType.UPDATE_AT)
+            .sortOrder(SortOrder.ASC)
             .build();
 
         //when

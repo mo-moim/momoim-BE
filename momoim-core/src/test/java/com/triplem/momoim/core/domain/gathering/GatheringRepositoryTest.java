@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.core.domain.member.GatheringMember;
 import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
 import java.util.List;
@@ -99,6 +100,8 @@ class GatheringRepositoryTest {
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
             .category(targetCategory)
             .paginationInformation(new PaginationInformation(0, 10))
+            .sortType(GatheringSortType.UPDATE_AT)
+            .sortOrder(SortOrder.ASC)
             .build();
 
         //when
@@ -133,6 +136,8 @@ class GatheringRepositoryTest {
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
             .subCategory(targetSubCategory)
             .paginationInformation(new PaginationInformation(0, 10))
+            .sortType(GatheringSortType.UPDATE_AT)
+            .sortOrder(SortOrder.ASC)
             .build();
 
         //when
@@ -150,6 +155,8 @@ class GatheringRepositoryTest {
         int offset = 0;
         int limit = 2;
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
+            .sortType(GatheringSortType.UPDATE_AT)
+            .sortOrder(SortOrder.ASC)
             .paginationInformation(new PaginationInformation(offset, limit))
             .build();
 

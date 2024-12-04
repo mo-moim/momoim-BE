@@ -15,8 +15,6 @@ public class UserBuilder {
     @Builder.Default
     private String profileImage = "imageUrl";
     @Builder.Default
-    private String biography = "Hello";
-    @Builder.Default
     private AccountType accountType = AccountType.EMAIL;
     @Builder.Default
     private String socialUid = "socialUid";
@@ -30,7 +28,6 @@ public class UserBuilder {
             .password(password)
             .name(name)
             .profileImage(profileImage)
-            .biography(biography)
             .accountType(accountType)
             .socialUid(socialUid)
             .createdAt(createdAt)
