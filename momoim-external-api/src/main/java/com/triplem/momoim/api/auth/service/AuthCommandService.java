@@ -20,6 +20,8 @@ public class AuthCommandService {
     private final PasswordEncoder passwordEncoder;
 
     public SignupResponse signup(SignupRequest request) {
+        userRepository.checkDuplicatedUserEmail(request.email());
+
         String password = passwordEncoder.encode(request.password());
         User user = request.toUser(password);
         User savedUser = userRepository.save(user);
