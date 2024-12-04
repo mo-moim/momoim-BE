@@ -16,8 +16,8 @@ public class UserActiveLocationRepositoryImpl implements UserActiveLocationRepos
     }
 
     @Override
-    public List<UserActiveLocation> findByUserId(Long userId) {
-        return userActiveLocationJpaRepository.findByUserId(userId).stream().map(UserActiveLocationEntity::toModel)
+    public List<UserActiveLocation> findAllByUserId(Long userId) {
+        return userActiveLocationJpaRepository.findAllByUserId(userId).stream().map(UserActiveLocationEntity::toModel)
                 .toList();
     }
 }

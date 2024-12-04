@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface UserActiveLocationRepository {
     UserActiveLocation save(UserActiveLocation userActiveLocation);
-    List<UserActiveLocation> findByUserId(Long userId);
+    List<UserActiveLocation> findAllByUserId(Long userId);
 }
