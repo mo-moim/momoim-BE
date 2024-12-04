@@ -2,10 +2,13 @@ package com.triplem.momoim.core.domain.gathering;
 
 import static com.triplem.momoim.core.domain.gathering.QGatheringEntity.gatheringEntity;
 import static com.triplem.momoim.core.domain.member.QGatheringMemberEntity.gatheringMemberEntity;
+import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
@@ -34,6 +37,46 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             .filter(gatheringEntity -> !gatheringEntity.getStatus().equals(GatheringStatus.DELETED))
             .orElseThrow(() -> new BusinessException(ExceptionCode.NOT_FOUND_GATHERING))
             .toModel();
+    }
+
+    @Override
+    public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {
+        GatheringDetail gatheringDetail = jpaQueryFactory.select(
+                Projections.constructor(
+                    GatheringDetail.class,
+                    gatheringEntity.id,
+                    gatheringEntity.managerId,
+                    userEntity.name,
+                    userEntity.profileImage,
+                    gatheringEntity.category,
+                    gatheringEntity.subCategory,
+                    gatheringEntity.name,
+                    gatheringEntity.gatheringType,
+                    gatheringEntity.status,
+                    gatheringEntity.image,
+                    gatheringEntity.description,
+                    gatheringEntity.address,
+                    gatheringEntity.tags,
+                    gatheringEntity.location,
+                    gatheringEntity.capacity,
+                    gatheringEntity.participantCount,
+                    gatheringEntity.isPeriodic,
+                    gatheringEntity.nextGatheringAt,
+                    gatheringMemberEntity.id.isNotNull(),
+                    Expressions.asBoolean(gatheringEntity.managerId.eq(userId))
+                )
+            )
+            .from(gatheringEntity)
+            .where(gatheringEntity.id.eq(gatheringId))
+            .leftJoin(userEntity).on(userEntity.id.eq(gatheringEntity.managerId))
+            .leftJoin(gatheringMemberEntity).on(gatheringMemberEntity.userId.eq(userId), gatheringMemberEntity.gatheringId.eq(gatheringId))
+            .fetchFirst();
+
+        if (gatheringDetail == null) {
+            throw new BusinessException(ExceptionCode.NOT_FOUND_GATHERING);
+        }
+
+        return gatheringDetail;
     }
 
     @Override
@@ -87,7 +130,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                     searchOption.getGatheringDate().atTime(23, 59, 59))
             );
         }
-        
+
         return builder;
     }
 

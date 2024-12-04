@@ -8,6 +8,8 @@ public interface GatheringRepository {
 
     Gathering findById(Long id);
 
+    GatheringDetail getGatheringDetail(Long gatheringId, Long userId);
+
     List<Gathering> findBySearchOption(GatheringSearchOption searchOption);
 
     List<Gathering> getMyGatherings(Long userId, PaginationInformation paginationInformation);
