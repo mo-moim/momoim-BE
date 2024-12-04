@@ -28,4 +28,11 @@ public class UserRepositoryImpl implements UserRepository {
                 .orElseThrow(() ->  new BusinessException(ExceptionCode.NOT_FOUND_MEMBER))
                 .toModel();
     }
+
+    @Override
+    public void checkDuplicatedUserEmail(String email) {
+        if(userJpaRepository.existsByEmail(email)) {
+            throw new BusinessException(ExceptionCode.INVALID_MEMBER_HAS_DUPLICATED_EMAIL);
+        }
+    }
 }
