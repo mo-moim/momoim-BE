@@ -15,6 +15,7 @@ import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringCategory;
+import com.triplem.momoim.core.domain.gathering.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
@@ -22,6 +23,7 @@ import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,6 +55,8 @@ public class GatheringController {
         @Parameter(name = "모임 ID 리스트") @RequestParam(required = false) List<Long> ids,
         @Parameter(name = "메인 카테고리") @RequestParam(required = false) GatheringCategory category,
         @Parameter(name = "서브 카테고리") @RequestParam(required = false) GatheringSubCategory subCategory,
+        @Parameter(name = "모임 지역") @RequestParam(required = false) GatheringLocation gatheringLocation,
+        @Parameter(name = "모임 날짜") @RequestParam(required = false) LocalDate gatheringAt,
         @Parameter(name = "페이징 offset") @RequestParam int offset,
         @Parameter(name = "페이징 limit") @RequestParam int limit,
         @Parameter(name = "정렬 기준") @RequestParam(defaultValue = "UPDATE_AT") GatheringSortType sortType,
@@ -62,6 +66,8 @@ public class GatheringController {
                 ids,
                 category,
                 subCategory,
+                gatheringLocation,
+                gatheringAt,
                 new PaginationInformation(offset, limit),
                 sortType,
                 sortOrder

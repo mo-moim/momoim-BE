@@ -75,6 +75,19 @@ public class GatheringRepositoryImpl implements GatheringRepository {
         if (searchOption.getSubCategory() != null) {
             builder.and(gatheringEntity.subCategory.eq(searchOption.getSubCategory()));
         }
+
+        if (searchOption.getGatheringLocation() != null) {
+            builder.and(gatheringEntity.location.eq(searchOption.getGatheringLocation()));
+        }
+
+        if (searchOption.getGatheringDate() != null) {
+            builder.and(
+                gatheringEntity.nextGatheringAt.between(
+                    searchOption.getGatheringDate().atTime(0, 0, 0),
+                    searchOption.getGatheringDate().atTime(23, 59, 59))
+            );
+        }
+        
         return builder;
     }
 
