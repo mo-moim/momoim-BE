@@ -3,6 +3,8 @@ package com.triplem.momoim.core.domain.gathering;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -25,10 +27,12 @@ class GatheringTest {
 
         //when then
         assertThatThrownBy(stopRecruitingGathering::validateJoin)
-            .hasMessage("모집 중인 모임이 아닙니다.");
+            .isInstanceOf(BusinessException.class)
+            .hasFieldOrPropertyWithValue("exceptionCode", ExceptionCode.NOT_RECRUITING_GATHERING);
 
         assertThatThrownBy(deletedGathering::validateJoin)
-            .hasMessage("모집 중인 모임이 아닙니다.");
+            .isInstanceOf(BusinessException.class)
+            .hasFieldOrPropertyWithValue("exceptionCode", ExceptionCode.NOT_RECRUITING_GATHERING);
     }
 
     @Test
@@ -44,7 +48,8 @@ class GatheringTest {
 
         //when then
         assertThatThrownBy(gathering::validateJoin)
-            .hasMessage("인원이 다 찬 모임입니다.");
+            .isInstanceOf(BusinessException.class)
+            .hasFieldOrPropertyWithValue("exceptionCode", ExceptionCode.FULL_PARTICIPANT_GATHERING);
     }
 
     @Test
@@ -59,26 +64,10 @@ class GatheringTest {
             .toGathering();
 
         //when
-        gathering.cancel(requesterId);
+        gathering.cancel();
 
         //then
         assertThat(gathering.getStatus()).isEqualTo(GatheringStatus.DELETED);
-    }
-
-    @Test
-    @DisplayName("모임 생성자가 아니면 모임을 취소 할 수 없다.")
-    void cannotCancelWhenRequesterIsNotManager() {
-        //given
-        Long managerId = 1L;
-        Long requesterId = 2L;
-        Gathering gathering = GatheringBuilder.builder()
-            .managerId(managerId)
-            .build()
-            .toGathering();
-
-        //when then
-        assertThatThrownBy(() -> gathering.cancel(requesterId))
-            .hasMessage("모임을 취소할 권한이 없습니다.");
     }
 
     @Test

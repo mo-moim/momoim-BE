@@ -4,6 +4,8 @@ import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.member.GatheringMemberAppender;
 import com.triplem.momoim.core.domain.member.GatheringMemberRemover;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +27,9 @@ public class GatheringJoinService {
         Gathering gathering = gatheringRepository.findById(gatheringId);
 
         if (gathering.getManagerId().equals(userId)) {
-            throw new RuntimeException("방장은 모임 취소를 할 수 없습니다.");
+            throw new BusinessException(ExceptionCode.UNAVAILABLE_MANAGER_LEAVE);
         }
-        
+
         gatheringMemberRemover.removeGatheringMember(userId, gatheringId);
     }
 }
