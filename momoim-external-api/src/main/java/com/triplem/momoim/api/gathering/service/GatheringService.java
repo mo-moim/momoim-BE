@@ -1,10 +1,9 @@
 package com.triplem.momoim.api.gathering.service;
 
-import com.triplem.momoim.api.gathering.dto.GatheringDetail;
 import com.triplem.momoim.api.gathering.dto.GatheringListItem;
 import com.triplem.momoim.core.common.PaginationInformation;
-import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringCategory;
+import com.triplem.momoim.core.domain.gathering.GatheringDetail;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
@@ -33,9 +32,7 @@ public class GatheringService {
     }
 
     public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {
-        Gathering gathering = gatheringRepository.findById(gatheringId);
-        Boolean isJoined = gatheringMemberRepository.isGatheringMember(userId, gatheringId);
-        return GatheringDetail.of(gathering, isJoined);
+        return gatheringRepository.getGatheringDetail(gatheringId, userId);
     }
 
     public List<GatheringMemberDetail> getGatheringMembers(Long gatheringId) {
