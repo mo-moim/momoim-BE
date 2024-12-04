@@ -1,12 +1,14 @@
 package com.triplem.momoim.api.gathering;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.triplem.momoim.api.gathering.service.GatheringManagementService;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
-import com.triplem.momoim.core.domain.gathering.GatheringStatus;
 import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +62,9 @@ class GatheringManagementServiceTest {
         gatheringManagementService.cancel(requesterId, gathering.getId());
 
         //then
-        Gathering canceledGathering = gatheringRepository.findById(gathering.getId());
-        assertThat(canceledGathering.getStatus()).isEqualTo(GatheringStatus.DELETED);
+        assertThatThrownBy(() -> gatheringRepository.findById(gathering.getId()))
+            .isInstanceOf(BusinessException.class)
+            .hasFieldOrPropertyWithValue("exceptionCode", ExceptionCode.NOT_FOUND_GATHERING);
+
     }
 }

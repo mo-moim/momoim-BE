@@ -6,6 +6,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringBuilder;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,7 @@ class GatheringMemberRemoverTest {
 
         //when then
         assertThatThrownBy(() -> gatheringMemberRemover.removeGatheringMember(notGatheringMemberUserId, gathering.getId()))
-            .hasMessage("참여중인 모임이 아닙니다.");
+            .isInstanceOf(BusinessException.class)
+            .hasFieldOrPropertyWithValue("exceptionCode", ExceptionCode.NOT_GATHERING_MEMBER);
     }
 }

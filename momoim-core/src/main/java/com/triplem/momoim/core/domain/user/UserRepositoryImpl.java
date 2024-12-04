@@ -18,7 +18,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findById(Long id) {
         return userJpaRepository.findById(id)
-            .orElseThrow(() ->  new BusinessException(ExceptionCode.NOT_FOUND_MEMBER))
+            .orElseThrow(() -> new BusinessException(ExceptionCode.NOT_FOUND_MEMBER))
             .toModel();
     }
 

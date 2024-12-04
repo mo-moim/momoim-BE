@@ -1,5 +1,7 @@
 package com.triplem.momoim.core.domain.review;
 
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +21,7 @@ public class Review {
 
     public void modify(ModifyReview modifyReview) {
         if (!isWriter(modifyReview.getUserId())) {
-            throw new RuntimeException("권한이 없습니다.");
+            throw new BusinessException(ExceptionCode.FORBIDDEN_REVIEW);
         }
 
         this.score = modifyReview.getScore();

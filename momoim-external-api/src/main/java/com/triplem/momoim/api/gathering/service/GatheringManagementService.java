@@ -5,6 +5,8 @@ import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.ModifyGathering;
 import com.triplem.momoim.core.domain.member.GatheringMemberAppender;
 import com.triplem.momoim.core.domain.member.GatheringMemberRemover;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +29,7 @@ public class GatheringManagementService {
         Gathering gathering = gatheringRepository.findById(gatheringId);
 
         if (!gathering.isManager(requesterId)) {
-            throw new RuntimeException("권한이 없습니다.");
+            throw new BusinessException(ExceptionCode.FORBIDDEN_GATHERING);
         }
 
         gathering.cancel();
@@ -38,7 +40,7 @@ public class GatheringManagementService {
         Gathering gathering = gatheringRepository.findById(modifyGathering.getGatheringId());
 
         if (!gathering.isManager(requesterId)) {
-            throw new RuntimeException("모임 수정 권한이 없습니다.");
+            throw new BusinessException(ExceptionCode.FORBIDDEN_GATHERING);
         }
 
         gathering.modify(modifyGathering);

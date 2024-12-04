@@ -8,6 +8,8 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +31,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     public Gathering findById(Long id) {
         return gatheringJpaRepository.findById(id)
             .filter(gatheringEntity -> !gatheringEntity.getStatus().equals(GatheringStatus.DELETED))
-            .orElseThrow(() -> new RuntimeException("존재하지 않는 모임입니다."))
+            .orElseThrow(() -> new BusinessException(ExceptionCode.NOT_FOUND_GATHERING))
             .toModel();
     }
 

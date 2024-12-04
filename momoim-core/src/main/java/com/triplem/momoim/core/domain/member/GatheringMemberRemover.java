@@ -2,6 +2,8 @@ package com.triplem.momoim.core.domain.member;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +17,7 @@ public class GatheringMemberRemover {
     @Transactional
     public void removeGatheringMember(Long userId, Long gatheringId) {
         if (!gatheringMemberRepository.isGatheringMember(userId, gatheringId)) {
-            throw new RuntimeException("참여중인 모임이 아닙니다.");
+            throw new BusinessException(ExceptionCode.NOT_GATHERING_MEMBER);
         }
 
         Gathering gathering = gatheringRepository.findById(gatheringId);
@@ -31,11 +33,11 @@ public class GatheringMemberRemover {
         Gathering gathering = gatheringRepository.findById(kickMember.getGatheringId());
 
         if (!gathering.isManager(managerId)) {
-            throw new RuntimeException("권한이 없습니다.");
+            throw new BusinessException(ExceptionCode.FORBIDDEN_GATHERING);
         }
 
         if (!managerId.equals(kickMemberId)) {
-            throw new RuntimeException("자신을 강퇴할 수 없습니다.");
+            throw new BusinessException(ExceptionCode.UNAVAILABLE_MANAGER_LEAVE);
         }
 
         gatheringMemberRepository.deleteById(kickMemberId);

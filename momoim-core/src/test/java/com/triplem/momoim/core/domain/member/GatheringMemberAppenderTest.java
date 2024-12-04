@@ -6,6 +6,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringBuilder;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +62,8 @@ class GatheringMemberAppenderTest {
 
         //when then
         assertThatThrownBy(() -> gatheringMemberAppender.append(newMemberUserId, fullGathering.getId()))
-            .hasMessageContaining("인원이 다 찬 모임입니다.");
+            .isInstanceOf(BusinessException.class)
+            .hasFieldOrPropertyWithValue("exceptionCode", ExceptionCode.FULL_PARTICIPANT_GATHERING);
 
         Boolean isSuccessAppend = gatheringMemberRepository.isGatheringMember(newMemberUserId, fullGathering.getId());
         assertThat(isSuccessAppend).isFalse();
@@ -76,7 +79,8 @@ class GatheringMemberAppenderTest {
 
         //when then
         assertThatThrownBy(() -> gatheringMemberAppender.append(member1.getUserId(), gathering.getId()))
-            .hasMessageContaining("이미 가입 한 모임입니다.");
+            .isInstanceOf(BusinessException.class)
+            .hasFieldOrPropertyWithValue("exceptionCode", ExceptionCode.ALREADY_JOINED_GATHERING);
     }
 
     @Test
@@ -87,6 +91,7 @@ class GatheringMemberAppenderTest {
         Long newMemberUserId = 2L;
         //when then
         assertThatThrownBy(() -> gatheringMemberAppender.append(notExistsGatheringId, newMemberUserId))
-            .hasMessageContaining("존재하지 않는 모임입니다.");
+            .isInstanceOf(BusinessException.class)
+            .hasFieldOrPropertyWithValue("exceptionCode", ExceptionCode.NOT_FOUND_GATHERING);
     }
 }

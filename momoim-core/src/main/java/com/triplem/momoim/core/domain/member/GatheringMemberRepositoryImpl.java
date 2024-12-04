@@ -5,6 +5,8 @@ import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -52,7 +54,7 @@ public class GatheringMemberRepositoryImpl implements GatheringMemberRepository 
     @Override
     public GatheringMember findById(Long id) {
         return gatheringMemberJpaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("존재하지 않는 멤버입니다."))
+            .orElseThrow(() -> new BusinessException(ExceptionCode.NOT_FOUND_GATHERING_MEMBER))
             .toModel();
     }
 

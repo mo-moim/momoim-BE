@@ -25,8 +25,25 @@ public enum ExceptionCode {
     // =============================================================
     NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "NOT_FOUND_MEMBER", "해당하는 회원이 존재하지 않습니다."),
     INVALID_MEMBER_HAS_DUPLICATED_EMAIL(HttpStatus.BAD_REQUEST, "INVALID_MEMBER_HAS_DUPLICATED_EMAIL", "같은 이메일을 통해 이미 가입되어 있는 회원입니다."),
-    INVALID_MEMBER_PROFILE_REQUEST(HttpStatus.BAD_REQUEST, "INVALID_MEMBER_PROFILE_REQUEST", "로그인이 되어있지 않고 프로필을 조회할 수 없습니다.");
+    INVALID_MEMBER_PROFILE_REQUEST(HttpStatus.BAD_REQUEST, "INVALID_MEMBER_PROFILE_REQUEST", "로그인이 되어있지 않고 프로필을 조회할 수 없습니다."),
 
+    // =============================================================
+    // ==                         Gathering                       ==
+    // =============================================================
+    FULL_PARTICIPANT_GATHERING(HttpStatus.BAD_REQUEST, "FULL_PARTICIPANT_GATHERING", "인원이 다 찬 모임입니다."),
+    NOT_RECRUITING_GATHERING(HttpStatus.BAD_REQUEST, "NOT_RECRUITING_GATHERING", "모집 중인 모임이 아닙니다."),
+    NOT_FOUND_GATHERING(HttpStatus.NOT_FOUND, "NOT_FOUND_GATHERING", "존재하지 않는 모임입니다."),
+    FORBIDDEN_GATHERING(HttpStatus.FORBIDDEN, "FORBIDDEN_GATHERING", "권한이 없습니다."),
+    NOT_GATHERING_MEMBER(HttpStatus.FORBIDDEN, "NOT_GATHERING_MEMBER", "모임 멤버가 아닙니다."),
+    UNAVAILABLE_MANAGER_LEAVE(HttpStatus.BAD_REQUEST, "UNAVAILABLE_MANAGER_LEAVE", "모임 매니저는 모임을 나갈 수 없습니다."),
+    ALREADY_JOINED_GATHERING(HttpStatus.CONFLICT, "ALREADY_JOINED_GATHERING", "이미 참여중인 모임입니다."),
+    NOT_FOUND_GATHERING_MEMBER(HttpStatus.NOT_FOUND, "NOT_FOUND_GATHERING_MEMBER", "존재하지 않는 모임 멤버입니다."),
+    // =============================================================
+    // ==                         Review                          ==
+    // =============================================================
+    FORBIDDEN_REVIEW(HttpStatus.FORBIDDEN, "FORBIDDEN_REVIEW", "권한이 없습니다."),
+    NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "NOT_FOUND_REVIEW", "존재하지 않는 리뷰입니다."),
+    ALREADY_REVIEWED(HttpStatus.CONFLICT, "ALREADY_REVIEWED", "이미 리뷰를 작성한 모임입니다.");
 
     private final HttpStatus status;
     private final String code;

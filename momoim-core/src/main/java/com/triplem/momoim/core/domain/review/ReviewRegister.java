@@ -1,6 +1,8 @@
 package com.triplem.momoim.core.domain.review;
 
 import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,11 +14,11 @@ public class ReviewRegister {
 
     public Review review(Review review) {
         if (!gatheringMemberRepository.isGatheringMember(review.getUserId(), review.getGatheringId())) {
-            throw new RuntimeException("모임 멤버만 리뷰를 작성할 수 있습니다.");
+            throw new BusinessException(ExceptionCode.NOT_GATHERING_MEMBER);
         }
 
         if (reviewRepository.isWrittenReview(review.getUserId(), review.getGatheringId())) {
-            throw new RuntimeException("이미 리뷰를 작성한 모임입니다.");
+            throw new BusinessException(ExceptionCode.ALREADY_REVIEWED);
         }
 
         return reviewRepository.save(review);
