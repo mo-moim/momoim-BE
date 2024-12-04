@@ -36,6 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
         @Nonnull HttpServletResponse response,
         @Nonnull FilterChain filterChain
     ) throws ServletException, IOException {
+        boolean occurJWTException = false;
         try {
             String jwt = getJwtFromRequest(request);
             AuthUser authUser = jwtResolver.resolveAccessToken(jwt);
@@ -46,12 +47,15 @@ public class JwtFilter extends OncePerRequestFilter {
         } catch (BusinessException e) {
             if (e.getExceptionCode().equals(ExceptionCode.EXPIRED_JWT) || e.getExceptionCode().equals(ExceptionCode.UNKNOWN_JWT_VALIDATE_ERROR)) {
                 setExceptionResponse(e.getExceptionCode(), response);
+                occurJWTException = true;
             }
         } finally {
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
                 setGuestAuthentication(request);
             }
-            filterChain.doFilter(request, response);
+            if (!occurJWTException) {
+                filterChain.doFilter(request, response);
+            }
         }
     }
 
