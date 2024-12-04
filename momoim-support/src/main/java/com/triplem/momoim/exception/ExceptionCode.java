@@ -9,6 +9,7 @@ public enum ExceptionCode {
     // ==                        COMMON                           ==
     // =============================================================
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "오류가 발생했습니다."),
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "BAD_REQUEST", "올바른 요청이 아닙니다."),
 
     // =============================================================
     // ==                         AUTH                            ==
