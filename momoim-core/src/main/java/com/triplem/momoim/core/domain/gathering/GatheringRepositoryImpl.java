@@ -15,6 +15,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
+import com.triplem.momoim.core.domain.member.QGatheringMemberEntity;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.util.List;
@@ -130,12 +131,16 @@ public class GatheringRepositoryImpl implements GatheringRepository {
 
     @Override
     public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
+        QGatheringMemberEntity members = new QGatheringMemberEntity("members");
         return jpaQueryFactory.select(
                 gatheringEntity,
                 gatheringMemberEntity
             )
-            .from(gatheringEntity)
+            .from(gatheringMemberEntity)
             .where(gatheringMemberEntity.userId.eq(userId), defaultGatheringFilter())
+            .leftJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
+            .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
+            .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
             .offset(paginationInformation.getOffset())
             .limit(paginationInformation.getLimit())
             .orderBy(gatheringEntity.id.desc())
@@ -156,14 +161,15 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                             gatheringEntity.capacity,
                             gatheringEntity.participantCount,
                             gatheringEntity.isPeriodic,
-                            list(Projections.constructor(GatheringMemberDetail.class,
-                                    gatheringMemberEntity.id,
-                                    gatheringMemberEntity.userId,
+                            list(
+                                Projections.constructor(GatheringMemberDetail.class,
+                                    members.id,
+                                    members.userId,
                                     userEntity.email,
                                     userEntity.name,
                                     userEntity.profileImage,
-                                    gatheringMemberEntity.joinedAt
-                                )
+                                    members.joinedAt
+                                ).skipNulls()
                             )
                         )
                     )
