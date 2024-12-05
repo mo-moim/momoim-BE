@@ -15,13 +15,13 @@ class GatheringTest {
         //given
         Gathering stopRecruitingGathering = GatheringBuilder
             .builder()
-            .status(GatheringStatus.STOP_RECRUITING)
+            .status(GatheringStatus.CLOSED)
             .build()
             .toGathering();
 
         Gathering deletedGathering = GatheringBuilder
             .builder()
-            .status(GatheringStatus.DELETED)
+            .status(GatheringStatus.CANCELED)
             .build()
             .toGathering();
 
@@ -67,7 +67,7 @@ class GatheringTest {
         gathering.cancel();
 
         //then
-        assertThat(gathering.getStatus()).isEqualTo(GatheringStatus.DELETED);
+        assertThat(gathering.getStatus()).isEqualTo(GatheringStatus.CANCELED);
     }
 
     @Test
@@ -111,7 +111,7 @@ class GatheringTest {
         //given
         Gathering gathering = GatheringBuilder
             .builder()
-            .status(GatheringStatus.RECRUITING)
+            .status(GatheringStatus.OPEN)
             .build()
             .toGathering();
 
@@ -128,13 +128,13 @@ class GatheringTest {
         //given
         Gathering stopRecruitingGathering = GatheringBuilder
             .builder()
-            .status(GatheringStatus.STOP_RECRUITING)
+            .status(GatheringStatus.CLOSED)
             .build()
             .toGathering();
 
         Gathering deletedGathering = GatheringBuilder
             .builder()
-            .status(GatheringStatus.DELETED)
+            .status(GatheringStatus.CANCELED)
             .build()
             .toGathering();
 
