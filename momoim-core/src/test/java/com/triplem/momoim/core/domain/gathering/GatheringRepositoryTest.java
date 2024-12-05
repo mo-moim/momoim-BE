@@ -105,7 +105,7 @@ class GatheringRepositoryTest {
             .build();
 
         //when
-        List<Gathering> gatherings = gatheringRepository.findBySearchOption(gatheringSearchOption);
+        List<Gathering> gatherings = gatheringRepository.getGatheringPreviews(gatheringSearchOption);
 
         //then
         assertThat(gatherings).hasSize(1);
@@ -141,7 +141,7 @@ class GatheringRepositoryTest {
             .build();
 
         //when
-        List<Gathering> gatherings = gatheringRepository.findBySearchOption(gatheringSearchOption);
+        List<Gathering> gatherings = gatheringRepository.getGatheringPreviews(gatheringSearchOption);
 
         //then
         assertThat(gatherings).hasSize(1);
@@ -166,7 +166,7 @@ class GatheringRepositoryTest {
         gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
 
         //when
-        List<Gathering> gatherings = gatheringRepository.findBySearchOption(gatheringSearchOption);
+        List<Gathering> gatherings = gatheringRepository.getGatheringPreviews(gatheringSearchOption);
 
         //then
         assertThat(gatherings).hasSize(2);

@@ -1,5 +1,7 @@
 package com.triplem.momoim.core.domain.gathering;
 
+import static com.querydsl.core.group.GroupBy.groupBy;
+import static com.querydsl.core.group.GroupBy.list;
 import static com.triplem.momoim.core.domain.gathering.QGatheringEntity.gatheringEntity;
 import static com.triplem.momoim.core.domain.member.QGatheringMemberEntity.gatheringMemberEntity;
 import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
@@ -12,10 +14,10 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
+import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -80,32 +82,92 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     }
 
     @Override
-    public List<Gathering> findBySearchOption(GatheringSearchOption searchOption) {
-        return jpaQueryFactory.select(gatheringEntity)
+    public List<GatheringPreview> getGatheringPreviews(GatheringSearchOption searchOption) {
+        return jpaQueryFactory.select(
+                gatheringEntity,
+                gatheringMemberEntity
+            )
             .from(gatheringEntity)
             .where(whereGatheringSearchOption(searchOption), defaultGatheringFilter())
+            .leftJoin(gatheringMemberEntity).on(gatheringMemberEntity.gatheringId.eq(gatheringEntity.id))
+            .leftJoin(userEntity).on(userEntity.id.eq(gatheringMemberEntity.userId))
             .orderBy(sortGatheringSearch(searchOption.getSortType(), searchOption.getSortOrder()))
             .limit(searchOption.getPaginationInformation().getLimit())
             .offset(searchOption.getPaginationInformation().getOffset())
-            .fetch()
-            .stream()
-            .map(GatheringEntity::toModel)
-            .collect(Collectors.toList());
+            .transform(
+                groupBy(gatheringEntity.id)
+                    .list(
+                        Projections.constructor(
+                            GatheringPreview.class,
+                            gatheringEntity.id,
+                            gatheringEntity.image,
+                            gatheringEntity.name,
+                            gatheringEntity.gatheringType,
+                            gatheringEntity.status,
+                            gatheringEntity.category,
+                            gatheringEntity.subCategory,
+                            gatheringEntity.location,
+                            gatheringEntity.nextGatheringAt,
+                            gatheringEntity.tags,
+                            gatheringEntity.capacity,
+                            gatheringEntity.participantCount,
+                            gatheringEntity.isPeriodic,
+                            list(
+                                Projections.constructor(
+                                    GatheringMemberDetail.class,
+                                    gatheringMemberEntity.id,
+                                    gatheringMemberEntity.userId,
+                                    userEntity.email,
+                                    userEntity.name,
+                                    userEntity.profileImage,
+                                    gatheringMemberEntity.joinedAt
+                                ).skipNulls()
+                            )
+                        )
+                    )
+            );
     }
 
     @Override
-    public List<Gathering> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
-        return jpaQueryFactory.select(gatheringEntity)
-            .from(gatheringMemberEntity)
+    public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
+        return jpaQueryFactory.select(
+                gatheringEntity,
+                gatheringMemberEntity
+            )
+            .from(gatheringEntity)
             .where(gatheringMemberEntity.userId.eq(userId), defaultGatheringFilter())
             .offset(paginationInformation.getOffset())
             .limit(paginationInformation.getLimit())
             .orderBy(gatheringEntity.id.desc())
-            .innerJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
-            .fetch()
-            .stream()
-            .map(GatheringEntity::toModel)
-            .collect(Collectors.toList());
+            .transform(
+                groupBy(gatheringEntity.id)
+                    .list(Projections.constructor(
+                            GatheringPreview.class,
+                            gatheringEntity.id,
+                            gatheringEntity.image,
+                            gatheringEntity.name,
+                            gatheringEntity.gatheringType,
+                            gatheringEntity.status,
+                            gatheringEntity.category,
+                            gatheringEntity.subCategory,
+                            gatheringEntity.location,
+                            gatheringEntity.nextGatheringAt,
+                            gatheringEntity.tags,
+                            gatheringEntity.capacity,
+                            gatheringEntity.participantCount,
+                            gatheringEntity.isPeriodic,
+                            list(Projections.constructor(GatheringMemberDetail.class,
+                                    gatheringMemberEntity.id,
+                                    gatheringMemberEntity.userId,
+                                    userEntity.email,
+                                    userEntity.name,
+                                    userEntity.profileImage,
+                                    gatheringMemberEntity.joinedAt
+                                )
+                            )
+                        )
+                    )
+            );
     }
 
     private BooleanBuilder whereGatheringSearchOption(GatheringSearchOption searchOption) {

@@ -14,7 +14,6 @@ import com.triplem.momoim.exception.ExceptionCode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +24,7 @@ public class GatheringService {
     private final GatheringMemberRepository gatheringMemberRepository;
 
     public List<GatheringPreview> searchGathering(GatheringSearchOption searchOption) {
-        return gatheringRepository.findBySearchOption(searchOption)
-            .stream()
-            .map(GatheringPreview::from)
-            .collect(Collectors.toList());
+        return gatheringRepository.getGatheringPreviews(searchOption);
     }
 
     public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {
@@ -46,10 +42,7 @@ public class GatheringService {
     }
 
     public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
-        return gatheringRepository.getMyGatherings(userId, paginationInformation)
-            .stream()
-            .map(GatheringPreview::from)
-            .collect(Collectors.toList());
+        return gatheringRepository.getMyGatherings(userId, paginationInformation);
     }
 
     public List<GatheringCategory> getCategory() {
