@@ -19,4 +19,15 @@ public class UserInterestCategoryRegister {
             userInterestCategoryRepository.save(userInterestCategory);
         }
     }
+
+    public void modify(Long userId, List<String> categories) {
+        userInterestCategoryRepository.deleteAllByUserId(userId);
+        for (String category: categories) {
+            UserInterestCategory userInterestCategory = UserInterestCategory.builder()
+                    .category(category)
+                    .userId(userId)
+                    .build();
+            userInterestCategoryRepository.save(userInterestCategory);
+        }
+    }
 }

@@ -20,4 +20,9 @@ public class UserActiveLocationRepositoryImpl implements UserActiveLocationRepos
         return userActiveLocationJpaRepository.findAllByUserId(userId).stream().map(UserActiveLocationEntity::toModel)
                 .toList();
     }
+
+    @Override
+    public void deleteAllByUserId(Long userId) {
+        userActiveLocationJpaRepository.deleteAllByUserId(userId);
+    }
 }
