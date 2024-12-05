@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface UserInterestCategoryJpaRepository extends JpaRepository<UserInterestCategoryEntity, Long> {
     List<UserInterestCategoryEntity> findAllByUserId(Long userId);
+    void deleteAllByUserId(Long userId);
 
 }

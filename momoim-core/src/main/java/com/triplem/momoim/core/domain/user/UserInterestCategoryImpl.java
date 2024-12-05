@@ -19,4 +19,9 @@ public class UserInterestCategoryImpl implements UserInterestCategoryRepository{
         return userInterestCategoryJpaRepository.findAllByUserId(userId).stream().map(UserInterestCategoryEntity::toModel)
                 .toList();
     }
+
+    @Override
+    public void deleteAllByUserId(Long userId) {
+        userInterestCategoryJpaRepository.deleteAllByUserId(userId);
+    }
 }

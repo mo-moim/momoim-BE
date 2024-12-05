@@ -7,4 +7,6 @@ public interface UserInterestCategoryRepository {
 
     List<UserInterestCategory> findAllByUserId(Long userId);
 
+    void deleteAllByUserId(Long userId);
+
 }

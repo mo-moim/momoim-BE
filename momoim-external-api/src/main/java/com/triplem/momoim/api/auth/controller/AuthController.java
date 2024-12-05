@@ -65,6 +65,8 @@ public class AuthController {
     })
     @Operation(operationId = "유저 프로필 수정", summary = "유저 프로필 수정", tags = {"auths"}, description = "유저 프로필 정보 수정")
     public ApiResponse<UserDetailResponse> updateUserProfile(@RequestBody UserProfileUpdateRequest request) {
-        return ApiResponse.success(new UserDetailResponse("email", "name", "profileImage", AccountType.EMAIL.name(), List.of("BUSAN", "SEOUL"), List.of("CULTURE, FOOD")));
+        Long userId = SecurityUtil.getMemberIdByPrincipal();
+        UserDetailResponse response = authCommandService.updateUserProfile(userId, request);
+        return ApiResponse.success(response);
     }
 }
