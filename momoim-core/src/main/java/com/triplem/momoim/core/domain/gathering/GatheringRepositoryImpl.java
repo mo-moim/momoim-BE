@@ -38,7 +38,9 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     @Override
     public Gathering findById(Long id) {
         return gatheringJpaRepository.findById(id)
-            .filter(gatheringEntity -> !gatheringEntity.getStatus().equals(GatheringStatus.CANCELED))
+            .filter(gatheringEntity ->
+                !gatheringEntity.getStatus().equals(GatheringStatus.CANCELED) && !gatheringEntity.getStatus().equals(GatheringStatus.FINISHED)
+            )
             .orElseThrow(() -> new BusinessException(ExceptionCode.NOT_FOUND_GATHERING))
             .toModel();
     }
