@@ -9,7 +9,6 @@ import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
@@ -89,7 +88,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                 gatheringMemberEntity
             )
             .from(gatheringEntity)
-            .where(whereGatheringSearchOption(searchOption), defaultGatheringFilter())
+            .where(whereGatheringSearchOption(searchOption), gatheringEntity.status.ne(GatheringStatus.CANCELED))
             .leftJoin(gatheringMemberEntity).on(gatheringMemberEntity.gatheringId.eq(gatheringEntity.id))
             .leftJoin(userEntity).on(userEntity.id.eq(gatheringMemberEntity.userId))
             .orderBy(sortGatheringSearch(searchOption.getSortType(), searchOption.getSortOrder()))
@@ -137,7 +136,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                 gatheringMemberEntity
             )
             .from(gatheringMemberEntity)
-            .where(gatheringMemberEntity.userId.eq(userId), defaultGatheringFilter())
+            .where(gatheringMemberEntity.userId.eq(userId))
             .leftJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
             .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
             .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
@@ -214,9 +213,5 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                 throw new BusinessException(ExceptionCode.BAD_REQUEST);
             }
         }
-    }
-
-    private BooleanExpression defaultGatheringFilter() {
-        return gatheringEntity.status.ne(GatheringStatus.CANCELED);
     }
 }
