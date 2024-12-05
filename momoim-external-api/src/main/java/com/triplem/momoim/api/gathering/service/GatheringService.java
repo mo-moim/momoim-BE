@@ -24,7 +24,7 @@ public class GatheringService {
     private final GatheringMemberRepository gatheringMemberRepository;
 
     public List<GatheringPreview> searchGathering(GatheringSearchOption searchOption) {
-        return gatheringRepository.getGatheringPreviews(searchOption);
+        return gatheringRepository.searchGatherings(searchOption);
     }
 
     public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {

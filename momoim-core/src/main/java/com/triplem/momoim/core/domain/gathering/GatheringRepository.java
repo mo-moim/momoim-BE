@@ -10,7 +10,7 @@ public interface GatheringRepository {
 
     GatheringDetail getGatheringDetail(Long gatheringId, Long userId);
 
-    List<GatheringPreview> getGatheringPreviews(GatheringSearchOption searchOption);
+    List<GatheringPreview> searchGatherings(GatheringSearchOption searchOption);
 
     List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation);
 }

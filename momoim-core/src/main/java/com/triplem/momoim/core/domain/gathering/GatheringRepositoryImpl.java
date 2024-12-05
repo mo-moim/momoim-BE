@@ -84,7 +84,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     }
 
     @Override
-    public List<GatheringPreview> getGatheringPreviews(GatheringSearchOption searchOption) {
+    public List<GatheringPreview> searchGatherings(GatheringSearchOption searchOption) {
         return jpaQueryFactory.select(
                 gatheringEntity,
                 members
