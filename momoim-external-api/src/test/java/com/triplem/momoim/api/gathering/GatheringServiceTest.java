@@ -2,10 +2,10 @@ package com.triplem.momoim.api.gathering;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.triplem.momoim.api.gathering.dto.GatheringListItem;
 import com.triplem.momoim.api.gathering.service.GatheringService;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
+import com.triplem.momoim.core.domain.gathering.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSortType;
@@ -63,10 +63,10 @@ class GatheringServiceTest {
             .build();
 
         //when
-        List<GatheringListItem> gatheringListItems = gatheringService.searchGathering(searchOption);
+        List<GatheringPreview> gatheringPreviews = gatheringService.searchGathering(searchOption);
 
         //then
-        assertThat(gatheringListItems).hasSize(2)
+        assertThat(gatheringPreviews).hasSize(2)
             .extracting("name")
             .contains("gathering1", "gathering2");
     }

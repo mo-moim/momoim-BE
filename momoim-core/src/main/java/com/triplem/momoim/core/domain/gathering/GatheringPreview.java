@@ -1,9 +1,6 @@
-package com.triplem.momoim.api.gathering.dto;
+package com.triplem.momoim.core.domain.gathering;
 
-import com.triplem.momoim.core.domain.gathering.Gathering;
-import com.triplem.momoim.core.domain.gathering.GatheringLocation;
-import com.triplem.momoim.core.domain.gathering.GatheringStatus;
-import com.triplem.momoim.core.domain.gathering.GatheringType;
+import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -13,7 +10,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class GatheringListItem {
+public class GatheringPreview {
     private Long gatheringId;
     private String image;
     private String name;
@@ -27,9 +24,10 @@ public class GatheringListItem {
     private int capacity;
     private int participantCount;
     private Boolean isPeriodic;
+    private List<GatheringMemberDetail> members;
 
-    public static GatheringListItem from(Gathering gathering) {
-        return GatheringListItem
+    public static GatheringPreview from(Gathering gathering) {
+        return GatheringPreview
             .builder()
             .gatheringId(gathering.getId())
             .image(gathering.getImage())

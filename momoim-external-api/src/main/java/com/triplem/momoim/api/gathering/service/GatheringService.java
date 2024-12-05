@@ -1,9 +1,9 @@
 package com.triplem.momoim.api.gathering.service;
 
-import com.triplem.momoim.api.gathering.dto.GatheringListItem;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.GatheringDetail;
+import com.triplem.momoim.core.domain.gathering.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
@@ -24,10 +24,10 @@ public class GatheringService {
     private final GatheringRepository gatheringRepository;
     private final GatheringMemberRepository gatheringMemberRepository;
 
-    public List<GatheringListItem> searchGathering(GatheringSearchOption searchOption) {
+    public List<GatheringPreview> searchGathering(GatheringSearchOption searchOption) {
         return gatheringRepository.findBySearchOption(searchOption)
             .stream()
-            .map(GatheringListItem::from)
+            .map(GatheringPreview::from)
             .collect(Collectors.toList());
     }
 
@@ -45,10 +45,10 @@ public class GatheringService {
         return members;
     }
 
-    public List<GatheringListItem> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
+    public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
         return gatheringRepository.getMyGatherings(userId, paginationInformation)
             .stream()
-            .map(GatheringListItem::from)
+            .map(GatheringPreview::from)
             .collect(Collectors.toList());
     }
 

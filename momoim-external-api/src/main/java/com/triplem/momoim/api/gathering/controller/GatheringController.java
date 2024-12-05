@@ -3,7 +3,6 @@ package com.triplem.momoim.api.gathering.controller;
 import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.api.common.DefaultApiResponse;
 import com.triplem.momoim.api.gathering.dto.GatheringCategoryInformation;
-import com.triplem.momoim.api.gathering.dto.GatheringListItem;
 import com.triplem.momoim.api.gathering.request.ModifyGatheringRequest;
 import com.triplem.momoim.api.gathering.request.RegisterGatheringRequest;
 import com.triplem.momoim.api.gathering.service.GatheringJoinService;
@@ -16,6 +15,7 @@ import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.GatheringDetail;
 import com.triplem.momoim.core.domain.gathering.GatheringLocation;
+import com.triplem.momoim.core.domain.gathering.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
@@ -51,7 +51,7 @@ public class GatheringController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
     })
     @Operation(operationId = "모임 목록 조회", summary = "모임 목록 조회", tags = {"gatherings"}, description = "모임 목록 조회")
-    public ApiResponse<List<GatheringListItem>> getGatherings(
+    public ApiResponse<List<GatheringPreview>> getGatherings(
         @Parameter(name = "모임 ID 리스트") @RequestParam(required = false) List<Long> ids,
         @Parameter(name = "메인 카테고리") @RequestParam(required = false) GatheringCategory category,
         @Parameter(name = "서브 카테고리") @RequestParam(required = false) GatheringSubCategory subCategory,
@@ -61,7 +61,7 @@ public class GatheringController {
         @Parameter(name = "페이징 limit") @RequestParam int limit,
         @Parameter(name = "정렬 기준") @RequestParam(defaultValue = "UPDATE_AT") GatheringSortType sortType,
         @Parameter(name = "오름 차순 / 내림 차순") @RequestParam(defaultValue = "DESC") SortOrder sortOrder) {
-        List<GatheringListItem> gatherings = gatheringService.searchGathering(
+        List<GatheringPreview> gatherings = gatheringService.searchGathering(
             GatheringSearchOption.of(
                 ids,
                 category,
@@ -81,11 +81,11 @@ public class GatheringController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
     })
     @Operation(operationId = "모임 생성", summary = "모임 생성", tags = {"gatherings"}, description = "모임 생성")
-    public ApiResponse<GatheringListItem> registerGathering(
+    public ApiResponse<GatheringPreview> registerGathering(
         @RequestBody RegisterGatheringRequest request) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         Gathering gathering = gatheringManagementService.register(request.toGathering(userId));
-        return ApiResponse.success(GatheringListItem.from(gathering));
+        return ApiResponse.success(GatheringPreview.from(gathering));
     }
 
     @GetMapping("/joined")
@@ -94,11 +94,11 @@ public class GatheringController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
     })
     @Operation(operationId = "참여중인 모임 목록 조회", summary = "참여중인 모임 목록 조회", tags = {"gatherings"}, description = "참여중인 모임 목록 조회")
-    public ApiResponse<List<GatheringListItem>> getMyGatherings(
+    public ApiResponse<List<GatheringPreview>> getMyGatherings(
         @Parameter(name = "페이징 offset") @RequestParam int offset,
         @Parameter(name = "페이징 limit") @RequestParam int limit) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
-        List<GatheringListItem> myGatherings = gatheringService.getMyGatherings(userId, new PaginationInformation(offset, limit));
+        List<GatheringPreview> myGatherings = gatheringService.getMyGatherings(userId, new PaginationInformation(offset, limit));
         return ApiResponse.success(myGatherings);
     }
 
