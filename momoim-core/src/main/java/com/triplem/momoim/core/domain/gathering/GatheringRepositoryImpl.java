@@ -7,6 +7,7 @@ import static com.triplem.momoim.core.domain.member.QGatheringMemberEntity.gathe
 import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.ResultTransformer;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Repository;
 public class GatheringRepositoryImpl implements GatheringRepository {
     private final GatheringJpaRepository gatheringJpaRepository;
     private final JPAQueryFactory jpaQueryFactory;
+    private final QGatheringMemberEntity members = new QGatheringMemberEntity("members");
 
     @Override
     public Gathering save(Gathering gathering) {
@@ -85,52 +87,20 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     public List<GatheringPreview> getGatheringPreviews(GatheringSearchOption searchOption) {
         return jpaQueryFactory.select(
                 gatheringEntity,
-                gatheringMemberEntity
+                members
             )
             .from(gatheringEntity)
             .where(whereGatheringSearchOption(searchOption), gatheringEntity.status.ne(GatheringStatus.CANCELED))
-            .leftJoin(gatheringMemberEntity).on(gatheringMemberEntity.gatheringId.eq(gatheringEntity.id))
-            .leftJoin(userEntity).on(userEntity.id.eq(gatheringMemberEntity.userId))
-            .orderBy(sortGatheringSearch(searchOption.getSortType(), searchOption.getSortOrder()))
+            .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
+            .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
             .limit(searchOption.getPaginationInformation().getLimit())
             .offset(searchOption.getPaginationInformation().getOffset())
-            .transform(
-                groupBy(gatheringEntity.id)
-                    .list(
-                        Projections.constructor(
-                            GatheringPreview.class,
-                            gatheringEntity.id,
-                            gatheringEntity.image,
-                            gatheringEntity.name,
-                            gatheringEntity.gatheringType,
-                            gatheringEntity.status,
-                            gatheringEntity.category,
-                            gatheringEntity.subCategory,
-                            gatheringEntity.location,
-                            gatheringEntity.nextGatheringAt,
-                            gatheringEntity.tags,
-                            gatheringEntity.capacity,
-                            gatheringEntity.participantCount,
-                            gatheringEntity.isPeriodic,
-                            list(
-                                Projections.constructor(
-                                    GatheringMemberDetail.class,
-                                    gatheringMemberEntity.id,
-                                    gatheringMemberEntity.userId,
-                                    userEntity.email,
-                                    userEntity.name,
-                                    userEntity.profileImage,
-                                    gatheringMemberEntity.joinedAt
-                                ).skipNulls()
-                            )
-                        )
-                    )
-            );
+            .orderBy(sortGatheringSearch(searchOption.getSortType(), searchOption.getSortOrder()), gatheringEntity.id.desc())
+            .transform(gatheringPreviewParser());
     }
 
     @Override
     public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
-        QGatheringMemberEntity members = new QGatheringMemberEntity("members");
         return jpaQueryFactory.select(
                 gatheringEntity,
                 gatheringMemberEntity
@@ -143,36 +113,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             .offset(paginationInformation.getOffset())
             .limit(paginationInformation.getLimit())
             .orderBy(gatheringEntity.id.desc())
-            .transform(
-                groupBy(gatheringEntity.id)
-                    .list(Projections.constructor(
-                            GatheringPreview.class,
-                            gatheringEntity.id,
-                            gatheringEntity.image,
-                            gatheringEntity.name,
-                            gatheringEntity.gatheringType,
-                            gatheringEntity.status,
-                            gatheringEntity.category,
-                            gatheringEntity.subCategory,
-                            gatheringEntity.location,
-                            gatheringEntity.nextGatheringAt,
-                            gatheringEntity.tags,
-                            gatheringEntity.capacity,
-                            gatheringEntity.participantCount,
-                            gatheringEntity.isPeriodic,
-                            list(
-                                Projections.constructor(GatheringMemberDetail.class,
-                                    members.id,
-                                    members.userId,
-                                    userEntity.email,
-                                    userEntity.name,
-                                    userEntity.profileImage,
-                                    members.joinedAt
-                                ).skipNulls()
-                            )
-                        )
-                    )
-            );
+            .transform(gatheringPreviewParser());
     }
 
     private BooleanBuilder whereGatheringSearchOption(GatheringSearchOption searchOption) {
@@ -213,5 +154,38 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                 throw new BusinessException(ExceptionCode.BAD_REQUEST);
             }
         }
+    }
+
+    private ResultTransformer<List<GatheringPreview>> gatheringPreviewParser() {
+        return groupBy(gatheringEntity.id)
+            .list(
+                Projections.constructor(
+                    GatheringPreview.class,
+                    gatheringEntity.id,
+                    gatheringEntity.image,
+                    gatheringEntity.name,
+                    gatheringEntity.gatheringType,
+                    gatheringEntity.status,
+                    gatheringEntity.category,
+                    gatheringEntity.subCategory,
+                    gatheringEntity.location,
+                    gatheringEntity.nextGatheringAt,
+                    gatheringEntity.tags,
+                    gatheringEntity.capacity,
+                    gatheringEntity.participantCount,
+                    gatheringEntity.isPeriodic,
+                    list(
+                        Projections.constructor(
+                            GatheringMemberDetail.class,
+                            members.id,
+                            members.userId,
+                            userEntity.email,
+                            userEntity.name,
+                            userEntity.profileImage,
+                            members.joinedAt
+                        )
+                    )
+                )
+            );
     }
 }
