@@ -90,7 +90,11 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                 members
             )
             .from(gatheringEntity)
-            .where(whereGatheringSearchOption(searchOption), gatheringEntity.status.ne(GatheringStatus.CANCELED))
+            .where(
+                whereGatheringSearchOption(searchOption),
+                gatheringEntity.status.ne(GatheringStatus.FINISHED),
+                gatheringEntity.status.ne(GatheringStatus.CANCELED)
+            )
             .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
             .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
             .limit(searchOption.getPaginationInformation().getLimit())
