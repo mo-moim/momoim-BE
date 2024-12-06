@@ -4,6 +4,7 @@ import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.api.common.DefaultApiResponse;
 import com.triplem.momoim.api.gathering.request.ModifyGatheringRequest;
 import com.triplem.momoim.api.gathering.request.RegisterGatheringRequest;
+import com.triplem.momoim.api.gathering.response.RegisterGatheringResponse;
 import com.triplem.momoim.api.gathering.service.GatheringWorkSpaceService;
 import com.triplem.momoim.auth.utils.SecurityUtil;
 import com.triplem.momoim.core.common.PaginationInformation;
@@ -51,12 +52,11 @@ public class GatheringWorkSpaceController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
     })
     @Operation(operationId = "모임 생성", summary = "모임 생성", tags = {"gatherings-workspace"}, description = "모임 생성")
-    //todo 응답으로 GatheringID만 주도록 변경하기
-    public ApiResponse<GatheringPreview> registerGathering(
+    public ApiResponse<RegisterGatheringResponse> registerGathering(
         @RequestBody RegisterGatheringRequest request) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         Gathering gathering = gatheringWorkSpaceService.register(request.toGathering(userId));
-        return ApiResponse.success(GatheringPreview.from(gathering));
+        return ApiResponse.success(new RegisterGatheringResponse(gathering.getId()));
     }
 
     @DeleteMapping("/{gatheringId}/cancel")
