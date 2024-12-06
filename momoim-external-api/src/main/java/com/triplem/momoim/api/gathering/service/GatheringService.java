@@ -32,10 +32,6 @@ public class GatheringService {
         return gatheringRepository.getMyGatherings(userId, paginationInformation);
     }
 
-    public List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation) {
-        return gatheringRepository.getMyMadeGatherings(userId, paginationInformation);
-    }
-
     public List<GatheringCategory> getCategory() {
         return new ArrayList<>(Arrays.asList(GatheringCategory.values()));
     }

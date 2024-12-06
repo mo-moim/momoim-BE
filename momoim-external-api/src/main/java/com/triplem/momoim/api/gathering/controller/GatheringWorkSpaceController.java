@@ -5,7 +5,6 @@ import com.triplem.momoim.api.common.DefaultApiResponse;
 import com.triplem.momoim.api.gathering.request.ModifyGatheringRequest;
 import com.triplem.momoim.api.gathering.request.RegisterGatheringRequest;
 import com.triplem.momoim.api.gathering.service.GatheringManagementService;
-import com.triplem.momoim.api.gathering.service.GatheringService;
 import com.triplem.momoim.auth.utils.SecurityUtil;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
@@ -31,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/gatherings/workspace")
 @RequiredArgsConstructor
 public class GatheringWorkSpaceController {
-    private final GatheringService gatheringService;
     private final GatheringManagementService gatheringManagementService;
 
     @GetMapping
@@ -44,7 +42,7 @@ public class GatheringWorkSpaceController {
         @Parameter(description = "페이징 limit") @RequestParam int limit
     ) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
-        List<GatheringPreview> myMadeGatherings = gatheringService.getMyMadeGatherings(userId, new PaginationInformation(offset, limit));
+        List<GatheringPreview> myMadeGatherings = gatheringManagementService.getMyGatherings(userId, new PaginationInformation(offset, limit));
         return ApiResponse.success(myMadeGatherings);
     }
 

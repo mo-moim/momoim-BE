@@ -1,5 +1,7 @@
 package com.triplem.momoim.api.gathering.service;
 
+import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.ModifyGathering;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
@@ -7,6 +9,7 @@ import com.triplem.momoim.core.domain.member.implement.GatheringMemberAppender;
 import com.triplem.momoim.core.domain.member.implement.GatheringMemberRemover;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,10 @@ public class GatheringManagementService {
         Gathering savedGathering = gatheringRepository.save(gathering);
         gatheringMemberAppender.append(savedGathering.getManagerId(), savedGathering.getId());
         return savedGathering;
+    }
+
+    public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
+        return gatheringRepository.getMyMadeGatherings(userId, paginationInformation);
     }
 
     public void cancel(Long requesterId, Long gatheringId) {
