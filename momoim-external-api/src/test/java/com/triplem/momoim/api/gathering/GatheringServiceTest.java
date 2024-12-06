@@ -63,7 +63,7 @@ class GatheringServiceTest {
             .build();
 
         //when
-        List<GatheringPreview> gatheringPreviews = gatheringService.searchGathering(searchOption);
+        List<GatheringPreview> gatheringPreviews = gatheringService.searchGatherings(searchOption);
 
         //then
         assertThat(gatheringPreviews).hasSize(2)

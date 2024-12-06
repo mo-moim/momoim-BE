@@ -65,7 +65,7 @@ public class GatheringController {
     })
     public ApiResponse<List<GatheringPreview>> getGatherings(
         @Parameter(hidden = true) GatheringSearchOption option) {
-        List<GatheringPreview> gatherings = gatheringService.searchGathering(option);
+        List<GatheringPreview> gatherings = gatheringService.searchGatherings(option);
         return ApiResponse.success(gatherings);
     }
 

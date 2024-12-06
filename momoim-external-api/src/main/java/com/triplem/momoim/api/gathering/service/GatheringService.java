@@ -20,8 +20,8 @@ public class GatheringService {
     private final GatheringReader gatheringReader;
     private final GatheringRepository gatheringRepository;
 
-    public List<GatheringPreview> searchGathering(GatheringSearchOption searchOption) {
-        return gatheringRepository.searchGatherings(searchOption);
+    public List<GatheringPreview> searchGatherings(GatheringSearchOption searchOption) {
+        return gatheringReader.searchGatherings(searchOption);
     }
 
     public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {
