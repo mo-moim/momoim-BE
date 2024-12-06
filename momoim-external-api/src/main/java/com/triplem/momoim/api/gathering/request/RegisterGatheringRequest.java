@@ -1,12 +1,12 @@
 package com.triplem.momoim.api.gathering.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
+import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;

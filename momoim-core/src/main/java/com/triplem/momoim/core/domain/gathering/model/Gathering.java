@@ -1,4 +1,4 @@
-package com.triplem.momoim.core.domain.gathering;
+package com.triplem.momoim.core.domain.gathering.model;
 
 import com.triplem.momoim.core.domain.gathering.dto.ModifyGathering;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;

@@ -1,9 +1,9 @@
 package com.triplem.momoim.api.gathering;
 
-import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
+import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
