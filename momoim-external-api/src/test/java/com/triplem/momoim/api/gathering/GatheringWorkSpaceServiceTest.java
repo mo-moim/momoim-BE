@@ -3,7 +3,7 @@ package com.triplem.momoim.api.gathering;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.triplem.momoim.api.gathering.service.GatheringManagementService;
+import com.triplem.momoim.api.gathering.service.GatheringWorkSpaceService;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
@@ -19,9 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-class GatheringManagementServiceTest {
+class GatheringWorkSpaceServiceTest {
     @Autowired
-    private GatheringManagementService gatheringManagementService;
+    private GatheringWorkSpaceService gatheringWorkSpaceService;
 
     @Autowired
     private GatheringMemberRepository gatheringMemberRepository;
@@ -36,7 +36,7 @@ class GatheringManagementServiceTest {
         Gathering gathering = GatheringBuilder.builder().build().toGathering();
 
         //when
-        Gathering savedGathering = gatheringManagementService.register(gathering);
+        Gathering savedGathering = gatheringWorkSpaceService.register(gathering);
 
         //then
         Boolean isSuccessRegisteredMaster = gatheringMemberRepository.isGatheringMember(
@@ -59,7 +59,7 @@ class GatheringManagementServiceTest {
         );
 
         //when
-        gatheringManagementService.cancel(requesterId, gathering.getId());
+        gatheringWorkSpaceService.cancel(requesterId, gathering.getId());
 
         //then
         assertThatThrownBy(() -> gatheringRepository.findById(gathering.getId()))

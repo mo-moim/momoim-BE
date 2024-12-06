@@ -4,8 +4,8 @@ import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.api.common.DefaultApiResponse;
 import com.triplem.momoim.api.gathering.dto.GatheringCategoryInformation;
 import com.triplem.momoim.api.gathering.service.GatheringJoinService;
-import com.triplem.momoim.api.gathering.service.GatheringManagementService;
 import com.triplem.momoim.api.gathering.service.GatheringService;
+import com.triplem.momoim.api.gathering.service.GatheringWorkSpaceService;
 import com.triplem.momoim.auth.utils.SecurityUtil;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class GatheringController {
     private final GatheringService gatheringService;
-    private final GatheringManagementService gatheringManagementService;
+    private final GatheringWorkSpaceService gatheringWorkSpaceService;
     private final GatheringJoinService gatheringJoinService;
 
     @GetMapping
