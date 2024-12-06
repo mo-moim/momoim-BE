@@ -1,4 +1,4 @@
-package com.triplem.momoim.core.domain.review;
+package com.triplem.momoim.core.domain.review.model;
 
 import com.triplem.momoim.core.domain.review.dto.ModifyReview;
 import com.triplem.momoim.exception.BusinessException;

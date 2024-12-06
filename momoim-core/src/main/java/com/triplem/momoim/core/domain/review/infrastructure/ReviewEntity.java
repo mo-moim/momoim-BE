@@ -1,6 +1,6 @@
 package com.triplem.momoim.core.domain.review.infrastructure;
 
-import com.triplem.momoim.core.domain.review.Review;
+import com.triplem.momoim.core.domain.review.model.Review;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
