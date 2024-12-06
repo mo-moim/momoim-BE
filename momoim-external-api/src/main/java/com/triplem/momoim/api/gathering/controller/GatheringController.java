@@ -12,11 +12,11 @@ import com.triplem.momoim.auth.utils.SecurityUtil;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.core.domain.gathering.Gathering;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.GatheringDetail;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
 import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
@@ -81,6 +81,7 @@ public class GatheringController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
     })
     @Operation(operationId = "모임 생성", summary = "모임 생성", tags = {"gatherings"}, description = "모임 생성")
+    //todo 응답으로 GatheringID만 주도록 변경하기
     public ApiResponse<GatheringPreview> registerGathering(
         @RequestBody RegisterGatheringRequest request) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
