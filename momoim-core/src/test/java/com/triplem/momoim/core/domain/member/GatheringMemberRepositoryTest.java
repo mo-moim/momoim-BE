@@ -6,6 +6,7 @@ import com.triplem.momoim.core.domain.gathering.GatheringBuilder;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
+import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
 import com.triplem.momoim.core.domain.user.User;
 import com.triplem.momoim.core.domain.user.UserBuilder;
 import com.triplem.momoim.core.domain.user.UserRepository;

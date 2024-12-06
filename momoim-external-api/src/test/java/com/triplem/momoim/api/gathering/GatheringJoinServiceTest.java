@@ -6,7 +6,7 @@ import com.triplem.momoim.api.gathering.service.GatheringJoinService;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.GatheringMember;
-import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
+import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

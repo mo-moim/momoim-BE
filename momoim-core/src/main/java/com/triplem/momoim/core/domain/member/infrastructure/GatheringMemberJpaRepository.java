@@ -1,4 +1,4 @@
-package com.triplem.momoim.core.domain.member;
+package com.triplem.momoim.core.domain.member.infrastructure;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

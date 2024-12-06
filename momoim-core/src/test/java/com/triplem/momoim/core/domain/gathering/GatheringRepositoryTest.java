@@ -11,7 +11,7 @@ import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.GatheringMember;
-import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
+import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

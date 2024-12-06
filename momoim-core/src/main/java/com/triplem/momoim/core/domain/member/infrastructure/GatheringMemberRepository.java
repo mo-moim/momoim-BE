@@ -1,5 +1,6 @@
-package com.triplem.momoim.core.domain.member;
+package com.triplem.momoim.core.domain.member.infrastructure;
 
+import com.triplem.momoim.core.domain.member.GatheringMember;
 import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
 import java.util.List;
 

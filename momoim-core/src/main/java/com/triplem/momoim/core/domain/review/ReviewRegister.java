@@ -1,6 +1,6 @@
 package com.triplem.momoim.core.domain.review;
 
-import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
+import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
