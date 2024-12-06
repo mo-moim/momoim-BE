@@ -6,11 +6,8 @@ import com.triplem.momoim.core.domain.gathering.dto.ModifyGathering;
 import com.triplem.momoim.core.domain.gathering.implement.GatheringReader;
 import com.triplem.momoim.core.domain.gathering.implement.GatheringRegister;
 import com.triplem.momoim.core.domain.gathering.implement.GatheringUpdater;
-import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.implement.GatheringMemberRemover;
-import com.triplem.momoim.exception.BusinessException;
-import com.triplem.momoim.exception.ExceptionCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +19,6 @@ public class GatheringWorkSpaceService {
     private final GatheringReader gatheringReader;
     private final GatheringRegister gatheringRegister;
     private final GatheringUpdater gatheringUpdater;
-    private final GatheringRepository gatheringRepository;
     private final GatheringMemberRemover gatheringMemberRemover;
 
     @Transactional
@@ -39,14 +35,7 @@ public class GatheringWorkSpaceService {
     }
 
     public void modify(Long requesterId, ModifyGathering modifyGathering) {
-        Gathering gathering = gatheringRepository.findById(modifyGathering.getGatheringId());
-
-        if (!gathering.isManager(requesterId)) {
-            throw new BusinessException(ExceptionCode.FORBIDDEN_GATHERING);
-        }
-
-        gathering.modify(modifyGathering);
-        gatheringRepository.save(gathering);
+        gatheringUpdater.modifyGathering(requesterId, modifyGathering);
     }
 
     public void kickMember(Long requesterId, Long kickMemberId) {

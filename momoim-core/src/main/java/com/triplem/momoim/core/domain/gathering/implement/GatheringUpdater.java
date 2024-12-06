@@ -1,5 +1,6 @@
 package com.triplem.momoim.core.domain.gathering.implement;
 
+import com.triplem.momoim.core.domain.gathering.dto.ModifyGathering;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.exception.BusinessException;
@@ -20,6 +21,17 @@ public class GatheringUpdater {
         }
 
         gathering.cancel();
+        gatheringRepository.save(gathering);
+    }
+
+    public void modifyGathering(Long managerId, ModifyGathering modifyGathering) {
+        Gathering gathering = gatheringRepository.findById(modifyGathering.getGatheringId());
+
+        if (!gathering.isManager(managerId)) {
+            throw new BusinessException(ExceptionCode.FORBIDDEN_GATHERING);
+        }
+
+        gathering.modify(modifyGathering);
         gatheringRepository.save(gathering);
     }
 }
