@@ -1,7 +1,7 @@
 package com.triplem.momoim.core.domain.gathering.infrastructure;
 
 import com.triplem.momoim.core.common.PaginationInformation;
-import com.triplem.momoim.core.domain.gathering.dto.GatheringDetail;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringContent;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
@@ -12,7 +12,7 @@ public interface GatheringRepository {
 
     Gathering findById(Long id);
 
-    GatheringDetail getGatheringDetail(Long gatheringId, Long userId);
+    GatheringContent getGatheringContent(Long gatheringId);
 
     List<GatheringPreview> searchGatherings(GatheringSearchOption searchOption);
 

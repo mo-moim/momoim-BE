@@ -10,11 +10,10 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.ResultTransformer;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
-import com.triplem.momoim.core.domain.gathering.dto.GatheringDetail;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringContent;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
@@ -52,10 +51,10 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     }
 
     @Override
-    public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {
-        GatheringDetail gatheringDetail = jpaQueryFactory.select(
+    public GatheringContent getGatheringContent(Long gatheringId) {
+        GatheringContent gatheringDetail = jpaQueryFactory.select(
                 Projections.constructor(
-                    GatheringDetail.class,
+                    GatheringContent.class,
                     gatheringEntity.id,
                     gatheringEntity.managerId,
                     userEntity.name,
@@ -73,15 +72,12 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                     gatheringEntity.capacity,
                     gatheringEntity.participantCount,
                     gatheringEntity.isPeriodic,
-                    gatheringEntity.nextGatheringAt,
-                    gatheringMemberEntity.id.isNotNull(),
-                    Expressions.asBoolean(gatheringEntity.managerId.eq(userId))
+                    gatheringEntity.nextGatheringAt
                 )
             )
             .from(gatheringEntity)
             .where(gatheringEntity.id.eq(gatheringId))
             .leftJoin(userEntity).on(userEntity.id.eq(gatheringEntity.managerId))
-            .leftJoin(gatheringMemberEntity).on(gatheringMemberEntity.userId.eq(userId), gatheringMemberEntity.gatheringId.eq(gatheringId))
             .fetchFirst();
 
         if (gatheringDetail == null) {

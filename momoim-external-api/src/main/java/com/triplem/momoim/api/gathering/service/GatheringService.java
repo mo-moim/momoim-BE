@@ -6,6 +6,7 @@ import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
+import com.triplem.momoim.core.domain.gathering.implement.GatheringReader;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
 import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class GatheringService {
+    private final GatheringReader gatheringReader;
     private final GatheringRepository gatheringRepository;
     private final GatheringMemberRepository gatheringMemberRepository;
 
@@ -28,7 +30,7 @@ public class GatheringService {
     }
 
     public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {
-        return gatheringRepository.getGatheringDetail(gatheringId, userId);
+        return gatheringReader.getGatheringDetail(gatheringId, userId);
     }
 
     public List<GatheringMemberDetail> getGatheringMembers(Long gatheringId) {
