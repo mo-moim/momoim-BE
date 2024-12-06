@@ -165,6 +165,10 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     private BooleanBuilder whereGatheringSearchOption(GatheringSearchOption searchOption) {
         BooleanBuilder builder = new BooleanBuilder();
 
+        if (searchOption.getGatheringIds() != null && !searchOption.getGatheringIds().isEmpty()) {
+            builder.and(gatheringEntity.id.in(searchOption.getGatheringIds()));
+        }
+
         if (searchOption.getCategory() != null) {
             builder.and(gatheringEntity.category.eq(searchOption.getCategory()));
         }
