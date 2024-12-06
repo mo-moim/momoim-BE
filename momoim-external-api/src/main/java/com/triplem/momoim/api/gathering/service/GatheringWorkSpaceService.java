@@ -4,9 +4,9 @@ import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.ModifyGathering;
 import com.triplem.momoim.core.domain.gathering.implement.GatheringReader;
+import com.triplem.momoim.core.domain.gathering.implement.GatheringRegister;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
-import com.triplem.momoim.core.domain.member.implement.GatheringMemberAppender;
 import com.triplem.momoim.core.domain.member.implement.GatheringMemberRemover;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
@@ -19,15 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class GatheringWorkSpaceService {
     private final GatheringReader gatheringReader;
+    private final GatheringRegister gatheringRegister;
     private final GatheringRepository gatheringRepository;
     private final GatheringMemberRemover gatheringMemberRemover;
-    private final GatheringMemberAppender gatheringMemberAppender;
 
     @Transactional
     public Gathering register(Gathering gathering) {
-        Gathering savedGathering = gatheringRepository.save(gathering);
-        gatheringMemberAppender.append(savedGathering.getManagerId(), savedGathering.getId());
-        return savedGathering;
+        return gatheringRegister.register(gathering);
     }
 
     public List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation) {
