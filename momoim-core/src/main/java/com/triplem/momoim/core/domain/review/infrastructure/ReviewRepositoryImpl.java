@@ -1,13 +1,14 @@
-package com.triplem.momoim.core.domain.review;
+package com.triplem.momoim.core.domain.review.infrastructure;
 
 import static com.triplem.momoim.core.domain.gathering.infrastructure.QGatheringEntity.gatheringEntity;
 import static com.triplem.momoim.core.domain.member.infrastructure.QGatheringMemberEntity.gatheringMemberEntity;
-import static com.triplem.momoim.core.domain.review.QReviewEntity.reviewEntity;
+import static com.triplem.momoim.core.domain.review.infrastructure.QReviewEntity.reviewEntity;
 import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.core.domain.review.Review;
 import com.triplem.momoim.core.domain.review.dto.MyReview;
 import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
 import com.triplem.momoim.exception.BusinessException;

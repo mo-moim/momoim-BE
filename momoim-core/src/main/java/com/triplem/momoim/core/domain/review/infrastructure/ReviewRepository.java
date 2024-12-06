@@ -1,6 +1,7 @@
-package com.triplem.momoim.core.domain.review;
+package com.triplem.momoim.core.domain.review.infrastructure;
 
 import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.core.domain.review.Review;
 import com.triplem.momoim.core.domain.review.dto.MyReview;
 import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
 import java.util.List;
