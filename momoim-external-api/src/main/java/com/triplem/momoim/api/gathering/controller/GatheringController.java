@@ -19,6 +19,7 @@ import com.triplem.momoim.core.domain.gathering.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
+import com.triplem.momoim.core.domain.gathering.MyGatheringOption;
 import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -93,12 +94,16 @@ public class GatheringController {
     @ApiResponses(value = {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
     })
-    @Operation(operationId = "참여중인 모임 목록 조회", summary = "참여중인 모임 목록 조회", tags = {"gatherings"}, description = "참여중인 모임 목록 조회")
+    @Operation(operationId = "나의 모임 목록 조회", summary = "나의 모임 목록 조회", tags = {"gatherings"}, description = "나의 모임 목록 조회")
     public ApiResponse<List<GatheringPreview>> getMyGatherings(
+        @Parameter(name = "내가 만든 모임 조회 여부") @RequestParam(defaultValue = "false") Boolean isOnlyIMade,
         @Parameter(name = "페이징 offset") @RequestParam int offset,
         @Parameter(name = "페이징 limit") @RequestParam int limit) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
-        List<GatheringPreview> myGatherings = gatheringService.getMyGatherings(userId, new PaginationInformation(offset, limit));
+        List<GatheringPreview> myGatherings = gatheringService.getMyGatherings(
+            userId,
+            new MyGatheringOption(isOnlyIMade, new PaginationInformation(offset, limit))
+        );
         return ApiResponse.success(myGatherings);
     }
 

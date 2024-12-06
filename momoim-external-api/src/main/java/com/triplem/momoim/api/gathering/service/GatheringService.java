@@ -1,12 +1,12 @@
 package com.triplem.momoim.api.gathering.service;
 
-import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.GatheringDetail;
 import com.triplem.momoim.core.domain.gathering.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
+import com.triplem.momoim.core.domain.gathering.MyGatheringOption;
 import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
 import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
 import com.triplem.momoim.exception.BusinessException;
@@ -41,8 +41,8 @@ public class GatheringService {
         return members;
     }
 
-    public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
-        return gatheringRepository.getMyGatherings(userId, paginationInformation);
+    public List<GatheringPreview> getMyGatherings(Long userId, MyGatheringOption option) {
+        return gatheringRepository.getMyGatherings(userId, option);
     }
 
     public List<GatheringCategory> getCategory() {

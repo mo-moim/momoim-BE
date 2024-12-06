@@ -1,6 +1,5 @@
 package com.triplem.momoim.core.domain.gathering;
 
-import com.triplem.momoim.core.common.PaginationInformation;
 import java.util.List;
 
 public interface GatheringRepository {
@@ -12,5 +11,5 @@ public interface GatheringRepository {
 
     List<GatheringPreview> searchGatherings(GatheringSearchOption searchOption);
 
-    List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation);
+    List<GatheringPreview> getMyGatherings(Long userId, MyGatheringOption option);
 }

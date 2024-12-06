@@ -10,9 +10,9 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.ResultTransformer;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
 import com.triplem.momoim.core.domain.member.QGatheringMemberEntity;
@@ -106,18 +106,19 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     }
 
     @Override
-    public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
+    public List<GatheringPreview> getMyGatherings(Long userId, MyGatheringOption option) {
         return jpaQueryFactory.select(
                 gatheringEntity,
                 gatheringMemberEntity
             )
             .from(gatheringMemberEntity)
             .where(gatheringMemberEntity.userId.eq(userId))
-            .leftJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
+            .innerJoin(gatheringEntity)
+            .on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId), joinOnIMadeGathering(userId, option.getIsOnlyIMade()))
             .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
             .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
-            .offset(paginationInformation.getOffset())
-            .limit(paginationInformation.getLimit())
+            .offset(option.getPaginationInformation().getOffset())
+            .limit(option.getPaginationInformation().getLimit())
             .orderBy(gatheringEntity.id.desc())
             .transform(gatheringPreviewParser());
     }
@@ -146,6 +147,13 @@ public class GatheringRepositoryImpl implements GatheringRepository {
         }
 
         return builder;
+    }
+
+    private BooleanExpression joinOnIMadeGathering(Long userId, Boolean isOnlyIMade) {
+        if (isOnlyIMade) {
+            return gatheringEntity.managerId.eq(userId);
+        }
+        return Expressions.TRUE;
     }
 
     private OrderSpecifier<?> sortGatheringSearch(GatheringSortType sortType, SortOrder sortOrder) {

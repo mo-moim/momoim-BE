@@ -177,6 +177,7 @@ class GatheringRepositoryTest {
     void getMyGatherings() {
         //given
         Long userId = 1L;
+        Boolean isOnlyIMade = false;
         int offset = 0;
         int limit = 10;
         PaginationInformation paginationInformation = new PaginationInformation(offset, limit);
@@ -194,7 +195,10 @@ class GatheringRepositoryTest {
         gatheringMemberRepository.save(GatheringMember.create(userId, gathering5.getId()));
 
         //when
-        List<GatheringPreview> gatherings = gatheringRepository.getMyGatherings(userId, paginationInformation);
+        List<GatheringPreview> gatherings = gatheringRepository.getMyGatherings(
+            userId,
+            new MyGatheringOption(isOnlyIMade, new PaginationInformation(offset, limit))
+        );
 
         //then
         assertThat(gatherings).hasSize(5)
