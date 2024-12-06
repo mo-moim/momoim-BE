@@ -140,6 +140,22 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             .transform(gatheringPreviewParser());
     }
 
+    @Override
+    public List<GatheringPreview> getGatheringPreviews(List<Long> ids) {
+        return jpaQueryFactory.select(
+                gatheringEntity,
+                members
+            )
+            .from(gatheringEntity)
+            .where(
+                gatheringEntity.id.in(ids)
+            )
+            .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
+            .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
+            .orderBy(gatheringEntity.id.desc())
+            .transform(gatheringPreviewParser());
+    }
+
     private BooleanBuilder whereGatheringSearchOption(GatheringSearchOption searchOption) {
         BooleanBuilder builder = new BooleanBuilder();
 

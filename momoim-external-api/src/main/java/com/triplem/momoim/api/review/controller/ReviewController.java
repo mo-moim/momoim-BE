@@ -7,6 +7,7 @@ import com.triplem.momoim.api.review.request.RegisterReviewRequest;
 import com.triplem.momoim.api.review.service.ReviewService;
 import com.triplem.momoim.auth.utils.SecurityUtil;
 import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.core.domain.gathering.GatheringPreview;
 import com.triplem.momoim.core.domain.review.MyReview;
 import com.triplem.momoim.core.domain.review.Review;
 import com.triplem.momoim.core.domain.review.ReviewDetail;
@@ -44,6 +45,20 @@ public class ReviewController {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         List<MyReview> myReviews = reviewService.getMyReviews(userId, new PaginationInformation(offset, limit));
         return ApiResponse.success(myReviews);
+    }
+
+    @GetMapping("/un-review")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "리뷰 작성 가능한 모임 조회", summary = "리뷰 작성 가능한 모임 조회", tags = {"reviews"}, description = "리뷰 작성 가능한 모임 조회")
+    public ApiResponse<List<GatheringPreview>> getUnReviewGatherings(
+        @Parameter(description = "페이징 offset") @RequestParam int offset,
+        @Parameter(description = "페이징 limit") @RequestParam int limit) {
+        Long userId = SecurityUtil.getMemberIdByPrincipal();
+        List<GatheringPreview> unReviewGatherings = reviewService.getUnReviewGatherings(userId, new PaginationInformation(offset, limit));
+        return ApiResponse.success(unReviewGatherings);
     }
 
     @GetMapping("/{gatheringId}")

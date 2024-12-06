@@ -1,6 +1,7 @@
 package com.triplem.momoim.core.domain.review;
 
 import static com.triplem.momoim.core.domain.gathering.QGatheringEntity.gatheringEntity;
+import static com.triplem.momoim.core.domain.member.QGatheringMemberEntity.gatheringMemberEntity;
 import static com.triplem.momoim.core.domain.review.QReviewEntity.reviewEntity;
 import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 
@@ -101,6 +102,19 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             .offset(paginationInformation.getOffset())
             .limit(paginationInformation.getLimit())
             .orderBy(reviewEntity.id.desc())
+            .fetch();
+    }
+
+    @Override
+    public List<Long> getUnReviewGatheringIds(Long userId, PaginationInformation paginationInformation) {
+        return jpaQueryFactory.select(gatheringEntity.id)
+            .from(gatheringMemberEntity)
+            .leftJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
+            .leftJoin(reviewEntity).on(reviewEntity.gatheringId.eq(gatheringEntity.id))
+            .where(gatheringMemberEntity.userId.eq(userId), reviewEntity.id.isNull())
+            .offset(paginationInformation.getOffset())
+            .limit(paginationInformation.getLimit())
+            .orderBy(gatheringEntity.id.desc())
             .fetch();
     }
 }
