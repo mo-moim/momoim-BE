@@ -105,7 +105,7 @@ class GatheringRepositoryTest {
             .build();
 
         //when
-        List<Gathering> gatherings = gatheringRepository.findBySearchOption(gatheringSearchOption);
+        List<GatheringPreview> gatherings = gatheringRepository.searchGatherings(gatheringSearchOption);
 
         //then
         assertThat(gatherings).hasSize(1);
@@ -141,7 +141,7 @@ class GatheringRepositoryTest {
             .build();
 
         //when
-        List<Gathering> gatherings = gatheringRepository.findBySearchOption(gatheringSearchOption);
+        List<GatheringPreview> gatherings = gatheringRepository.searchGatherings(gatheringSearchOption);
 
         //then
         assertThat(gatherings).hasSize(1);
@@ -166,7 +166,7 @@ class GatheringRepositoryTest {
         gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
 
         //when
-        List<Gathering> gatherings = gatheringRepository.findBySearchOption(gatheringSearchOption);
+        List<GatheringPreview> gatherings = gatheringRepository.searchGatherings(gatheringSearchOption);
 
         //then
         assertThat(gatherings).hasSize(2);
@@ -177,6 +177,7 @@ class GatheringRepositoryTest {
     void getMyGatherings() {
         //given
         Long userId = 1L;
+        Boolean isOnlyIMade = false;
         int offset = 0;
         int limit = 10;
         PaginationInformation paginationInformation = new PaginationInformation(offset, limit);
@@ -194,11 +195,13 @@ class GatheringRepositoryTest {
         gatheringMemberRepository.save(GatheringMember.create(userId, gathering5.getId()));
 
         //when
-        List<Gathering> gatherings = gatheringRepository.getMyGatherings(userId, paginationInformation);
+        List<GatheringPreview> gatherings = gatheringRepository.getMyGatherings(
+            userId,
+            paginationInformation);
 
         //then
         assertThat(gatherings).hasSize(5)
-            .extracting("id")
+            .extracting("gatheringId")
             .contains(gathering1.getId(), gathering2.getId(), gathering3.getId(), gathering4.getId(), gathering5.getId());
     }
 }

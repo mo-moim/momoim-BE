@@ -18,7 +18,7 @@ public class GatheringBuilder {
     @Builder.Default
     private GatheringType gatheringType = GatheringType.OFFLINE;
     @Builder.Default
-    private GatheringStatus status = GatheringStatus.RECRUITING;
+    private GatheringStatus status = GatheringStatus.OPEN;
     @Builder.Default
     private String image = "image1";
     @Builder.Default

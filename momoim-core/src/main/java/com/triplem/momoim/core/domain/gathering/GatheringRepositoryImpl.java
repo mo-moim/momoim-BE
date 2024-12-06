@@ -1,21 +1,24 @@
 package com.triplem.momoim.core.domain.gathering;
 
+import static com.querydsl.core.group.GroupBy.groupBy;
+import static com.querydsl.core.group.GroupBy.list;
 import static com.triplem.momoim.core.domain.gathering.QGatheringEntity.gatheringEntity;
 import static com.triplem.momoim.core.domain.member.QGatheringMemberEntity.gatheringMemberEntity;
 import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.ResultTransformer;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
+import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
+import com.triplem.momoim.core.domain.member.QGatheringMemberEntity;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +27,7 @@ import org.springframework.stereotype.Repository;
 public class GatheringRepositoryImpl implements GatheringRepository {
     private final GatheringJpaRepository gatheringJpaRepository;
     private final JPAQueryFactory jpaQueryFactory;
+    private final QGatheringMemberEntity members = new QGatheringMemberEntity("members");
 
     @Override
     public Gathering save(Gathering gathering) {
@@ -34,7 +38,9 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     @Override
     public Gathering findById(Long id) {
         return gatheringJpaRepository.findById(id)
-            .filter(gatheringEntity -> !gatheringEntity.getStatus().equals(GatheringStatus.DELETED))
+            .filter(gatheringEntity ->
+                !gatheringEntity.getStatus().equals(GatheringStatus.CANCELED) && !gatheringEntity.getStatus().equals(GatheringStatus.FINISHED)
+            )
             .orElseThrow(() -> new BusinessException(ExceptionCode.NOT_FOUND_GATHERING))
             .toModel();
     }
@@ -80,32 +86,74 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     }
 
     @Override
-    public List<Gathering> findBySearchOption(GatheringSearchOption searchOption) {
-        return jpaQueryFactory.select(gatheringEntity)
+    public List<GatheringPreview> searchGatherings(GatheringSearchOption searchOption) {
+        return jpaQueryFactory.select(
+                gatheringEntity,
+                members
+            )
             .from(gatheringEntity)
-            .where(whereGatheringSearchOption(searchOption), defaultGatheringFilter())
-            .orderBy(sortGatheringSearch(searchOption.getSortType(), searchOption.getSortOrder()))
+            .where(
+                whereGatheringSearchOption(searchOption),
+                gatheringEntity.status.ne(GatheringStatus.FINISHED),
+                gatheringEntity.status.ne(GatheringStatus.CANCELED)
+            )
+            .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
+            .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
             .limit(searchOption.getPaginationInformation().getLimit())
             .offset(searchOption.getPaginationInformation().getOffset())
-            .fetch()
-            .stream()
-            .map(GatheringEntity::toModel)
-            .collect(Collectors.toList());
+            .orderBy(sortGatheringSearch(searchOption.getSortType(), searchOption.getSortOrder()), gatheringEntity.id.desc())
+            .transform(gatheringPreviewParser());
     }
 
     @Override
-    public List<Gathering> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
-        return jpaQueryFactory.select(gatheringEntity)
+    public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
+        return jpaQueryFactory.select(
+                gatheringEntity,
+                gatheringMemberEntity
+            )
             .from(gatheringMemberEntity)
-            .where(gatheringMemberEntity.userId.eq(userId), defaultGatheringFilter())
+            .where(gatheringMemberEntity.userId.eq(userId))
+            .leftJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
+            .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
+            .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
             .offset(paginationInformation.getOffset())
             .limit(paginationInformation.getLimit())
             .orderBy(gatheringEntity.id.desc())
-            .innerJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
-            .fetch()
-            .stream()
-            .map(GatheringEntity::toModel)
-            .collect(Collectors.toList());
+            .transform(gatheringPreviewParser());
+    }
+
+    @Override
+    public List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation) {
+        return jpaQueryFactory.select(
+                gatheringEntity,
+                members
+            )
+            .from(gatheringEntity)
+            .where(
+                gatheringEntity.managerId.eq(userId)
+            )
+            .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
+            .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
+            .limit(paginationInformation.getLimit())
+            .offset(paginationInformation.getOffset())
+            .orderBy(gatheringEntity.id.desc())
+            .transform(gatheringPreviewParser());
+    }
+
+    @Override
+    public List<GatheringPreview> getGatheringPreviews(List<Long> ids) {
+        return jpaQueryFactory.select(
+                gatheringEntity,
+                members
+            )
+            .from(gatheringEntity)
+            .where(
+                gatheringEntity.id.in(ids)
+            )
+            .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
+            .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
+            .orderBy(gatheringEntity.id.desc())
+            .transform(gatheringPreviewParser());
     }
 
     private BooleanBuilder whereGatheringSearchOption(GatheringSearchOption searchOption) {
@@ -148,7 +196,36 @@ public class GatheringRepositoryImpl implements GatheringRepository {
         }
     }
 
-    private BooleanExpression defaultGatheringFilter() {
-        return gatheringEntity.status.ne(GatheringStatus.DELETED);
+    private ResultTransformer<List<GatheringPreview>> gatheringPreviewParser() {
+        return groupBy(gatheringEntity.id)
+            .list(
+                Projections.constructor(
+                    GatheringPreview.class,
+                    gatheringEntity.id,
+                    gatheringEntity.image,
+                    gatheringEntity.name,
+                    gatheringEntity.gatheringType,
+                    gatheringEntity.status,
+                    gatheringEntity.category,
+                    gatheringEntity.subCategory,
+                    gatheringEntity.location,
+                    gatheringEntity.nextGatheringAt,
+                    gatheringEntity.tags,
+                    gatheringEntity.capacity,
+                    gatheringEntity.participantCount,
+                    gatheringEntity.isPeriodic,
+                    list(
+                        Projections.constructor(
+                            GatheringMemberDetail.class,
+                            members.id,
+                            members.userId,
+                            userEntity.email,
+                            userEntity.name,
+                            userEntity.profileImage,
+                            members.joinedAt
+                        ).skipNulls()
+                    )
+                )
+            );
     }
 }

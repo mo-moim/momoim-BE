@@ -1,18 +1,19 @@
 package com.triplem.momoim.core.domain.review;
 
+import com.triplem.momoim.core.domain.gathering.GatheringStatus;
 import java.time.LocalDateTime;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@Builder
-public class ReviewDetail {
+@AllArgsConstructor
+public class MyReview {
     private Long reviewId;
-    private Boolean isWriter;
-    private String writer;
-    private String writerProfileImage;
+    private Long gatheringId;
     private String title;
     private String comment;
+    private String gatheringName;
+    private GatheringStatus gatheringStatus;
     private int score;
     private LocalDateTime createdAt;
 }

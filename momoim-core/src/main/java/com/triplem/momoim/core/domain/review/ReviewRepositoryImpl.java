@@ -1,8 +1,11 @@
 package com.triplem.momoim.core.domain.review;
 
+import static com.triplem.momoim.core.domain.gathering.QGatheringEntity.gatheringEntity;
+import static com.triplem.momoim.core.domain.member.QGatheringMemberEntity.gatheringMemberEntity;
 import static com.triplem.momoim.core.domain.review.QReviewEntity.reviewEntity;
 import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.exception.BusinessException;
@@ -71,9 +74,47 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                     .writerProfileImage(tuple.get(userEntity.profileImage))
                     .title(tuple.get(reviewEntity.title))
                     .comment(tuple.get(reviewEntity.comment))
+                    .score(tuple.get(reviewEntity.score))
                     .createdAt(tuple.get(reviewEntity.createdAt))
                     .build()
             )
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MyReview> getMyReviews(Long userId, PaginationInformation paginationInformation) {
+        return jpaQueryFactory.select(
+                Projections.constructor(
+                    MyReview.class,
+                    reviewEntity.id,
+                    reviewEntity.gatheringId,
+                    reviewEntity.title,
+                    reviewEntity.comment,
+                    gatheringEntity.name,
+                    gatheringEntity.status,
+                    reviewEntity.score,
+                    gatheringEntity.createdAt
+                )
+            )
+            .from(reviewEntity)
+            .where(reviewEntity.userId.eq(userId))
+            .leftJoin(gatheringEntity).on(gatheringEntity.id.eq(reviewEntity.gatheringId))
+            .offset(paginationInformation.getOffset())
+            .limit(paginationInformation.getLimit())
+            .orderBy(reviewEntity.id.desc())
+            .fetch();
+    }
+
+    @Override
+    public List<Long> getUnReviewGatheringIds(Long userId, PaginationInformation paginationInformation) {
+        return jpaQueryFactory.select(gatheringEntity.id)
+            .from(gatheringMemberEntity)
+            .leftJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
+            .leftJoin(reviewEntity).on(reviewEntity.gatheringId.eq(gatheringEntity.id))
+            .where(gatheringMemberEntity.userId.eq(userId), reviewEntity.id.isNull())
+            .offset(paginationInformation.getOffset())
+            .limit(paginationInformation.getLimit())
+            .orderBy(gatheringEntity.id.desc())
+            .fetch();
     }
 }

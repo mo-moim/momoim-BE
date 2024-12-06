@@ -33,7 +33,7 @@ public class RegisterGatheringRequest {
             .subCategory(subCategory.name())
             .name(name)
             .gatheringType(gatheringType)
-            .status(GatheringStatus.RECRUITING)
+            .status(GatheringStatus.OPEN)
             .image(image)
             .description(description)
             .tags(tags)

@@ -1,9 +1,9 @@
 package com.triplem.momoim.api.gathering.service;
 
-import com.triplem.momoim.api.gathering.dto.GatheringListItem;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.GatheringDetail;
+import com.triplem.momoim.core.domain.gathering.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
@@ -14,7 +14,6 @@ import com.triplem.momoim.exception.ExceptionCode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +23,8 @@ public class GatheringService {
     private final GatheringRepository gatheringRepository;
     private final GatheringMemberRepository gatheringMemberRepository;
 
-    public List<GatheringListItem> searchGathering(GatheringSearchOption searchOption) {
-        return gatheringRepository.findBySearchOption(searchOption)
-            .stream()
-            .map(GatheringListItem::from)
-            .collect(Collectors.toList());
+    public List<GatheringPreview> searchGathering(GatheringSearchOption searchOption) {
+        return gatheringRepository.searchGatherings(searchOption);
     }
 
     public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {
@@ -45,11 +41,12 @@ public class GatheringService {
         return members;
     }
 
-    public List<GatheringListItem> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
-        return gatheringRepository.getMyGatherings(userId, paginationInformation)
-            .stream()
-            .map(GatheringListItem::from)
-            .collect(Collectors.toList());
+    public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
+        return gatheringRepository.getMyGatherings(userId, paginationInformation);
+    }
+
+    public List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation) {
+        return gatheringRepository.getMyMadeGatherings(userId, paginationInformation);
     }
 
     public List<GatheringCategory> getCategory() {

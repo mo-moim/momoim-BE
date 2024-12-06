@@ -42,7 +42,7 @@ public class Gathering {
     }
 
     public void cancel() {
-        this.status = GatheringStatus.DELETED;
+        this.status = GatheringStatus.CANCELED;
     }
 
     public Boolean isManager(Long userId) {
@@ -69,7 +69,7 @@ public class Gathering {
     }
 
     public Boolean isRecruiting() {
-        return status == GatheringStatus.RECRUITING;
+        return status.equals(GatheringStatus.OPEN);
     }
 
     public void increaseParticipantCount() {
