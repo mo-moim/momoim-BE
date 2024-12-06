@@ -1,7 +1,7 @@
 package com.triplem.momoim.api.gathering.service;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
-import com.triplem.momoim.core.domain.gathering.ModifyGathering;
+import com.triplem.momoim.core.domain.gathering.dto.ModifyGathering;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.member.GatheringMemberAppender;
 import com.triplem.momoim.core.domain.member.GatheringMemberRemover;

@@ -7,7 +7,7 @@ import com.triplem.momoim.api.review.request.RegisterReviewRequest;
 import com.triplem.momoim.api.review.service.ReviewService;
 import com.triplem.momoim.auth.utils.SecurityUtil;
 import com.triplem.momoim.core.common.PaginationInformation;
-import com.triplem.momoim.core.domain.gathering.GatheringPreview;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.review.MyReview;
 import com.triplem.momoim.core.domain.review.Review;
 import com.triplem.momoim.core.domain.review.ReviewDetail;

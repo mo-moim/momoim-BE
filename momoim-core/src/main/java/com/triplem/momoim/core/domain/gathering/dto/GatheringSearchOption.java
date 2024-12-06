@@ -1,4 +1,4 @@
-package com.triplem.momoim.core.domain.gathering;
+package com.triplem.momoim.core.domain.gathering.dto;
 
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;

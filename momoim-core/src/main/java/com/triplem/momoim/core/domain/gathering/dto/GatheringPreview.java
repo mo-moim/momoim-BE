@@ -1,5 +1,6 @@
-package com.triplem.momoim.core.domain.gathering;
+package com.triplem.momoim.core.domain.gathering.dto;
 
+import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringType;

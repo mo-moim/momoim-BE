@@ -1,19 +1,24 @@
-package com.triplem.momoim.core.domain.gathering;
+package com.triplem.momoim.core.domain.gathering.dto;
 
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@Builder
-public class ModifyGathering {
-    private Long gatheringId;
-    private GatheringSubCategory subCategory;
+@AllArgsConstructor
+public class GatheringDetail {
+    private Long id;
+    private Long managerId;
+    private String managerName;
+    private String managerProfileImage;
+    private String category;
+    private String subCategory;
     private String name;
+    private GatheringType gatheringType;
     private GatheringStatus status;
     private String image;
     private String description;
@@ -21,6 +26,9 @@ public class ModifyGathering {
     private List<String> tags;
     private GatheringLocation location;
     private int capacity;
+    private int participantCount;
     private Boolean isPeriodic;
     private LocalDateTime nextGatheringAt;
+    private Boolean isJoined;
+    private Boolean isManager;
 }

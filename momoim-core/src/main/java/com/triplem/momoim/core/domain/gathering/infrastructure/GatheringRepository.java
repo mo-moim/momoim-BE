@@ -2,9 +2,9 @@ package com.triplem.momoim.core.domain.gathering.infrastructure;
 
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.Gathering;
-import com.triplem.momoim.core.domain.gathering.GatheringDetail;
-import com.triplem.momoim.core.domain.gathering.GatheringPreview;
-import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringDetail;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
 import java.util.List;
 
 public interface GatheringRepository {
