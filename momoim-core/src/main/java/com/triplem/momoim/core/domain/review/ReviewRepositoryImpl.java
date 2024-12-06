@@ -71,6 +71,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                     .writerProfileImage(tuple.get(userEntity.profileImage))
                     .title(tuple.get(reviewEntity.title))
                     .comment(tuple.get(reviewEntity.comment))
+                    .score(tuple.get(reviewEntity.score))
                     .createdAt(tuple.get(reviewEntity.createdAt))
                     .build()
             )

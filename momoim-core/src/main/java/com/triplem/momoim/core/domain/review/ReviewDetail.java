@@ -13,5 +13,6 @@ public class ReviewDetail {
     private String writerProfileImage;
     private String title;
     private String comment;
+    private int score;
     private LocalDateTime createdAt;
 }
