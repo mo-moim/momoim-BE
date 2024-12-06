@@ -1,5 +1,6 @@
 package com.triplem.momoim.core.domain.review;
 
+import com.triplem.momoim.core.domain.review.dto.ModifyReview;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.time.LocalDateTime;

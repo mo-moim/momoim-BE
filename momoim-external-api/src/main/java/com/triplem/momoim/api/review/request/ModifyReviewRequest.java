@@ -1,6 +1,6 @@
 package com.triplem.momoim.api.review.request;
 
-import com.triplem.momoim.core.domain.review.ModifyReview;
+import com.triplem.momoim.core.domain.review.dto.ModifyReview;
 import lombok.Getter;
 
 @Getter

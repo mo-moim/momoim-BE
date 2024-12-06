@@ -1,4 +1,4 @@
-package com.triplem.momoim.core.domain.review;
+package com.triplem.momoim.core.domain.review.dto;
 
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.triplem.momoim.core.domain.review;
+package com.triplem.momoim.core.domain.review.dto;
 
 import java.time.LocalDateTime;
 import lombok.Builder;

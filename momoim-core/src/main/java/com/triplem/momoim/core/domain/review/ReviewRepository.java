@@ -1,6 +1,8 @@
 package com.triplem.momoim.core.domain.review;
 
 import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.core.domain.review.dto.MyReview;
+import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
 import java.util.List;
 
 public interface ReviewRepository {
