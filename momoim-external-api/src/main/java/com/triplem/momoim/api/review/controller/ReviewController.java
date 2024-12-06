@@ -38,8 +38,8 @@ public class ReviewController {
     @Operation(operationId = "모임 리뷰 조회", summary = "모임 리뷰 조회", tags = {"reviews"}, description = "모임 리뷰 조회")
     public ApiResponse<List<ReviewDetail>> gatherReview(
         @PathVariable Long gatheringId,
-        @Parameter(name = "페이징 offset") @RequestParam int offset,
-        @Parameter(name = "페이징 limit") @RequestParam int limit) {
+        @Parameter(description = "페이징 offset") @RequestParam int offset,
+        @Parameter(description = "페이징 limit") @RequestParam int limit) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         return ApiResponse.success(reviewService.getReviews(gatheringId, userId, new PaginationInformation(offset, limit)));
     }
@@ -64,7 +64,7 @@ public class ReviewController {
     })
     @Operation(operationId = "모임 리뷰 수정", summary = "모임 리뷰 수정", tags = {"reviews"}, description = "모임 리뷰 수정")
     public DefaultApiResponse modifyReview(
-        @Parameter(name = "reviewId", description = "수정 할 리뷰 ID") @PathVariable Long reviewId,
+        @Parameter(description = "수정 할 리뷰 ID") @PathVariable Long reviewId,
         @RequestBody ModifyReviewRequest request) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         reviewService.modify(request.toModel(reviewId, userId));
@@ -78,7 +78,7 @@ public class ReviewController {
     })
     @Operation(operationId = "모임 리뷰 삭제", summary = "모임 리뷰 삭제", tags = {"reviews"}, description = "모임 리뷰 삭제")
     public DefaultApiResponse deleteReview(
-        @Parameter(name = "reviewId", description = "삭제 할 리뷰 ID") @PathVariable Long reviewId) {
+        @Parameter(description = "삭제 할 리뷰 ID") @PathVariable Long reviewId) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         reviewService.delete(userId, reviewId);
         return DefaultApiResponse.success();
