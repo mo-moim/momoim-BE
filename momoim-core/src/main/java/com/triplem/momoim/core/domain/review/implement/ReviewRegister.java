@@ -1,4 +1,4 @@
-package com.triplem.momoim.core.domain.review;
+package com.triplem.momoim.core.domain.review.implement;
 
 import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
 import com.triplem.momoim.core.domain.review.infrastructure.ReviewRepository;
