@@ -1,6 +1,6 @@
 package com.triplem.momoim.core.domain.member.infrastructure;
 
-import static com.triplem.momoim.core.domain.member.QGatheringMemberEntity.gatheringMemberEntity;
+import static com.triplem.momoim.core.domain.member.infrastructure.QGatheringMemberEntity.gatheringMemberEntity;
 import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 
 import com.querydsl.core.types.Projections;

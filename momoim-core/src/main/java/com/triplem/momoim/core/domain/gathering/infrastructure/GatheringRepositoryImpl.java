@@ -2,8 +2,8 @@ package com.triplem.momoim.core.domain.gathering.infrastructure;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
-import static com.triplem.momoim.core.domain.gathering.QGatheringEntity.gatheringEntity;
-import static com.triplem.momoim.core.domain.member.QGatheringMemberEntity.gatheringMemberEntity;
+import static com.triplem.momoim.core.domain.gathering.infrastructure.QGatheringEntity.gatheringEntity;
+import static com.triplem.momoim.core.domain.member.infrastructure.QGatheringMemberEntity.gatheringMemberEntity;
 import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 
 import com.querydsl.core.BooleanBuilder;
@@ -20,8 +20,8 @@ import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
-import com.triplem.momoim.core.domain.member.QGatheringMemberEntity;
 import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
+import com.triplem.momoim.core.domain.member.infrastructure.QGatheringMemberEntity;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.util.List;

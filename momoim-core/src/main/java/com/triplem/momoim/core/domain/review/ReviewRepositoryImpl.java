@@ -1,7 +1,7 @@
 package com.triplem.momoim.core.domain.review;
 
-import static com.triplem.momoim.core.domain.gathering.QGatheringEntity.gatheringEntity;
-import static com.triplem.momoim.core.domain.member.QGatheringMemberEntity.gatheringMemberEntity;
+import static com.triplem.momoim.core.domain.gathering.infrastructure.QGatheringEntity.gatheringEntity;
+import static com.triplem.momoim.core.domain.member.infrastructure.QGatheringMemberEntity.gatheringMemberEntity;
 import static com.triplem.momoim.core.domain.review.QReviewEntity.reviewEntity;
 import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 
