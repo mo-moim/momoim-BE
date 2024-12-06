@@ -76,7 +76,9 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                 )
             )
             .from(gatheringEntity)
-            .where(gatheringEntity.id.eq(gatheringId))
+            .where(
+                gatheringEntity.id.eq(gatheringId),
+                gatheringEntity.status.eq(GatheringStatus.OPEN).or(gatheringEntity.status.eq(GatheringStatus.CLOSED)))
             .leftJoin(userEntity).on(userEntity.id.eq(gatheringEntity.managerId))
             .fetchFirst();
 
