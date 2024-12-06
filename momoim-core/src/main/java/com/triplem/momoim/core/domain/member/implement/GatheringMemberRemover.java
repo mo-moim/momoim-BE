@@ -30,6 +30,7 @@ public class GatheringMemberRemover {
         gatheringMemberRepository.deleteByUserIdAndGatheringId(userId, gatheringId);
     }
 
+    @Transactional
     public void kickMember(Long managerId, Long kickMemberId) {
         GatheringMember kickMember = gatheringMemberRepository.findById(kickMemberId);
         Gathering gathering = gatheringRepository.findById(kickMember.getGatheringId());
