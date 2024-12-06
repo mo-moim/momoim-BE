@@ -3,8 +3,6 @@ package com.triplem.momoim.api.gathering.controller;
 import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.api.common.DefaultApiResponse;
 import com.triplem.momoim.api.gathering.dto.GatheringCategoryInformation;
-import com.triplem.momoim.api.gathering.request.ModifyGatheringRequest;
-import com.triplem.momoim.api.gathering.request.RegisterGatheringRequest;
 import com.triplem.momoim.api.gathering.service.GatheringJoinService;
 import com.triplem.momoim.api.gathering.service.GatheringManagementService;
 import com.triplem.momoim.api.gathering.service.GatheringService;
@@ -18,7 +16,6 @@ import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
-import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -30,11 +27,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -69,20 +63,6 @@ public class GatheringController {
         return ApiResponse.success(gatherings);
     }
 
-    @PostMapping
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
-    @ApiResponses(value = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
-    })
-    @Operation(operationId = "모임 생성", summary = "모임 생성", tags = {"gatherings"}, description = "모임 생성")
-    //todo 응답으로 GatheringID만 주도록 변경하기
-    public ApiResponse<GatheringPreview> registerGathering(
-        @RequestBody RegisterGatheringRequest request) {
-        Long userId = SecurityUtil.getMemberIdByPrincipal();
-        Gathering gathering = gatheringManagementService.register(request.toGathering(userId));
-        return ApiResponse.success(GatheringPreview.from(gathering));
-    }
-
     @GetMapping("/joined")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @ApiResponses(value = {
@@ -98,20 +78,6 @@ public class GatheringController {
             new PaginationInformation(offset, limit)
         );
         return ApiResponse.success(myGatherings);
-    }
-
-    @GetMapping("/made")
-    @ApiResponses(value = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
-    })
-    @Operation(operationId = "내가 만든 모임 조회", summary = "내가 만든 모임 조회", tags = {"gatherings"}, description = "내가 만든 모임 조회")
-    public ApiResponse<List<GatheringPreview>> getMyMadeGatherings(
-        @Parameter(description = "페이징 offset") @RequestParam int offset,
-        @Parameter(description = "페이징 limit") @RequestParam int limit
-    ) {
-        Long userId = SecurityUtil.getMemberIdByPrincipal();
-        List<GatheringPreview> myMadeGatherings = gatheringService.getMyMadeGatherings(userId, new PaginationInformation(offset, limit));
-        return ApiResponse.success(myMadeGatherings);
     }
 
     @GetMapping("/categories")
@@ -137,19 +103,6 @@ public class GatheringController {
         return ApiResponse.success(gathering);
     }
 
-    @PutMapping("/{gatheringId}/cancel")
-    @ApiResponses(value = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
-    })
-    @Operation(operationId = "모임 취소", summary = "모임 취소", tags = {"gatherings"}, description = "모임 취소")
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public DefaultApiResponse cancelGathering(
-        @PathVariable Long gatheringId) {
-        Long userId = SecurityUtil.getMemberIdByPrincipal();
-        gatheringManagementService.cancel(userId, gatheringId);
-        return DefaultApiResponse.success();
-    }
-
     @PostMapping("/{gatheringId}/join")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @ApiResponses(value = {
@@ -173,33 +126,6 @@ public class GatheringController {
         @Parameter(description = "모임 ID") @PathVariable Long gatheringId) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         gatheringJoinService.cancelJoinGathering(userId, gatheringId);
-        return DefaultApiResponse.success();
-    }
-
-    @PatchMapping("/{gatheringId}")
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
-    @ApiResponses(value = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
-    })
-    @Operation(operationId = "모임 수정", summary = "모임 수정", tags = {"gatherings"}, description = "모임 수정")
-    public DefaultApiResponse modifyGathering(
-        @Parameter(description = "모임 ID") @PathVariable Long gatheringId,
-        @RequestBody ModifyGatheringRequest request) {
-        Long userId = SecurityUtil.getMemberIdByPrincipal();
-        gatheringManagementService.modify(userId, request.toContent(gatheringId));
-        return DefaultApiResponse.success();
-    }
-
-    @DeleteMapping("/member/{gatheringMemberId}")
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
-    @ApiResponses(value = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
-    })
-    @Operation(operationId = "멤버 추방", summary = "멤버 추방", tags = {"gatherings"}, description = "멤버 추방")
-    public DefaultApiResponse kickMember(
-        @Parameter(description = "추방 할 gatheringMemberId") @PathVariable Long gatheringMemberId) {
-        Long userId = SecurityUtil.getMemberIdByPrincipal();
-        gatheringManagementService.kickMember(userId, gatheringMemberId);
         return DefaultApiResponse.success();
     }
 }
