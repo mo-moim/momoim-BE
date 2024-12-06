@@ -1,4 +1,4 @@
-package com.triplem.momoim.core.domain.gathering;
+package com.triplem.momoim.core.domain.gathering.infrastructure;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
@@ -14,6 +14,10 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
+import com.triplem.momoim.core.domain.gathering.Gathering;
+import com.triplem.momoim.core.domain.gathering.GatheringDetail;
+import com.triplem.momoim.core.domain.gathering.GatheringPreview;
+import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import com.triplem.momoim.core.domain.member.GatheringMemberDetail;

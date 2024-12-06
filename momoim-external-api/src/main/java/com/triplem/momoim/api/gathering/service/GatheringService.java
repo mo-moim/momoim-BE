@@ -1,12 +1,12 @@
 package com.triplem.momoim.api.gathering.service;
 
 import com.triplem.momoim.core.common.PaginationInformation;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.GatheringDetail;
 import com.triplem.momoim.core.domain.gathering.GatheringPreview;
-import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
+import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
 import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
 import com.triplem.momoim.exception.BusinessException;

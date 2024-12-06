@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringBuilder;
-import com.triplem.momoim.core.domain.gathering.GatheringRepository;
+import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.user.User;
 import com.triplem.momoim.core.domain.user.UserBuilder;
 import com.triplem.momoim.core.domain.user.UserRepository;

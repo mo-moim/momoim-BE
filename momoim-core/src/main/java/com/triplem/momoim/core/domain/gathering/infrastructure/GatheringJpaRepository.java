@@ -1,4 +1,4 @@
-package com.triplem.momoim.core.domain.gathering;
+package com.triplem.momoim.core.domain.gathering.infrastructure;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

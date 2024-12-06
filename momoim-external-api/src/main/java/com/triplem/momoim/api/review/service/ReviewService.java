@@ -2,7 +2,7 @@ package com.triplem.momoim.api.review.service;
 
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.GatheringPreview;
-import com.triplem.momoim.core.domain.gathering.GatheringRepository;
+import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.review.ModifyReview;
 import com.triplem.momoim.core.domain.review.MyReview;
 import com.triplem.momoim.core.domain.review.Review;
