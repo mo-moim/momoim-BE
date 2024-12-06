@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.triplem.momoim.core.domain.gathering.GatheringBuilder;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
+import com.triplem.momoim.core.domain.member.implement.GatheringMemberAppender;
 import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
 import com.triplem.momoim.core.domain.member.model.GatheringMember;
 import com.triplem.momoim.exception.BusinessException;

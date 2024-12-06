@@ -1,4 +1,4 @@
-package com.triplem.momoim.core.domain.member;
+package com.triplem.momoim.core.domain.member.implement;
 
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
