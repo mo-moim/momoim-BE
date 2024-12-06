@@ -19,6 +19,7 @@ public class RegisterGatheringRequest {
     private GatheringType gatheringType;
     private String image;
     private String description;
+    private String address;
     private List<String> tags;
     private GatheringLocation location;
     private int capacity;
@@ -36,6 +37,7 @@ public class RegisterGatheringRequest {
             .status(GatheringStatus.OPEN)
             .image(image)
             .description(description)
+            .address(address)
             .tags(tags)
             .location(location)
             .capacity(capacity)
