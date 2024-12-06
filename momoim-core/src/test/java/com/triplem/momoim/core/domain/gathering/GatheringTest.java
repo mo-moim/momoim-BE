@@ -3,6 +3,7 @@ package com.triplem.momoim.core.domain.gathering;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import org.junit.jupiter.api.DisplayName;

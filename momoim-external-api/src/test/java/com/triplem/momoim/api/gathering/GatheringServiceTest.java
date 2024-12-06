@@ -8,7 +8,7 @@ import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.core.domain.gathering.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
-import com.triplem.momoim.core.domain.gathering.GatheringSortType;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

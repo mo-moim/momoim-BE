@@ -2,6 +2,10 @@ package com.triplem.momoim.core.domain.gathering;
 
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;

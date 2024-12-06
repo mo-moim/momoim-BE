@@ -1,8 +1,5 @@
 package com.triplem.momoim.core.domain.user;
 
-import com.triplem.momoim.core.domain.gathering.GatheringLocation;
-import com.triplem.momoim.core.domain.member.GatheringMember;
-import com.triplem.momoim.core.domain.member.GatheringMemberEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,17 +22,17 @@ public class UserActiveLocationEntity {
 
     public static UserActiveLocationEntity from(UserActiveLocation userActiveLocation) {
         return UserActiveLocationEntity.builder()
-                .id(userActiveLocation.getId())
-                .userId(userActiveLocation.getUserId())
-                .activeLocationType(userActiveLocation.getActiveLocationType())
-                .build();
+            .id(userActiveLocation.getId())
+            .userId(userActiveLocation.getUserId())
+            .activeLocationType(userActiveLocation.getActiveLocationType())
+            .build();
     }
 
     public UserActiveLocation toModel() {
         return UserActiveLocation.builder()
-                .id(id)
-                .userId(userId)
-                .activeLocationType((activeLocationType))
-                .build();
+            .id(id)
+            .userId(userId)
+            .activeLocationType((activeLocationType))
+            .build();
     }
 }

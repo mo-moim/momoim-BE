@@ -1,7 +1,7 @@
 package com.triplem.momoim.api.gathering.dto;
 
-import com.triplem.momoim.core.domain.gathering.GatheringCategory;
-import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;

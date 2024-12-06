@@ -1,6 +1,6 @@
 package com.triplem.momoim.core.domain.review;
 
-import com.triplem.momoim.core.domain.gathering.GatheringStatus;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,5 +1,8 @@
 package com.triplem.momoim.core.domain.gathering;
 
+import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.time.LocalDateTime;

@@ -14,6 +14,8 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
 import com.triplem.momoim.core.domain.member.QGatheringMemberEntity;
 import com.triplem.momoim.exception.BusinessException;

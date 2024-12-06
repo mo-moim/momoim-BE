@@ -1,5 +1,8 @@
 package com.triplem.momoim.core.domain.gathering;
 
+import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
