@@ -8,10 +8,6 @@ import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
 import com.triplem.momoim.core.domain.gathering.implement.GatheringReader;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
-import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
-import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
-import com.triplem.momoim.exception.BusinessException;
-import com.triplem.momoim.exception.ExceptionCode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +19,6 @@ import org.springframework.stereotype.Service;
 public class GatheringService {
     private final GatheringReader gatheringReader;
     private final GatheringRepository gatheringRepository;
-    private final GatheringMemberRepository gatheringMemberRepository;
 
     public List<GatheringPreview> searchGathering(GatheringSearchOption searchOption) {
         return gatheringRepository.searchGatherings(searchOption);
@@ -31,16 +26,6 @@ public class GatheringService {
 
     public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {
         return gatheringReader.getGatheringDetail(gatheringId, userId);
-    }
-
-    public List<GatheringMemberDetail> getGatheringMembers(Long gatheringId) {
-        List<GatheringMemberDetail> members = gatheringMemberRepository.getGatheringMembers(gatheringId);
-
-        if (members.isEmpty()) {
-            throw new BusinessException(ExceptionCode.NOT_FOUND_GATHERING);
-        }
-
-        return members;
     }
 
     public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {

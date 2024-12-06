@@ -19,7 +19,6 @@ import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
-import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -136,17 +135,6 @@ public class GatheringController {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         GatheringDetail gathering = gatheringService.getGatheringDetail(gatheringId, userId);
         return ApiResponse.success(gathering);
-    }
-
-    @GetMapping("/{gatheringId}/participants")
-    @ApiResponses(value = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
-    })
-    @Operation(operationId = "모임 멤버 조회", summary = "모임 멤버 조회", tags = {"gatherings"}, description = "모임 멤버 조회")
-    public ApiResponse<List<GatheringMemberDetail>> getGatheringMembers(
-        @Parameter(description = "조회 할 모임 ID") @PathVariable Long gatheringId) {
-        List<GatheringMemberDetail> members = gatheringService.getGatheringMembers(gatheringId);
-        return ApiResponse.success(members);
     }
 
     @PutMapping("/{gatheringId}/cancel")
