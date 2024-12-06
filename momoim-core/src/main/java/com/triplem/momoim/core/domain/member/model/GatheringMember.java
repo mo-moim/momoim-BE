@@ -1,4 +1,4 @@
-package com.triplem.momoim.core.domain.member;
+package com.triplem.momoim.core.domain.member.model;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;

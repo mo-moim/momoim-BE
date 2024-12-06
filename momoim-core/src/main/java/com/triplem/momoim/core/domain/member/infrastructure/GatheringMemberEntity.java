@@ -1,6 +1,6 @@
 package com.triplem.momoim.core.domain.member.infrastructure;
 
-import com.triplem.momoim.core.domain.member.GatheringMember;
+import com.triplem.momoim.core.domain.member.model.GatheringMember;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

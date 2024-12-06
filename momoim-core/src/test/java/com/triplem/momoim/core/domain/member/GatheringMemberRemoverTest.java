@@ -7,6 +7,7 @@ import com.triplem.momoim.core.domain.gathering.GatheringBuilder;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
+import com.triplem.momoim.core.domain.member.model.GatheringMember;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import org.junit.jupiter.api.DisplayName;
