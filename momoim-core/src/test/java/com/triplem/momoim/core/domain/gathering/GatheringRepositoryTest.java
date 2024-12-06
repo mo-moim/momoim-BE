@@ -197,8 +197,7 @@ class GatheringRepositoryTest {
         //when
         List<GatheringPreview> gatherings = gatheringRepository.getMyGatherings(
             userId,
-            new MyGatheringOption(isOnlyIMade, new PaginationInformation(offset, limit))
-        );
+            paginationInformation);
 
         //then
         assertThat(gatherings).hasSize(5)

@@ -19,7 +19,6 @@ import com.triplem.momoim.core.domain.gathering.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
-import com.triplem.momoim.core.domain.gathering.MyGatheringOption;
 import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -94,17 +93,30 @@ public class GatheringController {
     @ApiResponses(value = {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
     })
-    @Operation(operationId = "나의 모임 목록 조회", summary = "나의 모임 목록 조회", tags = {"gatherings"}, description = "나의 모임 목록 조회")
+    @Operation(operationId = "내가 속한 모임 조회", summary = "내가 속한 모임 조회", tags = {"gatherings"}, description = "내가 속한 모임 조회")
     public ApiResponse<List<GatheringPreview>> getMyGatherings(
-        @Parameter(description = "내가 만든 모임 조회 여부") @RequestParam(defaultValue = "false") Boolean isOnlyIMade,
         @Parameter(description = "페이징 offset") @RequestParam int offset,
         @Parameter(description = "페이징 limit") @RequestParam int limit) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         List<GatheringPreview> myGatherings = gatheringService.getMyGatherings(
             userId,
-            new MyGatheringOption(isOnlyIMade, new PaginationInformation(offset, limit))
+            new PaginationInformation(offset, limit)
         );
         return ApiResponse.success(myGatherings);
+    }
+
+    @GetMapping("/made")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "내가 만든 모임 조회", summary = "내가 만든 모임 조회", tags = {"gatherings"}, description = "내가 만든 모임 조회")
+    public ApiResponse<List<GatheringPreview>> getMyMadeGatherings(
+        @Parameter(description = "페이징 offset") @RequestParam int offset,
+        @Parameter(description = "페이징 limit") @RequestParam int limit
+    ) {
+        Long userId = SecurityUtil.getMemberIdByPrincipal();
+        List<GatheringPreview> myMadeGatherings = gatheringService.getMyMadeGatherings(userId, new PaginationInformation(offset, limit));
+        return ApiResponse.success(myMadeGatherings);
     }
 
     @GetMapping("/categories")
@@ -161,7 +173,7 @@ public class GatheringController {
     })
     @Operation(operationId = "모임 참여", summary = "모임 참여", tags = {"gatherings"}, description = "모임 참여")
     public DefaultApiResponse joinGathering(
-        @Parameter(description ="모임 ID") @PathVariable Long gatheringId) {
+        @Parameter(description = "모임 ID") @PathVariable Long gatheringId) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         gatheringJoinService.joinGathering(userId, gatheringId);
         return DefaultApiResponse.success();
@@ -174,7 +186,7 @@ public class GatheringController {
     })
     @Operation(operationId = "모임 참여 취소", summary = "모임 참여 취소", tags = {"gatherings"}, description = "모임 참여 취소")
     public DefaultApiResponse leaveGathering(
-        @Parameter(description ="모임 ID") @PathVariable Long gatheringId) {
+        @Parameter(description = "모임 ID") @PathVariable Long gatheringId) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         gatheringJoinService.cancelJoinGathering(userId, gatheringId);
         return DefaultApiResponse.success();
@@ -187,7 +199,7 @@ public class GatheringController {
     })
     @Operation(operationId = "모임 수정", summary = "모임 수정", tags = {"gatherings"}, description = "모임 수정")
     public DefaultApiResponse modifyGathering(
-        @Parameter(description ="모임 ID") @PathVariable Long gatheringId,
+        @Parameter(description = "모임 ID") @PathVariable Long gatheringId,
         @RequestBody ModifyGatheringRequest request) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         gatheringManagementService.modify(userId, request.toContent(gatheringId));
@@ -201,7 +213,7 @@ public class GatheringController {
     })
     @Operation(operationId = "멤버 추방", summary = "멤버 추방", tags = {"gatherings"}, description = "멤버 추방")
     public DefaultApiResponse kickMember(
-        @Parameter(description ="추방 할 gatheringMemberId") @PathVariable Long gatheringMemberId) {
+        @Parameter(description = "추방 할 gatheringMemberId") @PathVariable Long gatheringMemberId) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         gatheringManagementService.kickMember(userId, gatheringMemberId);
         return DefaultApiResponse.success();
