@@ -3,6 +3,7 @@ package com.triplem.momoim.api.gathering.service;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.ModifyGathering;
+import com.triplem.momoim.core.domain.gathering.implement.GatheringReader;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.implement.GatheringMemberAppender;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class GatheringWorkSpaceService {
+    private final GatheringReader gatheringReader;
     private final GatheringRepository gatheringRepository;
     private final GatheringMemberRemover gatheringMemberRemover;
     private final GatheringMemberAppender gatheringMemberAppender;
@@ -28,8 +30,8 @@ public class GatheringWorkSpaceService {
         return savedGathering;
     }
 
-    public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
-        return gatheringRepository.getMyMadeGatherings(userId, paginationInformation);
+    public List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation) {
+        return gatheringReader.getMyMageGatherings(userId, paginationInformation);
     }
 
     public void cancel(Long requesterId, Long gatheringId) {

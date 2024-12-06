@@ -42,7 +42,7 @@ public class GatheringWorkSpaceController {
         @Parameter(description = "페이징 limit") @RequestParam int limit
     ) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
-        List<GatheringPreview> myMadeGatherings = gatheringWorkSpaceService.getMyGatherings(userId, new PaginationInformation(offset, limit));
+        List<GatheringPreview> myMadeGatherings = gatheringWorkSpaceService.getMyMadeGatherings(userId, new PaginationInformation(offset, limit));
         return ApiResponse.success(myMadeGatherings);
     }
 

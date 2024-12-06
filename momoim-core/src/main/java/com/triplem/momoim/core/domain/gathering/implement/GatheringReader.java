@@ -1,5 +1,6 @@
 package com.triplem.momoim.core.domain.gathering.implement;
 
+import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringContent;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringDetail;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
@@ -31,5 +32,9 @@ public class GatheringReader {
             .filter(id -> id.equals(userId))
             .count() == 1;
         return new GatheringDetail(gatheringContent, members, isJoined, isManager);
+    }
+
+    public List<GatheringPreview> getMyMageGatherings(Long userId, PaginationInformation paginationInformation) {
+        return gatheringRepository.getMyMadeGatherings(userId, paginationInformation);
     }
 }
