@@ -5,6 +5,7 @@ import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.ModifyGathering;
 import com.triplem.momoim.core.domain.gathering.implement.GatheringReader;
 import com.triplem.momoim.core.domain.gathering.implement.GatheringRegister;
+import com.triplem.momoim.core.domain.gathering.implement.GatheringUpdater;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.implement.GatheringMemberRemover;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GatheringWorkSpaceService {
     private final GatheringReader gatheringReader;
     private final GatheringRegister gatheringRegister;
+    private final GatheringUpdater gatheringUpdater;
     private final GatheringRepository gatheringRepository;
     private final GatheringMemberRemover gatheringMemberRemover;
 
@@ -32,15 +34,8 @@ public class GatheringWorkSpaceService {
         return gatheringReader.getMyMageGatherings(userId, paginationInformation);
     }
 
-    public void cancel(Long requesterId, Long gatheringId) {
-        Gathering gathering = gatheringRepository.findById(gatheringId);
-
-        if (!gathering.isManager(requesterId)) {
-            throw new BusinessException(ExceptionCode.FORBIDDEN_GATHERING);
-        }
-
-        gathering.cancel();
-        gatheringRepository.save(gathering);
+    public void cancel(Long managerId, Long gatheringId) {
+        gatheringUpdater.cancelGathering(managerId, gatheringId);
     }
 
     public void modify(Long requesterId, ModifyGathering modifyGathering) {
