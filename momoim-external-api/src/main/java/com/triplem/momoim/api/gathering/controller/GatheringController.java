@@ -19,7 +19,7 @@ import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
-import com.triplem.momoim.core.domain.member.GatheringMemberDetail;
+import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
