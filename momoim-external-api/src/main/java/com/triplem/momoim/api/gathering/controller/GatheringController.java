@@ -22,6 +22,8 @@ import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.time.LocalDate;
 import java.util.List;
@@ -51,27 +53,20 @@ public class GatheringController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
     })
     @Operation(operationId = "모임 목록 조회", summary = "모임 목록 조회", tags = {"gatherings"}, description = "모임 목록 조회")
+    @Parameters({
+        @Parameter(name = "gatheringIds", description = "필터링 모임 id 목록", example = "1,2,3", schema = @Schema(implementation = Long[].class)),
+        @Parameter(name = "category", description = "필터링 카테고리", schema = @Schema(implementation = GatheringCategory.class)),
+        @Parameter(name = "subCategory", description = "필터링 서브 카테고리", schema = @Schema(implementation = GatheringSubCategory.class)),
+        @Parameter(name = "location", description = "필터링 지역", schema = @Schema(implementation = GatheringLocation.class)),
+        @Parameter(name = "gatheringDate", description = "필터링 모임 날짜", example = "2024-12-31", schema = @Schema(implementation = LocalDate.class)),
+        @Parameter(name = "offset", description = "페이징 offset", schema = @Schema(implementation = Integer.class), required = true),
+        @Parameter(name = "limit", description = "페이징 limit", schema = @Schema(implementation = Integer.class), required = true),
+        @Parameter(name = "sortType", description = "정렬 기준", schema = @Schema(implementation = GatheringSortType.class), required = true),
+        @Parameter(name = "sortOrder", description = "오름차순 / 내림차순", schema = @Schema(implementation = SortOrder.class), required = true),
+    })
     public ApiResponse<List<GatheringPreview>> getGatherings(
-        @Parameter(description = "모임 ID 리스트") @RequestParam(required = false) List<Long> ids,
-        @Parameter(description = "메인 카테고리") @RequestParam(required = false) GatheringCategory category,
-        @Parameter(description = "서브 카테고리") @RequestParam(required = false) GatheringSubCategory subCategory,
-        @Parameter(description = "모임 지역") @RequestParam(required = false) GatheringLocation gatheringLocation,
-        @Parameter(description = "모임 날짜") @RequestParam(required = false) LocalDate gatheringAt,
-        @Parameter(description = "페이징 offset") @RequestParam int offset,
-        @Parameter(description = "페이징 limit") @RequestParam int limit,
-        @Parameter(description = "정렬 기준") @RequestParam(defaultValue = "UPDATE_AT") GatheringSortType sortType,
-        @Parameter(description = "오름 차순 / 내림 차순") @RequestParam(defaultValue = "DESC") SortOrder sortOrder) {
-        List<GatheringPreview> gatherings = gatheringService.searchGathering(
-            GatheringSearchOption.of(
-                ids,
-                category,
-                subCategory,
-                gatheringLocation,
-                gatheringAt,
-                new PaginationInformation(offset, limit),
-                sortType,
-                sortOrder
-            ));
+        @Parameter(hidden = true) GatheringSearchOption option) {
+        List<GatheringPreview> gatherings = gatheringService.searchGathering(option);
         return ApiResponse.success(gatherings);
     }
 
