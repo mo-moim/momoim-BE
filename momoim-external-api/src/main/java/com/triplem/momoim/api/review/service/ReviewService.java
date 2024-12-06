@@ -2,6 +2,7 @@ package com.triplem.momoim.api.review.service;
 
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.review.ModifyReview;
+import com.triplem.momoim.core.domain.review.MyReview;
 import com.triplem.momoim.core.domain.review.Review;
 import com.triplem.momoim.core.domain.review.ReviewDetail;
 import com.triplem.momoim.core.domain.review.ReviewRegister;
@@ -20,6 +21,10 @@ public class ReviewService {
 
     public List<ReviewDetail> getReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
         return reviewRepository.getReviews(gatheringId, userId, paginationInformation);
+    }
+
+    public List<MyReview> getMyReviews(Long userId, PaginationInformation paginationInformation) {
+        return reviewRepository.getMyReviews(userId, paginationInformation);
     }
 
     public Review register(Review review) {

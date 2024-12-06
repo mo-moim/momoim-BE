@@ -13,4 +13,6 @@ public interface ReviewRepository {
     void deleteById(Long id);
 
     List<ReviewDetail> getReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation);
+
+    List<MyReview> getMyReviews(Long userId, PaginationInformation paginationInformation);
 }

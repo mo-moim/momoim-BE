@@ -7,6 +7,7 @@ import com.triplem.momoim.api.review.request.RegisterReviewRequest;
 import com.triplem.momoim.api.review.service.ReviewService;
 import com.triplem.momoim.auth.utils.SecurityUtil;
 import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.core.domain.review.MyReview;
 import com.triplem.momoim.core.domain.review.Review;
 import com.triplem.momoim.core.domain.review.ReviewDetail;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +31,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
+
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "작성한 리뷰 목록 조회", summary = "작성한 리뷰 목록 조회", tags = {"reviews"}, description = "작성한 리뷰 목록 조회")
+    public ApiResponse<List<MyReview>> me(
+        @Parameter(description = "페이징 offset") @RequestParam int offset,
+        @Parameter(description = "페이징 limit") @RequestParam int limit) {
+        Long userId = SecurityUtil.getMemberIdByPrincipal();
+        List<MyReview> myReviews = reviewService.getMyReviews(userId, new PaginationInformation(offset, limit));
+        return ApiResponse.success(myReviews);
+    }
 
     @GetMapping("/{gatheringId}")
     @ApiResponses(value = {
