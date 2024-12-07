@@ -114,7 +114,7 @@ public class GatheringController {
         return DefaultApiResponse.success();
     }
 
-    @DeleteMapping("/{gatheringId}/leave")
+    @DeleteMapping("/{gatheringId}/join")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @ApiResponses(value = {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
