@@ -8,6 +8,7 @@ import com.triplem.momoim.core.domain.review.dto.MyReview;
 import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
 import com.triplem.momoim.core.domain.review.implement.ReviewReader;
 import com.triplem.momoim.core.domain.review.implement.ReviewRegister;
+import com.triplem.momoim.core.domain.review.implement.ReviewUpdater;
 import com.triplem.momoim.core.domain.review.infrastructure.ReviewRepository;
 import com.triplem.momoim.core.domain.review.model.Review;
 import com.triplem.momoim.exception.BusinessException;
@@ -22,6 +23,7 @@ public class ReviewService {
     private final ReviewReader reviewReader;
     private final ReviewRepository reviewRepository;
     private final ReviewRegister reviewRegister;
+    private final ReviewUpdater reviewUpdater;
     private final GatheringRepository gatheringRepository;
 
     public List<ReviewDetail> getGatheringReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
@@ -41,10 +43,8 @@ public class ReviewService {
         return reviewRegister.review(review);
     }
 
-    public void modify(ModifyReview modifyReview) {
-        Review review = reviewRepository.findById(modifyReview.getReviewId());
-        review.modify(modifyReview);
-        reviewRepository.save(review);
+    public void modify(Long userId, ModifyReview modifyReview) {
+        reviewUpdater.modifyReview(userId, modifyReview);
     }
 
     public void delete(Long requesterId, Long reviewId) {

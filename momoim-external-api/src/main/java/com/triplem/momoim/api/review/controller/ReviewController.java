@@ -97,7 +97,7 @@ public class ReviewController {
         @Parameter(description = "수정 할 리뷰 ID") @PathVariable Long reviewId,
         @RequestBody ModifyReviewRequest request) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
-        reviewService.modify(request.toModel(reviewId, userId));
+        reviewService.modify(userId, request.toModel(reviewId));
         return DefaultApiResponse.success();
     }
 

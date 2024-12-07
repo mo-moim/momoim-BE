@@ -1,8 +1,6 @@
 package com.triplem.momoim.core.domain.review.model;
 
 import com.triplem.momoim.core.domain.review.dto.ModifyReview;
-import com.triplem.momoim.exception.BusinessException;
-import com.triplem.momoim.exception.ExceptionCode;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,10 +19,6 @@ public class Review {
     private LocalDateTime createdAt;
 
     public void modify(ModifyReview modifyReview) {
-        if (!isWriter(modifyReview.getUserId())) {
-            throw new BusinessException(ExceptionCode.FORBIDDEN_REVIEW);
-        }
-
         this.score = modifyReview.getScore();
         this.title = modifyReview.getTitle();
         this.comment = modifyReview.getComment();

@@ -9,7 +9,6 @@ import lombok.Getter;
 @Builder
 public class ModifyReview {
     private Long reviewId;
-    private Long userId;
     private int score;
     private String title;
     private String comment;
