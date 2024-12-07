@@ -6,6 +6,7 @@ import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,20 @@ public class Gathering {
     }
 
     public void cancel() {
+        validateCancel();
         this.status = GatheringStatus.CANCELED;
+    }
+
+    public void validateCancel() {
+        if (nextGatheringAt == null) {
+            return;
+        }
+
+        LocalDate nextGatheringDate = nextGatheringAt.toLocalDate();
+
+        if (!nextGatheringDate.isAfter(LocalDate.now())) {
+            throw new BusinessException(ExceptionCode.UNAVAILABLE_CANCEL_GATHERING);
+        }
     }
 
     public Boolean isManager(Long userId) {
