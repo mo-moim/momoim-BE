@@ -29,7 +29,7 @@ public class ReviewService {
     }
 
     public List<MyReview> getMyReviews(Long userId, PaginationInformation paginationInformation) {
-        return reviewRepository.getMyReviews(userId, paginationInformation);
+        return reviewReader.getMyReviews(userId, paginationInformation);
     }
 
     public List<GatheringPreview> getUnReviewGatherings(Long userId, PaginationInformation paginationInformation) {

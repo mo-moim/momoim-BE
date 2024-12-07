@@ -1,6 +1,7 @@
 package com.triplem.momoim.core.domain.review.implement;
 
 import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.core.domain.review.dto.MyReview;
 import com.triplem.momoim.core.domain.review.dto.ReviewContent;
 import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
 import com.triplem.momoim.core.domain.review.infrastructure.ReviewRepository;
@@ -20,5 +21,9 @@ public class ReviewReader {
             .stream()
             .map(review -> new ReviewDetail(review, review.getWriterId().equals(userId)))
             .collect(Collectors.toList());
+    }
+
+    public List<MyReview> getMyReviews(Long userId, PaginationInformation paginationInformation) {
+        return reviewRepository.getMyReviews(userId, paginationInformation);
     }
 }
