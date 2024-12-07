@@ -27,7 +27,7 @@ public class GatheringWorkSpaceService {
     }
 
     public List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation) {
-        return gatheringReader.getMyMageGatherings(userId, paginationInformation);
+        return gatheringReader.getMyMadeGatherings(userId, paginationInformation);
     }
 
     public void cancel(Long managerId, Long gatheringId) {

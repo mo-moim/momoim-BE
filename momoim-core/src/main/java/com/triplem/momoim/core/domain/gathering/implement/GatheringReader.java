@@ -39,7 +39,7 @@ public class GatheringReader {
         return new GatheringDetail(gatheringContent, members, isJoined, isManager);
     }
 
-    public List<GatheringPreview> getMyMageGatherings(Long userId, PaginationInformation paginationInformation) {
+    public List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation) {
         return gatheringRepository.getMyMadeGatherings(userId, paginationInformation);
     }
 
