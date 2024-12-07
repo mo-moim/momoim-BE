@@ -46,4 +46,8 @@ public class GatheringReader {
     public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
         return gatheringRepository.getMyGatherings(userId, paginationInformation);
     }
+
+    public List<GatheringPreview> getGatheringPreviewsById(List<Long> ids) {
+        return gatheringRepository.getGatheringPreviewsById(ids);
+    }
 }

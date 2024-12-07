@@ -20,5 +20,5 @@ public interface GatheringRepository {
 
     List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation);
 
-    List<GatheringPreview> getGatheringPreviews(List<Long> ids);
+    List<GatheringPreview> getGatheringPreviewsById(List<Long> ids);
 }

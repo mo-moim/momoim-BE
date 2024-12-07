@@ -2,7 +2,7 @@ package com.triplem.momoim.api.review.service;
 
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
-import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
+import com.triplem.momoim.core.domain.gathering.implement.GatheringReader;
 import com.triplem.momoim.core.domain.review.dto.ModifyReview;
 import com.triplem.momoim.core.domain.review.dto.MyReview;
 import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
@@ -24,7 +24,7 @@ public class ReviewService {
     private final ReviewRegister reviewRegister;
     private final ReviewUpdater reviewUpdater;
     private final ReviewRemover reviewRemover;
-    private final GatheringRepository gatheringRepository;
+    private final GatheringReader gatheringReader;
 
     public List<ReviewDetail> getGatheringReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
         return reviewReader.getGatheringReviews(gatheringId, userId, paginationInformation);
@@ -36,7 +36,7 @@ public class ReviewService {
 
     public List<GatheringPreview> getUnReviewGatherings(Long userId, PaginationInformation paginationInformation) {
         List<Long> unReviewGatheringIds = reviewRepository.getUnReviewGatheringIds(userId, paginationInformation);
-        return gatheringRepository.getGatheringPreviews(unReviewGatheringIds);
+        return gatheringReader.getGatheringPreviewsById(unReviewGatheringIds);
     }
 
     public Review register(Review review) {

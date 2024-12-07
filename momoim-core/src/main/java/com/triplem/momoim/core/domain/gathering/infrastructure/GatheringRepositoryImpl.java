@@ -145,7 +145,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     }
 
     @Override
-    public List<GatheringPreview> getGatheringPreviews(List<Long> ids) {
+    public List<GatheringPreview> getGatheringPreviewsById(List<Long> ids) {
         return jpaQueryFactory.select(
                 gatheringEntity,
                 members
