@@ -26,4 +26,8 @@ public class ReviewReader {
     public List<MyReview> getMyReviews(Long userId, PaginationInformation paginationInformation) {
         return reviewRepository.getMyReviews(userId, paginationInformation);
     }
+
+    public List<Long> getUnReviewGatheringIds(Long userId, PaginationInformation paginationInformation) {
+        return reviewRepository.getUnReviewGatheringIds(userId, paginationInformation);
+    }
 }

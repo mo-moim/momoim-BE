@@ -10,7 +10,6 @@ import com.triplem.momoim.core.domain.review.implement.ReviewReader;
 import com.triplem.momoim.core.domain.review.implement.ReviewRegister;
 import com.triplem.momoim.core.domain.review.implement.ReviewRemover;
 import com.triplem.momoim.core.domain.review.implement.ReviewUpdater;
-import com.triplem.momoim.core.domain.review.infrastructure.ReviewRepository;
 import com.triplem.momoim.core.domain.review.model.Review;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewReader reviewReader;
-    private final ReviewRepository reviewRepository;
     private final ReviewRegister reviewRegister;
     private final ReviewUpdater reviewUpdater;
     private final ReviewRemover reviewRemover;
@@ -35,7 +33,7 @@ public class ReviewService {
     }
 
     public List<GatheringPreview> getUnReviewGatherings(Long userId, PaginationInformation paginationInformation) {
-        List<Long> unReviewGatheringIds = reviewRepository.getUnReviewGatheringIds(userId, paginationInformation);
+        List<Long> unReviewGatheringIds = reviewReader.getUnReviewGatheringIds(userId, paginationInformation);
         return gatheringReader.getGatheringPreviewsById(unReviewGatheringIds);
     }
 
