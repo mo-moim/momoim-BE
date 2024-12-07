@@ -9,12 +9,11 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.review.dto.MyReview;
-import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
+import com.triplem.momoim.core.domain.review.dto.ReviewContent;
 import com.triplem.momoim.core.domain.review.model.Review;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -50,38 +49,27 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public List<ReviewDetail> getReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
+    public List<ReviewContent> getReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
         return jpaQueryFactory.select(
-                reviewEntity.id,
-                reviewEntity.userId,
-                userEntity.name,
-                userEntity.profileImage,
-                reviewEntity.title,
-                reviewEntity.comment,
-                reviewEntity.score,
-                reviewEntity.createdAt)
+                Projections.constructor(
+                    ReviewContent.class,
+                    reviewEntity.id,
+                    userEntity.id,
+                    userEntity.name,
+                    userEntity.profileImage,
+                    reviewEntity.title,
+                    reviewEntity.comment,
+                    reviewEntity.score,
+                    reviewEntity.createdAt
+                )
+            )
             .from(reviewEntity)
             .where(reviewEntity.gatheringId.eq(gatheringId))
             .leftJoin(userEntity).on(userEntity.id.eq(reviewEntity.userId))
             .offset(paginationInformation.getOffset())
             .limit(paginationInformation.getLimit())
             .orderBy(reviewEntity.id.desc())
-            .fetch()
-            .stream()
-            .map(
-                tuple -> ReviewDetail
-                    .builder()
-                    .reviewId(tuple.get(reviewEntity.id))
-                    .isWriter(userId.equals(tuple.get(reviewEntity.userId)))
-                    .writer(tuple.get(userEntity.name))
-                    .writerProfileImage(tuple.get(userEntity.profileImage))
-                    .title(tuple.get(reviewEntity.title))
-                    .comment(tuple.get(reviewEntity.comment))
-                    .score(tuple.get(reviewEntity.score))
-                    .createdAt(tuple.get(reviewEntity.createdAt))
-                    .build()
-            )
-            .collect(Collectors.toList());
+            .fetch();
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringReposito
 import com.triplem.momoim.core.domain.review.dto.ModifyReview;
 import com.triplem.momoim.core.domain.review.dto.MyReview;
 import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
+import com.triplem.momoim.core.domain.review.implement.ReviewReader;
 import com.triplem.momoim.core.domain.review.implement.ReviewRegister;
 import com.triplem.momoim.core.domain.review.infrastructure.ReviewRepository;
 import com.triplem.momoim.core.domain.review.model.Review;
@@ -18,12 +19,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
+    private final ReviewReader reviewReader;
     private final ReviewRepository reviewRepository;
     private final ReviewRegister reviewRegister;
     private final GatheringRepository gatheringRepository;
 
     public List<ReviewDetail> getReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
-        return reviewRepository.getReviews(gatheringId, userId, paginationInformation);
+        return reviewReader.getGatheringReviews(gatheringId, userId, paginationInformation);
     }
 
     public List<MyReview> getMyReviews(Long userId, PaginationInformation paginationInformation) {

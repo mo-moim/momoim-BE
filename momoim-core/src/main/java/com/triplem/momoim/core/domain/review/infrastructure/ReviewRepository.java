@@ -2,7 +2,7 @@ package com.triplem.momoim.core.domain.review.infrastructure;
 
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.review.dto.MyReview;
-import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
+import com.triplem.momoim.core.domain.review.dto.ReviewContent;
 import com.triplem.momoim.core.domain.review.model.Review;
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface ReviewRepository {
 
     void deleteById(Long id);
 
-    List<ReviewDetail> getReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation);
+    List<ReviewContent> getReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation);
 
     List<MyReview> getMyReviews(Long userId, PaginationInformation paginationInformation);
 
