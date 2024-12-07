@@ -42,4 +42,8 @@ public class GatheringReader {
     public List<GatheringPreview> getMyMageGatherings(Long userId, PaginationInformation paginationInformation) {
         return gatheringRepository.getMyMadeGatherings(userId, paginationInformation);
     }
+
+    public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
+        return gatheringRepository.getMyGatherings(userId, paginationInformation);
+    }
 }

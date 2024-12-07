@@ -1,6 +1,5 @@
 package com.triplem.momoim.api.gathering.service;
 
-import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringDetail;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
@@ -26,10 +25,6 @@ public class GatheringService {
 
     public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {
         return gatheringReader.getGatheringDetail(gatheringId, userId);
-    }
-
-    public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
-        return gatheringRepository.getMyGatherings(userId, paginationInformation);
     }
 
     public List<GatheringCategory> getCategory() {
