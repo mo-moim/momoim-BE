@@ -26,7 +26,7 @@ public class GatheringJoinService {
     public void cancelJoinGathering(Long userId, Long gatheringId) {
         Gathering gathering = gatheringReader.getById(gatheringId);
 
-        if (gathering.getManagerId().equals(userId)) {
+        if (gathering.isManager(userId)) {
             throw new BusinessException(ExceptionCode.UNAVAILABLE_MANAGER_LEAVE);
         }
 
