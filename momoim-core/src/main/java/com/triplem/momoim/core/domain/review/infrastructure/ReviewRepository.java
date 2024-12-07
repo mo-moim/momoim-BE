@@ -15,7 +15,7 @@ public interface ReviewRepository {
 
     void deleteById(Long id);
 
-    List<ReviewContent> getReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation);
+    List<ReviewContent> getGatheringReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation);
 
     List<MyReview> getMyReviews(Long userId, PaginationInformation paginationInformation);
 

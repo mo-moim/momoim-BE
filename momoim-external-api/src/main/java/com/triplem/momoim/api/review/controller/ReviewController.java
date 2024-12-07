@@ -71,7 +71,7 @@ public class ReviewController {
         @Parameter(description = "페이징 offset") @RequestParam int offset,
         @Parameter(description = "페이징 limit") @RequestParam int limit) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
-        return ApiResponse.success(reviewService.getReviews(gatheringId, userId, new PaginationInformation(offset, limit)));
+        return ApiResponse.success(reviewService.getGatheringReviews(gatheringId, userId, new PaginationInformation(offset, limit)));
     }
 
     @PostMapping

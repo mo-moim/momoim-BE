@@ -49,7 +49,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public List<ReviewContent> getReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
+    public List<ReviewContent> getGatheringReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
         return jpaQueryFactory.select(
                 Projections.constructor(
                     ReviewContent.class,

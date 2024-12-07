@@ -24,7 +24,7 @@ public class ReviewService {
     private final ReviewRegister reviewRegister;
     private final GatheringRepository gatheringRepository;
 
-    public List<ReviewDetail> getReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
+    public List<ReviewDetail> getGatheringReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
         return reviewReader.getGatheringReviews(gatheringId, userId, paginationInformation);
     }
 

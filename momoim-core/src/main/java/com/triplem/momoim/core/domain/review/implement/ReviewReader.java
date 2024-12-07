@@ -15,7 +15,7 @@ public class ReviewReader {
     private final ReviewRepository reviewRepository;
 
     public List<ReviewDetail> getGatheringReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
-        List<ReviewContent> reviews = reviewRepository.getReviews(gatheringId, userId, paginationInformation);
+        List<ReviewContent> reviews = reviewRepository.getGatheringReviews(gatheringId, userId, paginationInformation);
         return reviews
             .stream()
             .map(review -> new ReviewDetail(review, review.getWriterId().equals(userId)))
