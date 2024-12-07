@@ -33,13 +33,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @GetMapping("/me")
+    @GetMapping("/my-review")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @ApiResponses(value = {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
     })
     @Operation(operationId = "작성한 리뷰 목록 조회", summary = "작성한 리뷰 목록 조회", tags = {"reviews"}, description = "작성한 리뷰 목록 조회")
-    public ApiResponse<List<MyReview>> me(
+    public ApiResponse<List<MyReview>> getMyReviews(
         @Parameter(description = "페이징 offset") @RequestParam int offset,
         @Parameter(description = "페이징 limit") @RequestParam int limit) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
