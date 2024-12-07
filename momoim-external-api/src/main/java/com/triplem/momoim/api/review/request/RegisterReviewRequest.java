@@ -1,6 +1,6 @@
 package com.triplem.momoim.api.review.request;
 
-import com.triplem.momoim.core.domain.review.Review;
+import com.triplem.momoim.core.domain.review.model.Review;
 import java.time.LocalDateTime;
 import lombok.Getter;
 

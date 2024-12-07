@@ -39,6 +39,7 @@ public enum ExceptionCode {
     UNAVAILABLE_MANAGER_LEAVE(HttpStatus.BAD_REQUEST, "UNAVAILABLE_MANAGER_LEAVE", "모임 매니저는 모임을 나갈 수 없습니다."),
     ALREADY_JOINED_GATHERING(HttpStatus.CONFLICT, "ALREADY_JOINED_GATHERING", "이미 참여중인 모임입니다."),
     NOT_FOUND_GATHERING_MEMBER(HttpStatus.NOT_FOUND, "NOT_FOUND_GATHERING_MEMBER", "존재하지 않는 모임 멤버입니다."),
+    UNAVAILABLE_CANCEL_GATHERING(HttpStatus.BAD_REQUEST, "UNAVAILABLE_CANCEL_GATHERING", "취소할 수 없는 모임입니다."),
     // =============================================================
     // ==                         Review                          ==
     // =============================================================

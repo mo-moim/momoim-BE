@@ -3,9 +3,12 @@ package com.triplem.momoim.core.domain.member;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.triplem.momoim.core.domain.gathering.Gathering;
 import com.triplem.momoim.core.domain.gathering.GatheringBuilder;
-import com.triplem.momoim.core.domain.gathering.GatheringRepository;
+import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
+import com.triplem.momoim.core.domain.gathering.model.Gathering;
+import com.triplem.momoim.core.domain.member.implement.GatheringMemberRemover;
+import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
+import com.triplem.momoim.core.domain.member.model.GatheringMember;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import org.junit.jupiter.api.DisplayName;

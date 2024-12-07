@@ -3,10 +3,10 @@ package com.triplem.momoim.api.gathering;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.triplem.momoim.api.gathering.service.GatheringJoinService;
-import com.triplem.momoim.core.domain.gathering.Gathering;
-import com.triplem.momoim.core.domain.gathering.GatheringRepository;
-import com.triplem.momoim.core.domain.member.GatheringMember;
-import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
+import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
+import com.triplem.momoim.core.domain.gathering.model.Gathering;
+import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
+import com.triplem.momoim.core.domain.member.model.GatheringMember;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

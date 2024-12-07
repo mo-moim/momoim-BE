@@ -1,12 +1,12 @@
 package com.triplem.momoim.api.gathering.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.triplem.momoim.core.domain.gathering.Gathering;
-import com.triplem.momoim.core.domain.gathering.GatheringCategory;
-import com.triplem.momoim.core.domain.gathering.GatheringLocation;
-import com.triplem.momoim.core.domain.gathering.GatheringStatus;
-import com.triplem.momoim.core.domain.gathering.GatheringSubCategory;
-import com.triplem.momoim.core.domain.gathering.GatheringType;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
+import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
@@ -19,6 +19,7 @@ public class RegisterGatheringRequest {
     private GatheringType gatheringType;
     private String image;
     private String description;
+    private String address;
     private List<String> tags;
     private GatheringLocation location;
     private int capacity;
@@ -36,6 +37,7 @@ public class RegisterGatheringRequest {
             .status(GatheringStatus.OPEN)
             .image(image)
             .description(description)
+            .address(address)
             .tags(tags)
             .location(location)
             .capacity(capacity)

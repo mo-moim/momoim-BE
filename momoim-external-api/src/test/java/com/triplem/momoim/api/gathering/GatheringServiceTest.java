@@ -5,10 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.triplem.momoim.api.gathering.service.GatheringService;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
-import com.triplem.momoim.core.domain.gathering.GatheringPreview;
-import com.triplem.momoim.core.domain.gathering.GatheringRepository;
-import com.triplem.momoim.core.domain.gathering.GatheringSearchOption;
-import com.triplem.momoim.core.domain.gathering.GatheringSortType;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
+import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -63,7 +63,7 @@ class GatheringServiceTest {
             .build();
 
         //when
-        List<GatheringPreview> gatheringPreviews = gatheringService.searchGathering(searchOption);
+        List<GatheringPreview> gatheringPreviews = gatheringService.searchGatherings(searchOption);
 
         //then
         assertThat(gatheringPreviews).hasSize(2)

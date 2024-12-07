@@ -5,8 +5,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
-import com.triplem.momoim.core.domain.member.GatheringMember;
-import com.triplem.momoim.core.domain.member.GatheringMemberRepository;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
+import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
+import com.triplem.momoim.core.domain.gathering.model.Gathering;
+import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
+import com.triplem.momoim.core.domain.member.model.GatheringMember;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

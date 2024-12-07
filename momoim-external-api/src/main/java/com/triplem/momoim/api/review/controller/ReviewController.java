@@ -7,10 +7,10 @@ import com.triplem.momoim.api.review.request.RegisterReviewRequest;
 import com.triplem.momoim.api.review.service.ReviewService;
 import com.triplem.momoim.auth.utils.SecurityUtil;
 import com.triplem.momoim.core.common.PaginationInformation;
-import com.triplem.momoim.core.domain.gathering.GatheringPreview;
-import com.triplem.momoim.core.domain.review.MyReview;
-import com.triplem.momoim.core.domain.review.Review;
-import com.triplem.momoim.core.domain.review.ReviewDetail;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
+import com.triplem.momoim.core.domain.review.dto.MyReview;
+import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
+import com.triplem.momoim.core.domain.review.model.Review;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -33,13 +33,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @GetMapping("/me")
+    @GetMapping("/my-review")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @ApiResponses(value = {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
     })
     @Operation(operationId = "작성한 리뷰 목록 조회", summary = "작성한 리뷰 목록 조회", tags = {"reviews"}, description = "작성한 리뷰 목록 조회")
-    public ApiResponse<List<MyReview>> me(
+    public ApiResponse<List<MyReview>> getMyReviews(
         @Parameter(description = "페이징 offset") @RequestParam int offset,
         @Parameter(description = "페이징 limit") @RequestParam int limit) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
@@ -71,7 +71,7 @@ public class ReviewController {
         @Parameter(description = "페이징 offset") @RequestParam int offset,
         @Parameter(description = "페이징 limit") @RequestParam int limit) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
-        return ApiResponse.success(reviewService.getReviews(gatheringId, userId, new PaginationInformation(offset, limit)));
+        return ApiResponse.success(reviewService.getGatheringReviews(gatheringId, userId, new PaginationInformation(offset, limit)));
     }
 
     @PostMapping
@@ -97,7 +97,7 @@ public class ReviewController {
         @Parameter(description = "수정 할 리뷰 ID") @PathVariable Long reviewId,
         @RequestBody ModifyReviewRequest request) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
-        reviewService.modify(request.toModel(reviewId, userId));
+        reviewService.modify(userId, request.toModel(reviewId));
         return DefaultApiResponse.success();
     }
 
