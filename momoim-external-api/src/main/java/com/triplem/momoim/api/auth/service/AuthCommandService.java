@@ -7,6 +7,8 @@ import com.triplem.momoim.api.auth.response.SigninResponse;
 import com.triplem.momoim.api.auth.response.SignupResponse;
 import com.triplem.momoim.api.auth.response.UserDetailResponse;
 import com.triplem.momoim.core.domain.user.*;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,9 @@ public class AuthCommandService {
     }
 
     public UserDetailResponse updateUserProfile(Long userId, UserProfileUpdateRequest request) {
+        if (userId == -1) {
+            throw new BusinessException(ExceptionCode.ACCESS_DENIED);
+        }
         User user = userRepository.findById(userId);
         User updatedUser = request.toUpdatedUser(user);
         User savedUser = userRepository.save(updatedUser);
