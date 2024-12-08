@@ -18,7 +18,7 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
         CorsConfiguration defaultConfig = new CorsConfiguration();
-        defaultConfig.setAllowedOrigins(List.of("http://localhost:3000"));
+        defaultConfig.setAllowedOrigins(List.of("http://localhost:3000", "https://api.momoim.co.kr"));
         defaultConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         defaultConfig.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         defaultConfig.setAllowCredentials(true);
