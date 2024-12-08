@@ -38,6 +38,9 @@ public class AuthQueryService {
     }
 
     public UserDetailResponse getUserProfile(Long userId) {
+        if (userId == -1) {
+            throw new BusinessException(ExceptionCode.ACCESS_DENIED);
+        }
         User user = userRepository.findById(userId);
         List<UserActiveLocation> userActiveLocations = userActiveLocationRepository.findAllByUserId(user.getId());
         List<UserInterestCategory> userInterestCategories = userInterestCategoryRepository.findAllByUserId(user.getId());
