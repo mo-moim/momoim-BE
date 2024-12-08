@@ -16,10 +16,10 @@ public class ReviewUpdater {
     public void modifyReview(Long userId, ModifyReview modifyReview) {
         Review review = reviewRepository.findById(modifyReview.getReviewId());
 
-        if (review.isWriter(userId)) {
+        if (!review.isWriter(userId)) {
             throw new BusinessException(ExceptionCode.FORBIDDEN_REVIEW);
         }
-        
+
         review.modify(modifyReview);
         reviewRepository.save(review);
     }
