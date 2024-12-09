@@ -8,6 +8,7 @@ import com.triplem.momoim.auth.jwt.TokenInfo;
 import com.triplem.momoim.core.domain.user.*;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,9 @@ public class AuthQueryService {
     private final UserActiveLocationRepository userActiveLocationRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
+    private final TokenCommandService tokenCommandService;
 
-    public SigninResponse signin(SigninRequest request) {
+    public SigninResponse signin(SigninRequest request, HttpServletResponse response) {
         User user = userRepository.findUserByEmail(request.email());
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
             throw new BusinessException(ExceptionCode.INVALID_LOGIN);
@@ -33,6 +35,9 @@ public class AuthQueryService {
         TokenInfo tokenInfo = jwtProvider.generateAccessToken(user);
         List<UserActiveLocation> userActiveLocations = userActiveLocationRepository.findAllByUserId(user.getId());
         List<UserInterestCategory> userInterestCategories = userInterestCategoryRepository.findAllByUserId(user.getId());
+
+        // set cookie
+        tokenCommandService.storeAccessTokenInCookie(tokenInfo, response);
 
         return SigninResponse.from(user, tokenInfo, userActiveLocations, userInterestCategories);
     }

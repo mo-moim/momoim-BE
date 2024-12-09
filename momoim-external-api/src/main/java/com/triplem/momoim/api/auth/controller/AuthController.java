@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,9 +44,8 @@ public class AuthController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공",  content = @Content(schema = @Schema(implementation = SigninResponse.class)))
     })
     @Operation(operationId = "이메일 로그인", summary = "이메일 로그인", tags = {"auths"}, description = "이메일 로그인")
-    public ApiResponse<SigninResponse> signin(@RequestBody SigninRequest request) {
-        SigninResponse response = authQueryService.signin(request);
-        return ApiResponse.success(response);
+    public ApiResponse<SigninResponse> signin(@RequestBody SigninRequest request, HttpServletResponse response) {
+        return ApiResponse.success(authQueryService.signin(request, response));
     }
 
     @GetMapping("/user")
