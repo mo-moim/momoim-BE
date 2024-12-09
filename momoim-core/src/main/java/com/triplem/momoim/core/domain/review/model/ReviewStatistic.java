@@ -58,6 +58,27 @@ public class ReviewStatistic {
         refreshAverageScore();
     }
 
+    public void updateByModifyReview(int beforeScore, int afterScore) {
+        switch (beforeScore) {
+            case 1 -> this.oneScoreCount--;
+            case 2 -> this.twoScoreCount--;
+            case 3 -> this.threeScoreCount--;
+            case 4 -> this.fourScoreCount--;
+            case 5 -> this.fiveScoreCount--;
+        }
+
+        switch (afterScore) {
+            case 1 -> this.oneScoreCount++;
+            case 2 -> this.twoScoreCount++;
+            case 3 -> this.threeScoreCount++;
+            case 4 -> this.fourScoreCount++;
+            case 5 -> this.fiveScoreCount++;
+        }
+
+        this.totalScore += (afterScore - beforeScore);
+        refreshAverageScore();
+    }
+
     public void refreshAverageScore() {
         double value = (double) totalScore / (double) reviewCount;
         this.averageScore = Math.round(value * 10.0) / 10.0;

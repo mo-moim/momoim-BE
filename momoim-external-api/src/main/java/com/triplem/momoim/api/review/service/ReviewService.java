@@ -4,6 +4,7 @@ import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.implement.GatheringReader;
 import com.triplem.momoim.core.domain.review.dto.ModifyReview;
+import com.triplem.momoim.core.domain.review.dto.ModifyReviewResult;
 import com.triplem.momoim.core.domain.review.dto.MyReview;
 import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
 import com.triplem.momoim.core.domain.review.implement.ReviewReader;
@@ -53,7 +54,8 @@ public class ReviewService {
     }
 
     public void modify(Long userId, ModifyReview modifyReview) {
-        reviewUpdater.modifyReview(userId, modifyReview);
+        ModifyReviewResult result = reviewUpdater.modifyReview(userId, modifyReview);
+        reviewStatisticUpdater.updateByModifyReview(result.getGatheringId(), result.getBeforeScore(), result.getAfterScore());
     }
 
     public void delete(Long userId, Long reviewId) {
