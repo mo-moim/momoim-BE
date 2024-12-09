@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class ReviewStatistic {
-    private Long reviewId;
+    private Long gatheringId;
     private int oneScoreCount;
     private int twoScoreCount;
     private int threeScoreCount;
@@ -14,9 +14,9 @@ public class ReviewStatistic {
     private int totalScore;
     private double averageScore;
 
-    public ReviewStatistic(Long reviewId, int oneScoreCount, int twoScoreCount, int threeScoreCount, int fourScoreCount, int fiveScoreCount,
+    public ReviewStatistic(Long gatheringId, int oneScoreCount, int twoScoreCount, int threeScoreCount, int fourScoreCount, int fiveScoreCount,
         int reviewCount, int totalScore, double averageScore) {
-        this.reviewId = reviewId;
+        this.gatheringId = gatheringId;
         this.oneScoreCount = oneScoreCount;
         this.twoScoreCount = twoScoreCount;
         this.threeScoreCount = threeScoreCount;

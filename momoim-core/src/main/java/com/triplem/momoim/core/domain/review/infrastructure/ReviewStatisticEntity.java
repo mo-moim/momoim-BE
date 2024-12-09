@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewStatisticEntity {
     @Id
-    private Long reviewId;
+    private Long gatheringId;
 
     @Column(nullable = false)
     private int oneScoreCount;
@@ -42,9 +42,9 @@ public class ReviewStatisticEntity {
     private double averageScore;
 
     @Builder
-    public ReviewStatisticEntity(Long reviewId, int oneScoreCount, int twoScoreCount, int threeScoreCount, int fourScoreCount, int fiveScoreCount,
+    public ReviewStatisticEntity(Long gatheringId, int oneScoreCount, int twoScoreCount, int threeScoreCount, int fourScoreCount, int fiveScoreCount,
         int reviewCount, int totalScore, double averageScore) {
-        this.reviewId = reviewId;
+        this.gatheringId = gatheringId;
         this.oneScoreCount = oneScoreCount;
         this.twoScoreCount = twoScoreCount;
         this.threeScoreCount = threeScoreCount;
