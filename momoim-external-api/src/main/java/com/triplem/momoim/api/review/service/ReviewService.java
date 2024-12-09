@@ -9,8 +9,10 @@ import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
 import com.triplem.momoim.core.domain.review.implement.ReviewReader;
 import com.triplem.momoim.core.domain.review.implement.ReviewRegister;
 import com.triplem.momoim.core.domain.review.implement.ReviewRemover;
+import com.triplem.momoim.core.domain.review.implement.ReviewStatisticReader;
 import com.triplem.momoim.core.domain.review.implement.ReviewUpdater;
 import com.triplem.momoim.core.domain.review.model.Review;
+import com.triplem.momoim.core.domain.review.model.ReviewStatistic;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,9 +25,14 @@ public class ReviewService {
     private final ReviewUpdater reviewUpdater;
     private final ReviewRemover reviewRemover;
     private final GatheringReader gatheringReader;
+    private final ReviewStatisticReader reviewStatisticReader;
 
     public List<ReviewDetail> getGatheringReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
         return reviewReader.getGatheringReviews(gatheringId, userId, paginationInformation);
+    }
+
+    public ReviewStatistic getReviewStatistic(Long gatheringId) {
+        return reviewStatisticReader.getReviewStatistic(gatheringId);
     }
 
     public List<MyReview> getMyReviews(Long userId, PaginationInformation paginationInformation) {

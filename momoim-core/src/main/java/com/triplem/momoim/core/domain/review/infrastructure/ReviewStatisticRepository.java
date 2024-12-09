@@ -4,4 +4,6 @@ import com.triplem.momoim.core.domain.review.model.ReviewStatistic;
 
 public interface ReviewStatisticRepository {
     ReviewStatistic save(ReviewStatistic reviewStatistic);
+
+    ReviewStatistic findByGatheringId(Long gatheringId);
 }
