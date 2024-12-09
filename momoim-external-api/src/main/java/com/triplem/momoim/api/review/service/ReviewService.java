@@ -59,6 +59,8 @@ public class ReviewService {
     }
 
     public void delete(Long userId, Long reviewId) {
-        reviewRemover.deleteReview(userId, reviewId);
+        Review review = reviewReader.findById(reviewId);
+        reviewRemover.deleteReview(userId, review);
+        reviewStatisticUpdater.updateByDeleteReview(review.getGatheringId(), review.getScore());
     }
 }

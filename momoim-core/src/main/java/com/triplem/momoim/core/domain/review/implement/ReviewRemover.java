@@ -12,13 +12,11 @@ import org.springframework.stereotype.Component;
 public class ReviewRemover {
     private final ReviewRepository reviewRepository;
 
-    public void deleteReview(Long userId, Long reviewId) {
-        Review review = reviewRepository.findById(reviewId);
-
+    public void deleteReview(Long userId, Review review) {
         if (!review.isWriter(userId)) {
             throw new BusinessException(ExceptionCode.FORBIDDEN_REVIEW);
         }
 
-        reviewRepository.deleteById(reviewId);
+        reviewRepository.deleteById(review.getId());
     }
 }

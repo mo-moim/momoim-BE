@@ -79,6 +79,20 @@ public class ReviewStatistic {
         refreshAverageScore();
     }
 
+    public void updateByDeleteReview(int score) {
+        switch (score) {
+            case 1 -> this.oneScoreCount--;
+            case 2 -> this.twoScoreCount--;
+            case 3 -> this.threeScoreCount--;
+            case 4 -> this.fourScoreCount--;
+            case 5 -> this.fiveScoreCount--;
+        }
+
+        this.totalScore -= score;
+        this.reviewCount--;
+        refreshAverageScore();
+    }
+
     public void refreshAverageScore() {
         double value = (double) totalScore / (double) reviewCount;
         this.averageScore = Math.round(value * 10.0) / 10.0;

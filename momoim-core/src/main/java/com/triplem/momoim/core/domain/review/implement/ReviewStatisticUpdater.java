@@ -21,4 +21,10 @@ public class ReviewStatisticUpdater {
         reviewStatistic.updateByModifyReview(beforeScore, afterScore);
         reviewStatisticRepository.save(reviewStatistic);
     }
+
+    public void updateByDeleteReview(Long gatheringId, int score) {
+        ReviewStatistic reviewStatistic = reviewStatisticRepository.findByGatheringId(gatheringId);
+        reviewStatistic.updateByDeleteReview(score);
+        reviewStatisticRepository.save(reviewStatistic);
+    }
 }
