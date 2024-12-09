@@ -10,6 +10,7 @@ import com.triplem.momoim.core.domain.review.implement.ReviewReader;
 import com.triplem.momoim.core.domain.review.implement.ReviewRegister;
 import com.triplem.momoim.core.domain.review.implement.ReviewRemover;
 import com.triplem.momoim.core.domain.review.implement.ReviewStatisticReader;
+import com.triplem.momoim.core.domain.review.implement.ReviewStatisticUpdater;
 import com.triplem.momoim.core.domain.review.implement.ReviewUpdater;
 import com.triplem.momoim.core.domain.review.model.Review;
 import com.triplem.momoim.core.domain.review.model.ReviewStatistic;
@@ -26,6 +27,7 @@ public class ReviewService {
     private final ReviewRemover reviewRemover;
     private final GatheringReader gatheringReader;
     private final ReviewStatisticReader reviewStatisticReader;
+    private final ReviewStatisticUpdater reviewStatisticUpdater;
 
     public List<ReviewDetail> getGatheringReviews(Long gatheringId, Long userId, PaginationInformation paginationInformation) {
         return reviewReader.getGatheringReviews(gatheringId, userId, paginationInformation);
@@ -45,7 +47,9 @@ public class ReviewService {
     }
 
     public Review register(Review review) {
-        return reviewRegister.review(review);
+        Review savedReview = reviewRegister.review(review);
+        reviewStatisticUpdater.updateByNewReview(review.getGatheringId(), review.getScore());
+        return savedReview;
     }
 
     public void modify(Long userId, ModifyReview modifyReview) {
