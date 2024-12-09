@@ -24,7 +24,6 @@ public class TokenCommandService {
         ResponseCookie cookie = ResponseCookie.from(ACCESS_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
                 .path(COOKIE_DEFAULT_PATH_ROOT)
                 .domain(cookieDomain)
-                .secure(true)
                 .httpOnly(true)
                 .maxAge(DEFAULT_COOKIE_AGE)
                 .build();
