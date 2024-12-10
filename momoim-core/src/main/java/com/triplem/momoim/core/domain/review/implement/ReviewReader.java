@@ -5,6 +5,7 @@ import com.triplem.momoim.core.domain.review.dto.MyReview;
 import com.triplem.momoim.core.domain.review.dto.ReviewContent;
 import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
 import com.triplem.momoim.core.domain.review.infrastructure.ReviewRepository;
+import com.triplem.momoim.core.domain.review.model.Review;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,9 @@ public class ReviewReader {
 
     public List<Long> getUnReviewGatheringIds(Long userId, PaginationInformation paginationInformation) {
         return reviewRepository.getUnReviewGatheringIds(userId, paginationInformation);
+    }
+
+    public Review findById(Long id) {
+        return reviewRepository.findById(id);
     }
 }

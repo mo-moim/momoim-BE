@@ -4,6 +4,7 @@ import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.api.common.DefaultApiResponse;
 import com.triplem.momoim.api.review.request.ModifyReviewRequest;
 import com.triplem.momoim.api.review.request.RegisterReviewRequest;
+import com.triplem.momoim.api.review.response.ReviewStatisticResponse;
 import com.triplem.momoim.api.review.service.ReviewService;
 import com.triplem.momoim.auth.utils.SecurityUtil;
 import com.triplem.momoim.core.common.PaginationInformation;
@@ -11,6 +12,7 @@ import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.review.dto.MyReview;
 import com.triplem.momoim.core.domain.review.dto.ReviewDetail;
 import com.triplem.momoim.core.domain.review.model.Review;
+import com.triplem.momoim.core.domain.review.model.ReviewStatistic;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -72,6 +74,16 @@ public class ReviewController {
         @Parameter(description = "페이징 limit") @RequestParam int limit) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         return ApiResponse.success(reviewService.getGatheringReviews(gatheringId, userId, new PaginationInformation(offset, limit)));
+    }
+
+    @GetMapping("/{gatheringId}/statistic")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "모임 리뷰 통계 조회", summary = "모임 리뷰 통계 조회", tags = {"reviews"}, description = "모임 리뷰 통계 조회")
+    public ApiResponse<ReviewStatisticResponse> getGatheringReviewStatistic(@PathVariable Long gatheringId) {
+        ReviewStatistic reviewStatistic = reviewService.getReviewStatistic(gatheringId);
+        return ApiResponse.success(ReviewStatisticResponse.from(reviewStatistic));
     }
 
     @PostMapping
