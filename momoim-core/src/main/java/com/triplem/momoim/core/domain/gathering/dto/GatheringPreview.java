@@ -3,7 +3,6 @@ package com.triplem.momoim.core.domain.gathering.dto;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
-import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,23 +28,4 @@ public class GatheringPreview {
     private int participantCount;
     private Boolean isPeriodic;
     private List<GatheringMemberDetail> members;
-
-    public static GatheringPreview from(Gathering gathering) {
-        return GatheringPreview
-            .builder()
-            .gatheringId(gathering.getId())
-            .image(gathering.getImage())
-            .name(gathering.getName())
-            .gatheringType(gathering.getGatheringType())
-            .status(gathering.getStatus())
-            .category(gathering.getCategory())
-            .subCategory(gathering.getSubCategory())
-            .location(gathering.getLocation())
-            .nextGatheringAt(gathering.getNextGatheringAt())
-            .tags(gathering.getTags())
-            .capacity(gathering.getCapacity())
-            .participantCount(gathering.getParticipantCount())
-            .isPeriodic(gathering.getIsPeriodic())
-            .build();
-    }
 }
