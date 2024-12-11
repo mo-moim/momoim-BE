@@ -1,5 +1,6 @@
 package com.triplem.momoim.core.domain.wishlist.infrastructure;
 
+import com.triplem.momoim.core.domain.wishlist.model.Wishlist;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,5 +32,21 @@ public class WishlistEntity {
         this.id = id;
         this.userId = userId;
         this.gatheringId = gatheringId;
+    }
+
+    public static WishlistEntity from(Wishlist wishlist) {
+        return WishlistEntity.builder()
+            .id(wishlist.getId())
+            .userId(wishlist.getUserId())
+            .gatheringId(wishlist.getGatheringId())
+            .build();
+    }
+
+    public Wishlist toModel() {
+        return Wishlist.builder()
+            .id(id)
+            .userId(userId)
+            .gatheringId(gatheringId)
+            .build();
     }
 }

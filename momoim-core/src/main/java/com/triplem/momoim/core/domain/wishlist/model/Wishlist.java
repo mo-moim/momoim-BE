@@ -15,4 +15,11 @@ public class Wishlist {
         this.userId = userId;
         this.gatheringId = gatheringId;
     }
+
+    public static Wishlist create(Long userId, Long gatheringId) {
+        return Wishlist.builder()
+            .userId(userId)
+            .gatheringId(gatheringId)
+            .build();
+    }
 }
