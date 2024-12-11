@@ -34,10 +34,10 @@ public class ReviewEntity {
     @Column(nullable = false)
     private int score;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String comment;
 
     @Column(nullable = false)
