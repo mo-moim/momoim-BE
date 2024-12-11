@@ -52,16 +52,16 @@ public class GatheringEntity {
     @Enumerated(EnumType.STRING)
     private GatheringStatus status;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String image;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5000)
     private String description;
 
     @Column
     private String address;
 
-    @Column
+    @Column(length = 1000)
     @Convert(converter = GatheringTagConverter.class)
     private List<String> tags;
 
