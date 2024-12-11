@@ -27,6 +27,7 @@ public class GatheringContent {
     private GatheringLocation location;
     private int capacity;
     private int participantCount;
+    private int wishlistCount;
     private Boolean isPeriodic;
     private LocalDateTime nextGatheringAt;
 }

@@ -33,9 +33,7 @@ public class GatheringReader {
         Boolean isManager = gatheringContent.getManagerId().equals(userId);
         Boolean isJoined = members
             .stream()
-            .map(GatheringMemberDetail::getUserId)
-            .filter(id -> id.equals(userId))
-            .count() == 1;
+            .anyMatch(member -> member.getUserId().equals(userId));
         return new GatheringDetail(gatheringContent, members, isJoined, isManager);
     }
 

@@ -71,6 +71,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                     gatheringEntity.location,
                     gatheringEntity.capacity,
                     gatheringEntity.participantCount,
+                    gatheringEntity.wishlistCount,
                     gatheringEntity.isPeriodic,
                     gatheringEntity.nextGatheringAt
                 )
