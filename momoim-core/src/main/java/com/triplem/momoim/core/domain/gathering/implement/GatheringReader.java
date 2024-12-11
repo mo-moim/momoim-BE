@@ -9,6 +9,7 @@ import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringReposito
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
 import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
+import com.triplem.momoim.core.domain.wishlist.infrastructure.WishlistRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class GatheringReader {
     private final GatheringRepository gatheringRepository;
     private final GatheringMemberRepository gatheringMemberRepository;
+    private final WishlistRepository wishlistRepository;
 
     public Gathering getById(Long gatheringId) {
         return gatheringRepository.findById(gatheringId);
@@ -34,7 +36,8 @@ public class GatheringReader {
         Boolean isJoined = members
             .stream()
             .anyMatch(member -> member.getUserId().equals(userId));
-        return new GatheringDetail(gatheringContent, members, isJoined, isManager);
+        Boolean isWishlist = wishlistRepository.isAlreadyAppended(userId, gatheringId);
+        return new GatheringDetail(gatheringContent, members, isJoined, isWishlist, isManager);
     }
 
     public List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation) {

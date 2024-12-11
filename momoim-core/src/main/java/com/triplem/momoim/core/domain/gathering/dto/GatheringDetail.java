@@ -11,5 +11,6 @@ public class GatheringDetail {
     private GatheringContent gatheringContent;
     private List<GatheringMemberDetail> members;
     private Boolean isJoined;
+    private Boolean isWishlist;
     private Boolean isManager;
 }
