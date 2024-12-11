@@ -26,6 +26,7 @@ public class GatheringPreview {
     private List<String> tags;
     private int capacity;
     private int participantCount;
+    private Boolean isWishlist;
     private Boolean isPeriodic;
     private List<GatheringMemberDetail> members;
 }

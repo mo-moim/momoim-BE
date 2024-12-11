@@ -84,6 +84,7 @@ class GatheringRepositoryTest {
     @DisplayName("카테고리 필터를 통해 모임을 조회 할 수 있다.")
     void findByGatheringSearchOptionCategory() {
         //given
+        Long userId = 1L;
         String targetCategory = "FOOD";
         String anotherCategory = "TRAVEL";
 
@@ -110,7 +111,7 @@ class GatheringRepositoryTest {
             .build();
 
         //when
-        List<GatheringPreview> gatherings = gatheringRepository.searchGatherings(gatheringSearchOption);
+        List<GatheringPreview> gatherings = gatheringRepository.searchGatherings(userId, gatheringSearchOption);
 
         //then
         assertThat(gatherings).hasSize(1);
@@ -121,6 +122,7 @@ class GatheringRepositoryTest {
     @DisplayName("서브 카테고리 필터를 통해 모임을 조회 할 수 있다.")
     void findByGatheringSearchOptionSubCategory() {
         //given
+        Long userId = 1L;
         String targetSubCategory = "COOK";
         String anotherSubCategory = "FISHING";
 
@@ -146,7 +148,7 @@ class GatheringRepositoryTest {
             .build();
 
         //when
-        List<GatheringPreview> gatherings = gatheringRepository.searchGatherings(gatheringSearchOption);
+        List<GatheringPreview> gatherings = gatheringRepository.searchGatherings(userId, gatheringSearchOption);
 
         //then
         assertThat(gatherings).hasSize(1);
@@ -157,6 +159,7 @@ class GatheringRepositoryTest {
     @DisplayName("모임 목록 조회 시 페이징 처리를 할 수 있다.")
     void gatheringSearchWithPagination() {
         //given
+        Long userId = 1L;
         int offset = 0;
         int limit = 2;
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
@@ -171,7 +174,7 @@ class GatheringRepositoryTest {
         gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
 
         //when
-        List<GatheringPreview> gatherings = gatheringRepository.searchGatherings(gatheringSearchOption);
+        List<GatheringPreview> gatherings = gatheringRepository.searchGatherings(userId, gatheringSearchOption);
 
         //then
         assertThat(gatherings).hasSize(2);
