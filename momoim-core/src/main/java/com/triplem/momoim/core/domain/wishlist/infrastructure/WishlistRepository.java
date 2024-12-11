@@ -6,4 +6,8 @@ public interface WishlistRepository {
     Wishlist save(Wishlist wishlist);
 
     Boolean isAlreadyAppended(Long userId, Long gatheringId);
+
+    Wishlist findByUserIdAndGatheringId(Long userId, Long gatheringId);
+
+    void deleteById(Long id);
 }

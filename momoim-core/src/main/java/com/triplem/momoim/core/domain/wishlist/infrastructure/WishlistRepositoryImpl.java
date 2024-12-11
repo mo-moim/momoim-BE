@@ -1,6 +1,8 @@
 package com.triplem.momoim.core.domain.wishlist.infrastructure;
 
 import com.triplem.momoim.core.domain.wishlist.model.Wishlist;
+import com.triplem.momoim.exception.BusinessException;
+import com.triplem.momoim.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +19,17 @@ public class WishlistRepositoryImpl implements WishlistRepository {
     @Override
     public Boolean isAlreadyAppended(Long userId, Long gatheringId) {
         return wishlistJpaRepository.existsByUserIdAndGatheringId(userId, gatheringId);
+    }
+
+    @Override
+    public Wishlist findByUserIdAndGatheringId(Long userId, Long gatheringId) {
+        return wishlistJpaRepository.findByUserIdAndGatheringId(userId, gatheringId)
+            .orElseThrow(() -> new BusinessException(ExceptionCode.NOT_FOUND_WISHLIST))
+            .toModel();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        wishlistJpaRepository.deleteById(id);
     }
 }

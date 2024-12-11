@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,18 @@ public class WishlistController {
     public DefaultApiResponse appendWishlist(@PathVariable Long gatheringId) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         wishlistService.appendWishlist(userId, gatheringId);
+        return DefaultApiResponse.success();
+    }
+
+    @DeleteMapping("/{gatheringId}")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "찜 목록 삭제", summary = "찜 목록 삭제", tags = {"wishlist"}, description = "찜 목록 삭제")
+    public DefaultApiResponse deleteWishlist(@PathVariable Long gatheringId) {
+        Long userId = SecurityUtil.getMemberIdByPrincipal();
+        wishlistService.removeWishlist(userId, gatheringId);
         return DefaultApiResponse.success();
     }
 }

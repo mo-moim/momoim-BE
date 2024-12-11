@@ -50,9 +50,10 @@ public enum ExceptionCode {
     ALREADY_REVIEWED(HttpStatus.CONFLICT, "ALREADY_REVIEWED", "이미 리뷰를 작성한 모임입니다."),
 
     // =============================================================
-    // ==                         Wishlist                          ==
+    // ==                         Wishlist                        ==
     // =============================================================
-    ALREADY_REGISTERED_WISHLIST(HttpStatus.CONFLICT, "ALREADY_REGISTERED_WISHLIST", "이미 찜한 모임입니다.");
+    ALREADY_REGISTERED_WISHLIST(HttpStatus.CONFLICT, "ALREADY_REGISTERED_WISHLIST", "이미 찜한 모임입니다."),
+    NOT_FOUND_WISHLIST(HttpStatus.NOT_FOUND, "NOT_FOUND_WISHLIST", "존재하지 않는 찜 입니다.");
 
     private final HttpStatus status;
     private final String code;
