@@ -44,7 +44,7 @@ public class ReviewService {
 
     public List<GatheringPreview> getUnReviewGatherings(Long userId, PaginationInformation paginationInformation) {
         List<Long> unReviewGatheringIds = reviewReader.getUnReviewGatheringIds(userId, paginationInformation);
-        return gatheringReader.getGatheringPreviewsById(unReviewGatheringIds);
+        return gatheringReader.getGatheringPreviewsById(userId, unReviewGatheringIds);
     }
 
     public Review register(Review review) {

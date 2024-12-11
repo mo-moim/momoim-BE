@@ -19,9 +19,12 @@ public class GatheringRegister {
 
     @Transactional
     public Gathering register(Gathering gathering) {
+        gathering.increaseParticipantCount();
         Gathering savedGathering = gatheringRepository.save(gathering);
+
         GatheringMember manager = GatheringMember.create(gathering.getManagerId(), savedGathering.getId());
         gatheringMemberRepository.save(manager);
+
         reviewStatisticRepository.save(ReviewStatistic.create(savedGathering.getId()));
         return savedGathering;
     }

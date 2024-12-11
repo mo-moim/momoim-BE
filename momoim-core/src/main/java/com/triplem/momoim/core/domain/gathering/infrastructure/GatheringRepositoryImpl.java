@@ -5,6 +5,7 @@ import static com.querydsl.core.group.GroupBy.list;
 import static com.triplem.momoim.core.domain.gathering.infrastructure.QGatheringEntity.gatheringEntity;
 import static com.triplem.momoim.core.domain.member.infrastructure.QGatheringMemberEntity.gatheringMemberEntity;
 import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
+import static com.triplem.momoim.core.domain.wishlist.infrastructure.QWishlistEntity.wishlistEntity;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.ResultTransformer;
@@ -71,6 +72,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                     gatheringEntity.location,
                     gatheringEntity.capacity,
                     gatheringEntity.participantCount,
+                    gatheringEntity.wishlistCount,
                     gatheringEntity.isPeriodic,
                     gatheringEntity.nextGatheringAt
                 )
@@ -90,10 +92,11 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     }
 
     @Override
-    public List<GatheringPreview> searchGatherings(GatheringSearchOption searchOption) {
+    public List<GatheringPreview> searchGatherings(Long userId, GatheringSearchOption searchOption) {
         return jpaQueryFactory.select(
                 gatheringEntity,
-                members
+                members,
+                wishlistEntity
             )
             .from(gatheringEntity)
             .where(
@@ -103,6 +106,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             )
             .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
             .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
+            .leftJoin(wishlistEntity).on(wishlistEntity.gatheringId.eq(gatheringEntity.id), wishlistEntity.userId.eq(userId))
             .limit(searchOption.getPaginationInformation().getLimit())
             .offset(searchOption.getPaginationInformation().getOffset())
             .orderBy(sortGatheringSearch(searchOption.getSortType(), searchOption.getSortOrder()), gatheringEntity.id.desc())
@@ -113,12 +117,14 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
         return jpaQueryFactory.select(
                 gatheringEntity,
-                gatheringMemberEntity
+                gatheringMemberEntity,
+                wishlistEntity
             )
             .from(gatheringMemberEntity)
             .where(gatheringMemberEntity.userId.eq(userId))
             .leftJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
             .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
+            .leftJoin(wishlistEntity).on(wishlistEntity.gatheringId.eq(gatheringEntity.id), wishlistEntity.userId.eq(userId))
             .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
             .offset(paginationInformation.getOffset())
             .limit(paginationInformation.getLimit())
@@ -130,7 +136,8 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     public List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation) {
         return jpaQueryFactory.select(
                 gatheringEntity,
-                members
+                members,
+                wishlistEntity
             )
             .from(gatheringEntity)
             .where(
@@ -138,6 +145,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             )
             .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
             .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
+            .leftJoin(wishlistEntity).on(wishlistEntity.gatheringId.eq(gatheringEntity.id), wishlistEntity.userId.eq(userId))
             .limit(paginationInformation.getLimit())
             .offset(paginationInformation.getOffset())
             .orderBy(gatheringEntity.id.desc())
@@ -145,10 +153,11 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     }
 
     @Override
-    public List<GatheringPreview> getGatheringPreviewsById(List<Long> ids) {
+    public List<GatheringPreview> getGatheringPreviewsById(Long userId, List<Long> ids) {
         return jpaQueryFactory.select(
                 gatheringEntity,
-                members
+                members,
+                wishlistEntity
             )
             .from(gatheringEntity)
             .where(
@@ -156,6 +165,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             )
             .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
             .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
+            .leftJoin(wishlistEntity).on(wishlistEntity.gatheringId.eq(gatheringEntity.id), wishlistEntity.userId.eq(userId))
             .orderBy(gatheringEntity.id.desc())
             .transform(gatheringPreviewParser());
     }
@@ -221,6 +231,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                     gatheringEntity.tags,
                     gatheringEntity.capacity,
                     gatheringEntity.participantCount,
+                    wishlistEntity.isNotNull(),
                     gatheringEntity.isPeriodic,
                     list(
                         Projections.constructor(

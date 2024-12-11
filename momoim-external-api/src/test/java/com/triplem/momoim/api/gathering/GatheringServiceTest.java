@@ -31,6 +31,8 @@ class GatheringServiceTest {
     @DisplayName("검색 옵션을 통해 모임 목록을 조회할 수 있다.")
     void searchGatheringByGatheringSearchOption() {
         //given
+        Long userId = 1L;
+
         gatheringRepository.save(
             GatheringBuilder.builder()
                 .name("gathering1")
@@ -63,7 +65,7 @@ class GatheringServiceTest {
             .build();
 
         //when
-        List<GatheringPreview> gatheringPreviews = gatheringService.searchGatherings(searchOption);
+        List<GatheringPreview> gatheringPreviews = gatheringService.searchGatherings(userId, searchOption);
 
         //then
         assertThat(gatheringPreviews).hasSize(2)

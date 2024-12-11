@@ -49,7 +49,8 @@ public class GatheringController {
     })
     public ApiResponse<List<GatheringPreview>> getGatherings(
         @Parameter(hidden = true) GatheringSearchOption option) {
-        List<GatheringPreview> gatherings = gatheringService.searchGatherings(option);
+        Long userId = SecurityUtil.getMemberIdByPrincipal();
+        List<GatheringPreview> gatherings = gatheringService.searchGatherings(userId, option);
         return ApiResponse.success(gatherings);
     }
 

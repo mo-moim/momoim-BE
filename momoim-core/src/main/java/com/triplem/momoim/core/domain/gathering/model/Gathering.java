@@ -31,6 +31,7 @@ public class Gathering {
     private GatheringLocation location;
     private int capacity;
     private int participantCount;
+    private int wishlistCount;
     private Boolean isPeriodic;
     private LocalDateTime nextGatheringAt;
     private LocalDateTime createdAt;
@@ -49,6 +50,10 @@ public class Gathering {
     public void cancel() {
         validateCancel();
         this.status = GatheringStatus.CANCELED;
+    }
+
+    public Boolean isEnd() {
+        return this.status.equals(GatheringStatus.FINISHED) || this.status.equals(GatheringStatus.CANCELED);
     }
 
     public void validateCancel() {
@@ -96,5 +101,13 @@ public class Gathering {
 
     public void decreaseParticipantCount() {
         participantCount--;
+    }
+
+    public void increaseWishlistCount() {
+        wishlistCount++;
+    }
+
+    public void decreaseWishlistCount() {
+        wishlistCount--;
     }
 }

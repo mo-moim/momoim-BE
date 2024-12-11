@@ -23,8 +23,8 @@ public class GatheringReader {
         return gatheringRepository.findById(gatheringId);
     }
 
-    public List<GatheringPreview> searchGatherings(GatheringSearchOption option) {
-        return gatheringRepository.searchGatherings(option);
+    public List<GatheringPreview> searchGatherings(Long userId, GatheringSearchOption option) {
+        return gatheringRepository.searchGatherings(userId, option);
     }
 
     public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {
@@ -33,9 +33,7 @@ public class GatheringReader {
         Boolean isManager = gatheringContent.getManagerId().equals(userId);
         Boolean isJoined = members
             .stream()
-            .map(GatheringMemberDetail::getUserId)
-            .filter(id -> id.equals(userId))
-            .count() == 1;
+            .anyMatch(member -> member.getUserId().equals(userId));
         return new GatheringDetail(gatheringContent, members, isJoined, isManager);
     }
 
@@ -47,7 +45,7 @@ public class GatheringReader {
         return gatheringRepository.getMyGatherings(userId, paginationInformation);
     }
 
-    public List<GatheringPreview> getGatheringPreviewsById(List<Long> ids) {
-        return gatheringRepository.getGatheringPreviewsById(ids);
+    public List<GatheringPreview> getGatheringPreviewsById(Long userId, List<Long> ids) {
+        return gatheringRepository.getGatheringPreviewsById(userId, ids);
     }
 }

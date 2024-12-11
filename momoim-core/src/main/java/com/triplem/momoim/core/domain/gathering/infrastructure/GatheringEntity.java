@@ -52,16 +52,16 @@ public class GatheringEntity {
     @Enumerated(EnumType.STRING)
     private GatheringStatus status;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String image;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5000)
     private String description;
 
     @Column
     private String address;
 
-    @Column
+    @Column(length = 1000)
     @Convert(converter = GatheringTagConverter.class)
     private List<String> tags;
 
@@ -74,6 +74,9 @@ public class GatheringEntity {
 
     @Column(nullable = false)
     private int participantCount;
+
+    @Column(nullable = false)
+    private int wishlistCount;
 
     @Column(nullable = false)
     private Boolean isPeriodic;
@@ -103,6 +106,7 @@ public class GatheringEntity {
             .location(gathering.getLocation())
             .capacity(gathering.getCapacity())
             .participantCount(gathering.getParticipantCount())
+            .wishlistCount(gathering.getWishlistCount())
             .isPeriodic(gathering.getIsPeriodic())
             .nextGatheringAt(gathering.getNextGatheringAt())
             .createdAt(gathering.getCreatedAt())
@@ -126,6 +130,7 @@ public class GatheringEntity {
             .location(location)
             .capacity(capacity)
             .participantCount(participantCount)
+            .wishlistCount(wishlistCount)
             .isPeriodic(isPeriodic)
             .nextGatheringAt(nextGatheringAt)
             .createdAt(createdAt)

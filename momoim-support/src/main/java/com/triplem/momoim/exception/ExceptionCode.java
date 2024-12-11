@@ -40,12 +40,20 @@ public enum ExceptionCode {
     ALREADY_JOINED_GATHERING(HttpStatus.CONFLICT, "ALREADY_JOINED_GATHERING", "이미 참여중인 모임입니다."),
     NOT_FOUND_GATHERING_MEMBER(HttpStatus.NOT_FOUND, "NOT_FOUND_GATHERING_MEMBER", "존재하지 않는 모임 멤버입니다."),
     UNAVAILABLE_CANCEL_GATHERING(HttpStatus.BAD_REQUEST, "UNAVAILABLE_CANCEL_GATHERING", "취소할 수 없는 모임입니다."),
+    UNAVAILABLE_GATHERING(HttpStatus.BAD_REQUEST, "UNAVAILABLE_GATHERING", "이용가능한 모임이 아닙니다."),
+
     // =============================================================
     // ==                         Review                          ==
     // =============================================================
     FORBIDDEN_REVIEW(HttpStatus.FORBIDDEN, "FORBIDDEN_REVIEW", "권한이 없습니다."),
     NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "NOT_FOUND_REVIEW", "존재하지 않는 리뷰입니다."),
-    ALREADY_REVIEWED(HttpStatus.CONFLICT, "ALREADY_REVIEWED", "이미 리뷰를 작성한 모임입니다.");
+    ALREADY_REVIEWED(HttpStatus.CONFLICT, "ALREADY_REVIEWED", "이미 리뷰를 작성한 모임입니다."),
+
+    // =============================================================
+    // ==                         Wishlist                        ==
+    // =============================================================
+    ALREADY_REGISTERED_WISHLIST(HttpStatus.CONFLICT, "ALREADY_REGISTERED_WISHLIST", "이미 찜한 모임입니다."),
+    NOT_FOUND_WISHLIST(HttpStatus.NOT_FOUND, "NOT_FOUND_WISHLIST", "존재하지 않는 찜 입니다.");
 
     private final HttpStatus status;
     private final String code;
