@@ -38,6 +38,7 @@ public class GatheringController {
     @Operation(operationId = "모임 목록 조회", summary = "모임 목록 조회", tags = {"gatherings"}, description = "모임 목록 조회")
     @Parameters({
         @Parameter(name = "gatheringIds", description = "필터링 모임 id 목록", example = "1,2,3", schema = @Schema(implementation = Long[].class)),
+        @Parameter(name = "isOffline", description = "오프라인 모임 여부", schema = @Schema(implementation = Boolean.class)),
         @Parameter(name = "category", description = "필터링 카테고리", schema = @Schema(implementation = GatheringCategory.class)),
         @Parameter(name = "subCategory", description = "필터링 서브 카테고리", schema = @Schema(implementation = GatheringSubCategory.class)),
         @Parameter(name = "location", description = "필터링 지역", schema = @Schema(implementation = GatheringLocation.class)),

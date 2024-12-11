@@ -64,8 +64,7 @@ public class GatheringEntity {
     @Column(length = 1000)
     @Convert(converter = GatheringTagConverter.class)
     private List<String> tags;
-
-    @Column(nullable = false)
+    
     @Enumerated(EnumType.STRING)
     private GatheringLocation location;
 
