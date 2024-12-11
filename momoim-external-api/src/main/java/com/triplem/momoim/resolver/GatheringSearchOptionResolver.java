@@ -32,6 +32,7 @@ public class GatheringSearchOptionResolver implements HandlerMethodArgumentResol
         WebDataBinderFactory binderFactory) throws Exception {
         return GatheringSearchOption.of(
             getGatheringIds(webRequest),
+            getIsOffline(webRequest),
             getGatheringCategory(webRequest),
             getGatheringSubCategory(webRequest),
             getGatheringLocation(webRequest),
@@ -54,6 +55,16 @@ public class GatheringSearchOptionResolver implements HandlerMethodArgumentResol
         return Arrays.stream(ids)
             .map(Long::parseLong)
             .collect(Collectors.toList());
+    }
+
+    private Boolean getIsOffline(NativeWebRequest webRequest) {
+        String input = webRequest.getParameter("isOffline");
+
+        if (input == null) {
+            throw new BusinessException(ExceptionCode.BAD_REQUEST);
+        }
+
+        return Boolean.parseBoolean(input);
     }
 
     private GatheringCategory getGatheringCategory(NativeWebRequest webRequest) {

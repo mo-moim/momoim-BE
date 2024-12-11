@@ -17,6 +17,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class GatheringSearchOption {
     private List<Long> gatheringIds;
+    private Boolean isOffline;
     private String category;
     private String subCategory;
     private GatheringLocation gatheringLocation;
@@ -26,10 +27,11 @@ public class GatheringSearchOption {
     private SortOrder sortOrder;
 
     public static GatheringSearchOption of(
-        List<Long> gatheringIds, GatheringCategory category, GatheringSubCategory subCategory, GatheringLocation gatheringLocation,
+        List<Long> gatheringIds, Boolean isOffline, GatheringCategory category, GatheringSubCategory subCategory, GatheringLocation gatheringLocation,
         LocalDate gatheringDate, PaginationInformation paginationInformation, GatheringSortType sortType, SortOrder sortOrder) {
         return new GatheringSearchOption(
             gatheringIds,
+            isOffline,
             category != null ? category.name() : null,
             subCategory != null ? subCategory.name() : null,
             gatheringLocation,
