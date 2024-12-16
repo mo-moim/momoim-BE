@@ -7,6 +7,7 @@ import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.time.LocalDate;
@@ -32,7 +33,7 @@ public class GatheringSearchOptionResolver implements HandlerMethodArgumentResol
         WebDataBinderFactory binderFactory) throws Exception {
         return GatheringSearchOption.of(
             getGatheringIds(webRequest),
-            getIsOffline(webRequest),
+            getGatheringType(webRequest),
             getGatheringCategory(webRequest),
             getGatheringSubCategory(webRequest),
             getGatheringLocation(webRequest),
@@ -57,14 +58,14 @@ public class GatheringSearchOptionResolver implements HandlerMethodArgumentResol
             .collect(Collectors.toList());
     }
 
-    private Boolean getIsOffline(NativeWebRequest webRequest) {
-        String input = webRequest.getParameter("isOffline");
+    private GatheringType getGatheringType(NativeWebRequest webRequest) {
+        String input = webRequest.getParameter("gatheringType");
 
         if (input == null) {
             throw new BusinessException(ExceptionCode.BAD_REQUEST);
         }
 
-        return Boolean.parseBoolean(input);
+        return GatheringType.valueOf(input);
     }
 
     private GatheringCategory getGatheringCategory(NativeWebRequest webRequest) {
