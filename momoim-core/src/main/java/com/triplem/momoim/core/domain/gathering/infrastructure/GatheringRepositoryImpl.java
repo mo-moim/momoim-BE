@@ -19,7 +19,6 @@ import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
 import com.triplem.momoim.core.domain.member.infrastructure.QGatheringMemberEntity;
@@ -178,12 +177,8 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             builder.and(gatheringEntity.id.in(searchOption.getGatheringIds()));
         }
 
-        if (searchOption.getIsOffline()) {
-            builder.and(gatheringEntity.gatheringType.eq(GatheringType.OFFLINE));
-        }
-
-        if (!searchOption.getIsOffline()) {
-            builder.and(gatheringEntity.gatheringType.ne(GatheringType.OFFLINE));
+        if (searchOption.getGatheringType() != null) {
+            builder.and(gatheringEntity.gatheringType.eq(searchOption.getGatheringType()));
         }
 
         if (searchOption.getCategory() != null) {
