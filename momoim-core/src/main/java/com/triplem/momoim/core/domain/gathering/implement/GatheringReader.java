@@ -26,7 +26,8 @@ public class GatheringReader {
     }
 
     public List<GatheringPreview> searchGatherings(Long userId, GatheringSearchOption option) {
-        return gatheringRepository.searchGatherings(userId, option);
+        List<Long> gatheringIds = gatheringRepository.searchGatherings(userId, option);
+        return gatheringRepository.getGatheringPreviewsById(userId, gatheringIds);
     }
 
     public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {

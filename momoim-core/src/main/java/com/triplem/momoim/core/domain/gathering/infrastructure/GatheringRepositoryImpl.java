@@ -92,32 +92,25 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     }
 
     @Override
-    public List<GatheringPreview> searchGatherings(Long userId, GatheringSearchOption searchOption) {
-        return jpaQueryFactory.select(
-                gatheringEntity,
-                members,
-                wishlistEntity
-            )
+    public List<Long> searchGatherings(Long userId, GatheringSearchOption searchOption) {
+        return jpaQueryFactory.select(gatheringEntity.id)
             .from(gatheringEntity)
             .where(
                 whereGatheringSearchOption(searchOption),
                 gatheringEntity.status.ne(GatheringStatus.FINISHED),
                 gatheringEntity.status.ne(GatheringStatus.CANCELED)
             )
-            .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
-            .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
-            .leftJoin(wishlistEntity).on(wishlistEntity.gatheringId.eq(gatheringEntity.id), wishlistEntity.userId.eq(userId))
             .limit(searchOption.getPaginationInformation().getLimit())
             .offset(searchOption.getPaginationInformation().getOffset())
             .orderBy(sortGatheringSearch(searchOption.getSortType(), searchOption.getSortOrder()), gatheringEntity.id.desc())
-            .transform(gatheringPreviewParser());
+            .fetch();
     }
 
     @Override
     public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
         return jpaQueryFactory.select(
                 gatheringEntity,
-                gatheringMemberEntity,
+                members,
                 wishlistEntity
             )
             .from(gatheringMemberEntity)
@@ -181,12 +174,12 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             builder.and(gatheringEntity.gatheringType.eq(searchOption.getGatheringType()));
         }
 
-        if (searchOption.getCategory() != null) {
-            builder.and(gatheringEntity.category.eq(searchOption.getCategory()));
+        if (!searchOption.getCategories().isEmpty()) {
+            builder.and(gatheringEntity.category.in(searchOption.getCategories()));
         }
 
-        if (searchOption.getSubCategory() != null) {
-            builder.and(gatheringEntity.subCategory.eq(searchOption.getSubCategory()));
+        if (!searchOption.getSubCategories().isEmpty()) {
+            builder.and(gatheringEntity.subCategory.in(searchOption.getSubCategories()));
         }
 
         if (searchOption.getGatheringLocation() != null) {

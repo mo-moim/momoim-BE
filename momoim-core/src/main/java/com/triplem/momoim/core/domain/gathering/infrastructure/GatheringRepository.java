@@ -14,7 +14,7 @@ public interface GatheringRepository {
 
     GatheringContent getGatheringContent(Long gatheringId);
 
-    List<GatheringPreview> searchGatherings(Long userId, GatheringSearchOption searchOption);
+    List<Long> searchGatherings(Long userId, GatheringSearchOption searchOption);
 
     List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation);
 
