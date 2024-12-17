@@ -5,13 +5,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
-import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.infrastructure.GatheringMemberRepository;
 import com.triplem.momoim.core.domain.member.model.GatheringMember;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -88,7 +88,7 @@ class GatheringRepositoryTest {
         String targetCategory = "FOOD";
         String anotherCategory = "TRAVEL";
 
-        gatheringRepository.save(
+        Gathering gathering = gatheringRepository.save(
             GatheringBuilder
                 .builder()
                 .category(targetCategory)
@@ -104,18 +104,19 @@ class GatheringRepositoryTest {
         );
 
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
-            .category(targetCategory)
+            .categories(List.of(targetCategory))
+            .subCategories(new ArrayList<>())
             .paginationInformation(new PaginationInformation(0, 10))
             .sortType(GatheringSortType.UPDATE_AT)
             .sortOrder(SortOrder.ASC)
             .build();
 
         //when
-        List<GatheringPreview> gatherings = gatheringRepository.searchGatherings(userId, gatheringSearchOption);
+        List<Long> gatheringIds = gatheringRepository.searchGatherings(userId, gatheringSearchOption);
 
         //then
-        assertThat(gatherings).hasSize(1);
-        assertThat(gatherings.get(0).getCategory()).isEqualTo(gatheringSearchOption.getCategory());
+        assertThat(gatheringIds).hasSize(1);
+        assertThat(gatheringIds.get(0)).isEqualTo(gathering.getId());
     }
 
     @Test
@@ -126,7 +127,7 @@ class GatheringRepositoryTest {
         String targetSubCategory = "COOK";
         String anotherSubCategory = "FISHING";
 
-        gatheringRepository.save(
+        Gathering gathering = gatheringRepository.save(
             GatheringBuilder.builder()
                 .subCategory(targetSubCategory)
                 .build()
@@ -141,18 +142,19 @@ class GatheringRepositoryTest {
         );
 
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
-            .subCategories(targetSubCategory)
+            .categories(new ArrayList<>())
+            .subCategories(List.of(targetSubCategory))
             .paginationInformation(new PaginationInformation(0, 10))
             .sortType(GatheringSortType.UPDATE_AT)
             .sortOrder(SortOrder.ASC)
             .build();
 
         //when
-        List<GatheringPreview> gatherings = gatheringRepository.searchGatherings(userId, gatheringSearchOption);
+        List<Long> gatheringIds = gatheringRepository.searchGatherings(userId, gatheringSearchOption);
 
         //then
-        assertThat(gatherings).hasSize(1);
-        assertThat(gatherings.get(0).getSubCategory()).isEqualTo(gatheringSearchOption.getSubCategories());
+        assertThat(gatheringIds).hasSize(1);
+        assertThat(gatheringIds.get(0)).isEqualTo(gathering.getId());
     }
 
     @Test
@@ -163,21 +165,23 @@ class GatheringRepositoryTest {
         int offset = 0;
         int limit = 2;
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
+            .categories(new ArrayList<>())
+            .subCategories(new ArrayList<>())
             .sortType(GatheringSortType.UPDATE_AT)
             .sortOrder(SortOrder.ASC)
             .paginationInformation(new PaginationInformation(offset, limit))
             .build();
 
-        gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
-        gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
-        gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
-        gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        Gathering gathering1 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        Gathering gathering2 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        Gathering gathering3 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
+        Gathering gathering4 = gatheringRepository.save(GatheringBuilder.builder().build().toGathering());
 
         //when
-        List<GatheringPreview> gatherings = gatheringRepository.searchGatherings(userId, gatheringSearchOption);
+        List<Long> gatheringIds = gatheringRepository.searchGatherings(userId, gatheringSearchOption);
 
         //then
-        assertThat(gatherings).hasSize(2);
+        assertThat(gatheringIds).hasSize(2);
     }
 
     @Test
@@ -203,13 +207,12 @@ class GatheringRepositoryTest {
         gatheringMemberRepository.save(GatheringMember.create(userId, gathering5.getId()));
 
         //when
-        List<GatheringPreview> gatherings = gatheringRepository.getMyGatherings(
+        List<Long> gatheringIds = gatheringRepository.getMyGatherings(
             userId,
             paginationInformation);
 
         //then
-        assertThat(gatherings).hasSize(5)
-            .extracting("gatheringId")
+        assertThat(gatheringIds).hasSize(5)
             .contains(gathering1.getId(), gathering2.getId(), gathering3.getId(), gathering4.getId(), gathering5.getId());
     }
 }
