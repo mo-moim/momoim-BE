@@ -8,11 +8,11 @@ import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringDetail;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption.GatheringTypeForSearchOption;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -39,7 +39,7 @@ public class GatheringController {
     @Operation(operationId = "모임 목록 조회", summary = "모임 목록 조회", tags = {"gatherings"}, description = "모임 목록 조회")
     @Parameters({
         @Parameter(name = "gatheringIds", description = "필터링 모임 id 목록", example = "1,2,3", schema = @Schema(implementation = Long[].class)),
-        @Parameter(name = "gatheringType", description = "모임 종류 (온/오프라인)", schema = @Schema(implementation = GatheringType.class)),
+        @Parameter(name = "gatheringType", description = "모임 종류 (온/오프라인)", schema = @Schema(implementation = GatheringTypeForSearchOption.class)),
         @Parameter(name = "category", description = "필터링 카테고리", schema = @Schema(implementation = GatheringCategory[].class)),
         @Parameter(name = "subCategory", description = "필터링 서브 카테고리", schema = @Schema(implementation = GatheringSubCategory[].class)),
         @Parameter(name = "location", description = "필터링 지역", schema = @Schema(implementation = GatheringLocation.class)),

@@ -6,7 +6,6 @@ import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +18,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class GatheringSearchOption {
     private List<Long> gatheringIds;
-    private GatheringType gatheringType;
+    private GatheringTypeForSearchOption gatheringType;
     private List<String> categories;
     private List<String> subCategories;
     private GatheringLocation gatheringLocation;
@@ -29,7 +28,8 @@ public class GatheringSearchOption {
     private SortOrder sortOrder;
 
     public static GatheringSearchOption of(
-        List<Long> gatheringIds, GatheringType gatheringType, List<GatheringCategory> categories, List<GatheringSubCategory> subCategories,
+        List<Long> gatheringIds, GatheringTypeForSearchOption gatheringType, List<GatheringCategory> categories,
+        List<GatheringSubCategory> subCategories,
         GatheringLocation gatheringLocation, LocalDate gatheringDate, PaginationInformation paginationInformation, GatheringSortType sortType,
         SortOrder sortOrder) {
         return new GatheringSearchOption(
@@ -57,5 +57,9 @@ public class GatheringSearchOption {
             .stream()
             .map(Enum::name)
             .collect(Collectors.toList());
+    }
+
+    public enum GatheringTypeForSearchOption {
+        ALL(), ONLINE(), OFFLINE();
     }
 }

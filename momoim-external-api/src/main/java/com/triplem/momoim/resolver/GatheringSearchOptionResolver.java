@@ -3,11 +3,11 @@ package com.triplem.momoim.resolver;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption.GatheringTypeForSearchOption;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.time.LocalDate;
@@ -59,14 +59,14 @@ public class GatheringSearchOptionResolver implements HandlerMethodArgumentResol
             .collect(Collectors.toList());
     }
 
-    private GatheringType getGatheringType(NativeWebRequest webRequest) {
+    private GatheringTypeForSearchOption getGatheringType(NativeWebRequest webRequest) {
         String input = webRequest.getParameter("gatheringType");
 
         if (input == null) {
             throw new BusinessException(ExceptionCode.BAD_REQUEST);
         }
 
-        return GatheringType.valueOf(input);
+        return GatheringTypeForSearchOption.valueOf(input);
     }
 
     private List<GatheringCategory> getGatheringCategory(NativeWebRequest webRequest) {
