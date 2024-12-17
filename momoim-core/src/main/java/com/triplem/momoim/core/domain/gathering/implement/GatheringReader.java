@@ -26,7 +26,8 @@ public class GatheringReader {
     }
 
     public List<GatheringPreview> searchGatherings(Long userId, GatheringSearchOption option) {
-        return gatheringRepository.searchGatherings(userId, option);
+        List<Long> gatheringIds = gatheringRepository.searchGatherings(userId, option);
+        return gatheringRepository.getGatheringPreviewsById(userId, gatheringIds);
     }
 
     public GatheringDetail getGatheringDetail(Long gatheringId, Long userId) {
@@ -41,11 +42,13 @@ public class GatheringReader {
     }
 
     public List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation) {
-        return gatheringRepository.getMyMadeGatherings(userId, paginationInformation);
+        List<Long> myMadeGatheringIds = gatheringRepository.getMyMadeGatherings(userId, paginationInformation);
+        return gatheringRepository.getGatheringPreviewsById(userId, myMadeGatheringIds);
     }
 
     public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
-        return gatheringRepository.getMyGatherings(userId, paginationInformation);
+        List<Long> myGatheringIds = gatheringRepository.getMyGatherings(userId, paginationInformation);
+        return gatheringRepository.getGatheringPreviewsById(userId, myGatheringIds);
     }
 
     public List<GatheringPreview> getGatheringPreviewsById(Long userId, List<Long> ids) {

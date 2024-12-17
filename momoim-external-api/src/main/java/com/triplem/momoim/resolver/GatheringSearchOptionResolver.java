@@ -3,14 +3,15 @@ package com.triplem.momoim.resolver;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
+import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption.GatheringTypeForSearchOption;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,34 +59,45 @@ public class GatheringSearchOptionResolver implements HandlerMethodArgumentResol
             .collect(Collectors.toList());
     }
 
-    private GatheringType getGatheringType(NativeWebRequest webRequest) {
+    private GatheringTypeForSearchOption getGatheringType(NativeWebRequest webRequest) {
         String input = webRequest.getParameter("gatheringType");
 
         if (input == null) {
             throw new BusinessException(ExceptionCode.BAD_REQUEST);
         }
 
-        return GatheringType.valueOf(input);
+        return GatheringTypeForSearchOption.valueOf(input);
     }
 
-    private GatheringCategory getGatheringCategory(NativeWebRequest webRequest) {
-        String input = webRequest.getParameter("category");
+    private List<GatheringCategory> getGatheringCategory(NativeWebRequest webRequest) {
+        String[] input = webRequest.getParameterValues("category");
+        List<GatheringCategory> categories = new ArrayList<>();
 
         if (input == null) {
-            return null;
+            return categories;
         }
 
-        return GatheringCategory.valueOf(input);
+        for (String category : input) {
+            categories.add(GatheringCategory.valueOf(category));
+        }
+
+        return categories;
     }
 
-    private GatheringSubCategory getGatheringSubCategory(NativeWebRequest webRequest) {
-        String input = webRequest.getParameter("subCategory");
+    private List<GatheringSubCategory> getGatheringSubCategory(NativeWebRequest webRequest) {
+        String[] input = webRequest.getParameterValues("subCategory");
+        List<GatheringSubCategory> subCategories = new ArrayList<>();
 
         if (input == null) {
-            return null;
+            return subCategories;
         }
 
-        return GatheringSubCategory.valueOf(input);
+        for (String subCategory : input) {
+            System.out.println(subCategory);
+            subCategories.add(GatheringSubCategory.valueOf(subCategory));
+        }
+
+        return subCategories;
     }
 
     private GatheringLocation getGatheringLocation(NativeWebRequest webRequest) {

@@ -14,11 +14,11 @@ public interface GatheringRepository {
 
     GatheringContent getGatheringContent(Long gatheringId);
 
-    List<GatheringPreview> searchGatherings(Long userId, GatheringSearchOption searchOption);
+    List<Long> searchGatherings(Long userId, GatheringSearchOption searchOption);
 
-    List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation);
+    List<Long> getMyGatherings(Long userId, PaginationInformation paginationInformation);
 
-    List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation);
+    List<Long> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation);
 
     List<GatheringPreview> getGatheringPreviewsById(Long userId, List<Long> ids);
 }

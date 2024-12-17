@@ -9,6 +9,7 @@ import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.infrastructure.GatheringRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,7 +59,8 @@ class GatheringServiceTest {
         );
 
         GatheringSearchOption searchOption = GatheringSearchOption.builder()
-            .subCategory("COOK")
+            .categories(new ArrayList<>())
+            .subCategories(List.of("COOK"))
             .paginationInformation(new PaginationInformation(0, 10))
             .sortType(GatheringSortType.UPDATE_AT)
             .sortOrder(SortOrder.ASC)
