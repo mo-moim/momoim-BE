@@ -80,7 +80,7 @@ public class GatheringController {
         @Parameter(name = "sortType", description = "정렬 기준", schema = @Schema(implementation = GatheringSortType.class), required = true),
         @Parameter(name = "sortOrder", description = "오름차순 / 내림차순", schema = @Schema(implementation = SortOrder.class), required = true),
     })
-    public ApiResponse<List<GatheringPreview>> recommendGathering(GatheringSearchOption option) {
+    public ApiResponse<List<GatheringPreview>> recommendGathering(@Parameter(hidden = true) GatheringSearchOption option) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         List<GatheringPreview> gatherings = gatheringRecommendService.getRecommendGatherings(userId, option);
         return ApiResponse.success(gatherings);
