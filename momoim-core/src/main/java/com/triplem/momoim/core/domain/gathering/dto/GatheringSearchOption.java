@@ -9,6 +9,7 @@ import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,8 +20,8 @@ import lombok.Getter;
 public class GatheringSearchOption {
     private List<Long> gatheringIds;
     private GatheringType gatheringType;
-    private String category;
-    private String subCategory;
+    private List<String> categories;
+    private List<String> subCategories;
     private GatheringLocation gatheringLocation;
     private LocalDate gatheringDate;
     private PaginationInformation paginationInformation;
@@ -28,19 +29,33 @@ public class GatheringSearchOption {
     private SortOrder sortOrder;
 
     public static GatheringSearchOption of(
-        List<Long> gatheringIds, GatheringType gatheringType, GatheringCategory category, GatheringSubCategory subCategory,
-        GatheringLocation gatheringLocation,
-        LocalDate gatheringDate, PaginationInformation paginationInformation, GatheringSortType sortType, SortOrder sortOrder) {
+        List<Long> gatheringIds, GatheringType gatheringType, List<GatheringCategory> categories, List<GatheringSubCategory> subCategories,
+        GatheringLocation gatheringLocation, LocalDate gatheringDate, PaginationInformation paginationInformation, GatheringSortType sortType,
+        SortOrder sortOrder) {
         return new GatheringSearchOption(
             gatheringIds,
             gatheringType,
-            category != null ? category.name() : null,
-            subCategory != null ? subCategory.name() : null,
+            parseCategory(categories),
+            parseSubCategory(subCategories),
             gatheringLocation,
             gatheringDate,
             paginationInformation,
             sortType,
             sortOrder
         );
+    }
+
+    private static List<String> parseCategory(List<GatheringCategory> categories) {
+        return categories
+            .stream()
+            .map(Enum::name)
+            .collect(Collectors.toList());
+    }
+
+    private static List<String> parseSubCategory(List<GatheringSubCategory> subCategories) {
+        return subCategories
+            .stream()
+            .map(Enum::name)
+            .collect(Collectors.toList());
     }
 }

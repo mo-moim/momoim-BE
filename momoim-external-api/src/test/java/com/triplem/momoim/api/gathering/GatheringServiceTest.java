@@ -58,7 +58,7 @@ class GatheringServiceTest {
         );
 
         GatheringSearchOption searchOption = GatheringSearchOption.builder()
-            .subCategory("COOK")
+            .subCategories("COOK")
             .paginationInformation(new PaginationInformation(0, 10))
             .sortType(GatheringSortType.UPDATE_AT)
             .sortOrder(SortOrder.ASC)

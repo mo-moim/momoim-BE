@@ -141,7 +141,7 @@ class GatheringRepositoryTest {
         );
 
         GatheringSearchOption gatheringSearchOption = GatheringSearchOption.builder()
-            .subCategory(targetSubCategory)
+            .subCategories(targetSubCategory)
             .paginationInformation(new PaginationInformation(0, 10))
             .sortType(GatheringSortType.UPDATE_AT)
             .sortOrder(SortOrder.ASC)
@@ -152,7 +152,7 @@ class GatheringRepositoryTest {
 
         //then
         assertThat(gatherings).hasSize(1);
-        assertThat(gatherings.get(0).getSubCategory()).isEqualTo(gatheringSearchOption.getSubCategory());
+        assertThat(gatherings.get(0).getSubCategory()).isEqualTo(gatheringSearchOption.getSubCategories());
     }
 
     @Test

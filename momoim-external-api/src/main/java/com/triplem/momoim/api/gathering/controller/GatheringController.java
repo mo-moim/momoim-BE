@@ -40,8 +40,8 @@ public class GatheringController {
     @Parameters({
         @Parameter(name = "gatheringIds", description = "필터링 모임 id 목록", example = "1,2,3", schema = @Schema(implementation = Long[].class)),
         @Parameter(name = "gatheringType", description = "모임 종류 (온/오프라인)", schema = @Schema(implementation = GatheringType.class)),
-        @Parameter(name = "category", description = "필터링 카테고리", schema = @Schema(implementation = GatheringCategory.class)),
-        @Parameter(name = "subCategory", description = "필터링 서브 카테고리", schema = @Schema(implementation = GatheringSubCategory.class)),
+        @Parameter(name = "category", description = "필터링 카테고리", schema = @Schema(implementation = GatheringCategory[].class)),
+        @Parameter(name = "subCategory", description = "필터링 서브 카테고리", schema = @Schema(implementation = GatheringSubCategory[].class)),
         @Parameter(name = "location", description = "필터링 지역", schema = @Schema(implementation = GatheringLocation.class)),
         @Parameter(name = "gatheringDate", description = "필터링 모임 날짜", example = "2024-12-31", schema = @Schema(implementation = LocalDate.class)),
         @Parameter(name = "offset", description = "페이징 offset", schema = @Schema(implementation = Integer.class), required = true),

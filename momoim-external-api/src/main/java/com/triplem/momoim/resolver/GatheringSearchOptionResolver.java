@@ -11,6 +11,7 @@ import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,24 +69,35 @@ public class GatheringSearchOptionResolver implements HandlerMethodArgumentResol
         return GatheringType.valueOf(input);
     }
 
-    private GatheringCategory getGatheringCategory(NativeWebRequest webRequest) {
-        String input = webRequest.getParameter("category");
+    private List<GatheringCategory> getGatheringCategory(NativeWebRequest webRequest) {
+        String[] input = webRequest.getParameterValues("category");
+        List<GatheringCategory> categories = new ArrayList<>();
 
         if (input == null) {
-            return null;
+            return categories;
         }
 
-        return GatheringCategory.valueOf(input);
+        for (String category : input) {
+            categories.add(GatheringCategory.valueOf(category));
+        }
+
+        return categories;
     }
 
-    private GatheringSubCategory getGatheringSubCategory(NativeWebRequest webRequest) {
-        String input = webRequest.getParameter("subCategory");
+    private List<GatheringSubCategory> getGatheringSubCategory(NativeWebRequest webRequest) {
+        String[] input = webRequest.getParameterValues("subCategory");
+        List<GatheringSubCategory> subCategories = new ArrayList<>();
 
         if (input == null) {
-            return null;
+            return subCategories;
         }
 
-        return GatheringSubCategory.valueOf(input);
+        for (String subCategory : input) {
+            System.out.println(subCategory);
+            subCategories.add(GatheringSubCategory.valueOf(subCategory));
+        }
+
+        return subCategories;
     }
 
     private GatheringLocation getGatheringLocation(NativeWebRequest webRequest) {
