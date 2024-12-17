@@ -3,7 +3,6 @@ package com.triplem.momoim.core.domain.gathering.model;
 import com.triplem.momoim.core.domain.gathering.dto.ModifyGathering;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
 import java.time.LocalDate;
@@ -22,7 +21,6 @@ public class Gathering {
     private String category;
     private String subCategory;
     private String name;
-    private GatheringType gatheringType;
     private GatheringStatus status;
     private String image;
     private String description;

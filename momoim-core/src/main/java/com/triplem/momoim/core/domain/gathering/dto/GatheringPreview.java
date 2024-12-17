@@ -2,7 +2,6 @@ package com.triplem.momoim.core.domain.gathering.dto;
 
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +16,6 @@ public class GatheringPreview {
     private Long gatheringId;
     private String image;
     private String name;
-    private GatheringType gatheringType;
     private GatheringStatus status;
     private String category;
     private String subCategory;

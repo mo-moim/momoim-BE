@@ -26,7 +26,6 @@ public class GatheringScheduleRepositoryImpl implements GatheringScheduleReposit
                     gatheringEntity.id,
                     gatheringEntity.name,
                     gatheringEntity.image,
-                    gatheringEntity.gatheringType,
                     gatheringEntity.location,
                     gatheringEntity.category,
                     gatheringEntity.subCategory,
