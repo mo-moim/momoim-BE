@@ -5,7 +5,6 @@ import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +15,6 @@ public class RegisterGatheringRequest {
     private GatheringCategory category;
     private GatheringSubCategory subCategory;
     private String name;
-    private GatheringType gatheringType;
     private String image;
     private String description;
     private String address;
@@ -33,7 +31,6 @@ public class RegisterGatheringRequest {
             .category(category.name())
             .subCategory(subCategory.name())
             .name(name)
-            .gatheringType(gatheringType)
             .status(GatheringStatus.OPEN)
             .image(image)
             .description(description)

@@ -2,7 +2,6 @@ package com.triplem.momoim.core.domain.gathering.infrastructure;
 
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -46,10 +45,6 @@ public class GatheringEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private GatheringType gatheringType;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     private GatheringStatus status;
 
     @Column(nullable = false, length = 500)
@@ -64,7 +59,7 @@ public class GatheringEntity {
     @Column(length = 1000)
     @Convert(converter = GatheringTagConverter.class)
     private List<String> tags;
-    
+
     @Enumerated(EnumType.STRING)
     private GatheringLocation location;
 
@@ -96,7 +91,6 @@ public class GatheringEntity {
             .category(gathering.getCategory())
             .subCategory(gathering.getSubCategory())
             .name(gathering.getName())
-            .gatheringType(gathering.getGatheringType())
             .status(gathering.getStatus())
             .image(gathering.getImage())
             .description(gathering.getDescription())
@@ -120,7 +114,6 @@ public class GatheringEntity {
             .category(category)
             .subCategory(subCategory)
             .name(name)
-            .gatheringType(gatheringType)
             .status(status)
             .image(image)
             .description(description)

@@ -2,7 +2,6 @@ package com.triplem.momoim.api.gathering;
 
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,8 +18,6 @@ public class GatheringBuilder {
     private String subCategory = "COOK";
     @Builder.Default
     private String name = "gathering1";
-    @Builder.Default
-    private GatheringType gatheringType = GatheringType.OFFLINE;
     @Builder.Default
     private GatheringStatus status = GatheringStatus.OPEN;
     @Builder.Default
@@ -51,7 +48,6 @@ public class GatheringBuilder {
             .category(category)
             .subCategory(subCategory)
             .name(name)
-            .gatheringType(gatheringType)
             .status(status)
             .image(image)
             .description(description)

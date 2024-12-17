@@ -17,10 +17,8 @@ import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringContent;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringPreview;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
-import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption.GatheringTypeForSearchOption;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
-import com.triplem.momoim.core.domain.gathering.enums.GatheringType;
 import com.triplem.momoim.core.domain.gathering.model.Gathering;
 import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
 import com.triplem.momoim.core.domain.member.infrastructure.QGatheringMemberEntity;
@@ -65,7 +63,6 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                     gatheringEntity.category,
                     gatheringEntity.subCategory,
                     gatheringEntity.name,
-                    gatheringEntity.gatheringType,
                     gatheringEntity.status,
                     gatheringEntity.image,
                     gatheringEntity.description,
@@ -161,14 +158,6 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             builder.and(gatheringEntity.id.in(searchOption.getGatheringIds()));
         }
 
-        if (searchOption.getGatheringType().equals(GatheringTypeForSearchOption.ONLINE)) {
-            builder.and(gatheringEntity.gatheringType.eq(GatheringType.ONLINE));
-        }
-
-        if (searchOption.getGatheringType().equals(GatheringTypeForSearchOption.OFFLINE)) {
-            builder.and(gatheringEntity.gatheringType.eq(GatheringType.OFFLINE));
-        }
-
         if (!searchOption.getCategories().isEmpty()) {
             builder.and(gatheringEntity.category.in(searchOption.getCategories()));
         }
@@ -214,7 +203,6 @@ public class GatheringRepositoryImpl implements GatheringRepository {
                     gatheringEntity.id,
                     gatheringEntity.image,
                     gatheringEntity.name,
-                    gatheringEntity.gatheringType,
                     gatheringEntity.status,
                     gatheringEntity.category,
                     gatheringEntity.subCategory,
