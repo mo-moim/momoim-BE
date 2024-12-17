@@ -107,42 +107,31 @@ public class GatheringRepositoryImpl implements GatheringRepository {
     }
 
     @Override
-    public List<GatheringPreview> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
+    public List<Long> getMyGatherings(Long userId, PaginationInformation paginationInformation) {
         return jpaQueryFactory.select(
-                gatheringEntity,
-                members,
-                wishlistEntity
+                gatheringMemberEntity.gatheringId
             )
             .from(gatheringMemberEntity)
             .where(gatheringMemberEntity.userId.eq(userId))
-            .leftJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
-            .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
-            .leftJoin(wishlistEntity).on(wishlistEntity.gatheringId.eq(gatheringEntity.id), wishlistEntity.userId.eq(userId))
-            .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
             .offset(paginationInformation.getOffset())
             .limit(paginationInformation.getLimit())
-            .orderBy(gatheringEntity.id.desc())
-            .transform(gatheringPreviewParser());
+            .orderBy(gatheringMemberEntity.id.desc())
+            .fetch();
     }
 
     @Override
-    public List<GatheringPreview> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation) {
+    public List<Long> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation) {
         return jpaQueryFactory.select(
-                gatheringEntity,
-                members,
-                wishlistEntity
+                gatheringEntity.id
             )
             .from(gatheringEntity)
             .where(
                 gatheringEntity.managerId.eq(userId)
             )
-            .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
-            .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
-            .leftJoin(wishlistEntity).on(wishlistEntity.gatheringId.eq(gatheringEntity.id), wishlistEntity.userId.eq(userId))
             .limit(paginationInformation.getLimit())
             .offset(paginationInformation.getOffset())
             .orderBy(gatheringEntity.id.desc())
-            .transform(gatheringPreviewParser());
+            .fetch();
     }
 
     @Override
