@@ -54,4 +54,8 @@ public class GatheringSearchOption {
             .map(Enum::name)
             .collect(Collectors.toList());
     }
+
+    public void applyUserInterestSubcategories(List<String> subCategories) {
+        this.subCategories = subCategories;
+    }
 }

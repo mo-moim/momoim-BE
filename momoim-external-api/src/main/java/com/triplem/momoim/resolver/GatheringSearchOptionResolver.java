@@ -47,7 +47,7 @@ public class GatheringSearchOptionResolver implements HandlerMethodArgumentResol
         String input = webRequest.getParameter("gatheringIds");
 
         if (input == null) {
-            return null;
+            return new ArrayList<>();
         }
 
         String[] ids = input.split(",");

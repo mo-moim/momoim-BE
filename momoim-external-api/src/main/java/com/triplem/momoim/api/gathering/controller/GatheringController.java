@@ -2,6 +2,7 @@ package com.triplem.momoim.api.gathering.controller;
 
 import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.api.gathering.dto.GatheringCategoryInformation;
+import com.triplem.momoim.api.gathering.service.GatheringRecommendService;
 import com.triplem.momoim.api.gathering.service.GatheringService;
 import com.triplem.momoim.auth.utils.SecurityUtil;
 import com.triplem.momoim.core.common.SortOrder;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class GatheringController {
     private final GatheringService gatheringService;
+    private final GatheringRecommendService gatheringRecommendService;
 
     @GetMapping
     @ApiResponses(value = {
@@ -63,6 +65,25 @@ public class GatheringController {
         List<GatheringCategory> categories = gatheringService.getCategory();
         List<GatheringSubCategory> subCategories = gatheringService.getSubCategory();
         return ApiResponse.success(new GatheringCategoryInformation(categories, subCategories));
+    }
+
+    @GetMapping("/recommend")
+    @ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공")
+    })
+    @Operation(operationId = "추천 모임 목록 조회", summary = "추천 모임 목록 조회", tags = {"gatherings"}, description = "추천 모임 목록 조회")
+    @Parameters({
+        @Parameter(name = "location", description = "필터링 지역", schema = @Schema(implementation = GatheringLocation.class)),
+        @Parameter(name = "gatheringDate", description = "필터링 모임 날짜", example = "2024-12-31", schema = @Schema(implementation = LocalDate.class)),
+        @Parameter(name = "offset", description = "페이징 offset", schema = @Schema(implementation = Integer.class), required = true),
+        @Parameter(name = "limit", description = "페이징 limit", schema = @Schema(implementation = Integer.class), required = true),
+        @Parameter(name = "sortType", description = "정렬 기준", schema = @Schema(implementation = GatheringSortType.class), required = true),
+        @Parameter(name = "sortOrder", description = "오름차순 / 내림차순", schema = @Schema(implementation = SortOrder.class), required = true),
+    })
+    public ApiResponse<List<GatheringPreview>> recommendGathering(GatheringSearchOption option) {
+        Long userId = SecurityUtil.getMemberIdByPrincipal();
+        List<GatheringPreview> gatherings = gatheringRecommendService.getRecommendGatherings(userId, option);
+        return ApiResponse.success(gatherings);
     }
 
     @GetMapping("/{gatheringId}")
