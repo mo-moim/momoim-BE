@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public record UserProfileUpdateRequest(
         @Schema(description = "이메일", example = "test@test.com")
@@ -20,8 +21,8 @@ public record UserProfileUpdateRequest(
         @Schema(description = "활동할 지역", example = "['SEOUL', 'BUSAN]' or '[ALL]'")
         List<String> regions,
 
-        @Schema(description = "관심 카테고리", example = "['CULTURE', 'FOOD', 'SPORTS', 'HOBBY', 'TRAVEL', 'STUDY', 'MEETING'] or '[ALL]'")
-        List<String> interestCategories
+        @Schema(description = "관심 카테고리", example = "{'CULTURE': ['MOVIE', 'CONCERT'], 'FOOD': ['COOKING']}")
+        Map<String, List<String>> interestCategories
 ) {
         public User toUpdatedUser(User user) {
                 return User.builder()

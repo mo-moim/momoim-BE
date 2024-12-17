@@ -29,11 +29,15 @@ public class UserInterestCategoryEntity {
     @Column(nullable = false)
     private String category;
 
+    @Column(nullable = false)
+    private String subCategory;
+
     public static UserInterestCategoryEntity from(UserInterestCategory userInterestCategory) {
         return UserInterestCategoryEntity.builder()
             .id(userInterestCategory.getId())
             .userId(userInterestCategory.getUserId())
             .category(userInterestCategory.getCategory())
+            .subCategory(userInterestCategory.getSubCategory())
             .build();
     }
 
@@ -42,6 +46,7 @@ public class UserInterestCategoryEntity {
             .id(id)
             .userId(userId)
             .category(category)
+            .subCategory(subCategory)
             .build();
     }
 }
