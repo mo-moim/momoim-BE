@@ -44,12 +44,12 @@ class GatheringRepositoryTest {
             .isNotNull()
             .extracting(
                 "managerId", "category", "subCategory",
-                "name", "gatheringType", "image", "description", "location",
+                "name", "image", "description", "location",
                 "capacity", "participantCount", "nextGatheringAt", "createdAt",
                 "isPeriodic", "status", "address")
             .containsExactly(
                 gathering.getManagerId(), gathering.getCategory(), gathering.getSubCategory(),
-                gathering.getName(), gathering.getGatheringType(), gathering.getImage(), gathering.getDescription(), gathering.getLocation(),
+                gathering.getName(), gathering.getImage(), gathering.getDescription(), gathering.getLocation(),
                 gathering.getCapacity(), gathering.getParticipantCount(), gathering.getNextGatheringAt(), gathering.getCreatedAt(),
                 gathering.getIsPeriodic(), gathering.getStatus(), gathering.getAddress());
 
