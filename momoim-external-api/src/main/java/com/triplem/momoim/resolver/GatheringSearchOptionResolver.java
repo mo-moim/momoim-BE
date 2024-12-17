@@ -3,7 +3,6 @@ package com.triplem.momoim.resolver;
 import com.triplem.momoim.core.common.PaginationInformation;
 import com.triplem.momoim.core.common.SortOrder;
 import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption;
-import com.triplem.momoim.core.domain.gathering.dto.GatheringSearchOption.GatheringTypeForSearchOption;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSortType;
@@ -34,7 +33,6 @@ public class GatheringSearchOptionResolver implements HandlerMethodArgumentResol
         WebDataBinderFactory binderFactory) throws Exception {
         return GatheringSearchOption.of(
             getGatheringIds(webRequest),
-            getGatheringType(webRequest),
             getGatheringCategory(webRequest),
             getGatheringSubCategory(webRequest),
             getGatheringLocation(webRequest),
@@ -57,16 +55,6 @@ public class GatheringSearchOptionResolver implements HandlerMethodArgumentResol
         return Arrays.stream(ids)
             .map(Long::parseLong)
             .collect(Collectors.toList());
-    }
-
-    private GatheringTypeForSearchOption getGatheringType(NativeWebRequest webRequest) {
-        String input = webRequest.getParameter("gatheringType");
-
-        if (input == null) {
-            throw new BusinessException(ExceptionCode.BAD_REQUEST);
-        }
-
-        return GatheringTypeForSearchOption.valueOf(input);
     }
 
     private List<GatheringCategory> getGatheringCategory(NativeWebRequest webRequest) {

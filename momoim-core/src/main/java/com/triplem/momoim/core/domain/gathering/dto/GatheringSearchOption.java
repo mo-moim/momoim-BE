@@ -18,7 +18,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class GatheringSearchOption {
     private List<Long> gatheringIds;
-    private GatheringTypeForSearchOption gatheringType;
     private List<String> categories;
     private List<String> subCategories;
     private GatheringLocation gatheringLocation;
@@ -28,13 +27,10 @@ public class GatheringSearchOption {
     private SortOrder sortOrder;
 
     public static GatheringSearchOption of(
-        List<Long> gatheringIds, GatheringTypeForSearchOption gatheringType, List<GatheringCategory> categories,
-        List<GatheringSubCategory> subCategories,
-        GatheringLocation gatheringLocation, LocalDate gatheringDate, PaginationInformation paginationInformation, GatheringSortType sortType,
-        SortOrder sortOrder) {
+        List<Long> gatheringIds, List<GatheringCategory> categories, List<GatheringSubCategory> subCategories, GatheringLocation gatheringLocation,
+        LocalDate gatheringDate, PaginationInformation paginationInformation, GatheringSortType sortType, SortOrder sortOrder) {
         return new GatheringSearchOption(
             gatheringIds,
-            gatheringType,
             parseCategory(categories),
             parseSubCategory(subCategories),
             gatheringLocation,
@@ -57,9 +53,5 @@ public class GatheringSearchOption {
             .stream()
             .map(Enum::name)
             .collect(Collectors.toList());
-    }
-
-    public enum GatheringTypeForSearchOption {
-        ALL(), ONLINE(), OFFLINE();
     }
 }
