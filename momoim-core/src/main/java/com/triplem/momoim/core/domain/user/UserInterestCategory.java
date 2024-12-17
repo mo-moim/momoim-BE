@@ -11,4 +11,5 @@ public class UserInterestCategory {
     private Long id;
     private Long userId;
     private String category;
+    private String subCategory;
 }

@@ -6,7 +6,11 @@ import com.triplem.momoim.core.domain.user.UserInterestCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Builder
 @Schema
@@ -26,8 +30,8 @@ public record UserDetailResponse(
         @Schema(description = "활동할 지역", example = "['SEOUL', 'BUSAN]' or '[ALL]'")
         List<String> regions,
 
-        @Schema(description = "관심 카테고리", example = "['CULTURE', 'FOOD', 'SPORTS', 'HOBBY', 'TRAVEL', 'STUDY', 'MEETING'] or '[ALL]'")
-        List<String> interestCategories
+        @Schema(description = "관심 카테고리", example = "{'CULTURE': ['MOVIE', 'CONCERT'], 'FOOD': ['COOKING']]")
+        Map<String, List<String>> interestCategories
 ) {
         public static UserDetailResponse from(
                 User user,
@@ -38,9 +42,20 @@ public record UserDetailResponse(
                         .map(UserActiveLocation::getActiveLocationType)
                         .toList();
 
-                List<String> interestCategories = userInterestCategories.stream()
+                Set<String> allCategories = userInterestCategories.stream()
                         .map(UserInterestCategory::getCategory)
-                        .toList();
+                        .collect(Collectors.toSet());
+
+                Map<String, List<String>> interestCategories = userInterestCategories.stream()
+                        .filter(interest -> interest.getSubCategory() != null && !interest.getSubCategory().isEmpty())
+                        .collect(Collectors.groupingBy(
+                                UserInterestCategory::getCategory,
+                                Collectors.mapping(UserInterestCategory::getSubCategory, Collectors.toList())
+                        ));
+
+                allCategories.forEach(category ->
+                        interestCategories.putIfAbsent(category, Collections.emptyList())
+                );
 
                 return UserDetailResponse.builder()
                         .email(user.getEmail())
