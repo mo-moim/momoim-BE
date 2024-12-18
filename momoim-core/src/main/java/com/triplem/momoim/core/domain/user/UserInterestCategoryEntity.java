@@ -29,7 +29,6 @@ public class UserInterestCategoryEntity {
     @Column(nullable = false)
     private String category;
 
-    @Column(nullable = false)
     private String subCategory;
 
     public static UserInterestCategoryEntity from(UserInterestCategory userInterestCategory) {
