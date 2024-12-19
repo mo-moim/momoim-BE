@@ -24,7 +24,9 @@ import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
 import com.triplem.momoim.core.domain.member.infrastructure.QGatheringMemberEntity;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -147,8 +149,10 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
             .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
             .leftJoin(wishlistEntity).on(wishlistEntity.gatheringId.eq(gatheringEntity.id), wishlistEntity.userId.eq(userId))
-            .orderBy(gatheringEntity.id.desc())
-            .transform(gatheringPreviewParser());
+            .transform(gatheringPreviewParser())
+            .stream()
+            .sorted(Comparator.comparingInt(gathering -> ids.indexOf(gathering.getGatheringId())))
+            .collect(Collectors.toList());
     }
 
     private BooleanBuilder whereGatheringSearchOption(GatheringSearchOption searchOption) {
