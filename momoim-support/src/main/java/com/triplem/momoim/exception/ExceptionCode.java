@@ -27,6 +27,7 @@ public enum ExceptionCode {
     NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "NOT_FOUND_MEMBER", "해당하는 회원이 존재하지 않습니다."),
     INVALID_MEMBER_HAS_DUPLICATED_EMAIL(HttpStatus.BAD_REQUEST, "INVALID_MEMBER_HAS_DUPLICATED_EMAIL", "같은 이메일을 통해 이미 가입되어 있는 회원입니다."),
     INVALID_MEMBER_PROFILE_REQUEST(HttpStatus.BAD_REQUEST, "INVALID_MEMBER_PROFILE_REQUEST", "로그인이 되어있지 않고 프로필을 조회할 수 없습니다."),
+    INVALID_MEMBER_INTEREST_CATEGORY(HttpStatus.BAD_REQUEST, "INVALID_MEMBER_INTEREST_CATEGORY", "관심 카테고리 선택 시 전체 옵션과 다른 카테고리 옵션을 동시에 선택할 수 없습니다."),
 
     // =============================================================
     // ==                         Gathering                       ==
