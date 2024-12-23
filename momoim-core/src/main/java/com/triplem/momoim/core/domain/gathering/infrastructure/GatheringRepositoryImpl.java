@@ -149,6 +149,7 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             .leftJoin(members).on(members.gatheringId.eq(gatheringEntity.id))
             .leftJoin(userEntity).on(userEntity.id.eq(members.userId))
             .leftJoin(wishlistEntity).on(wishlistEntity.gatheringId.eq(gatheringEntity.id), wishlistEntity.userId.eq(userId))
+            .orderBy(gatheringEntity.id.desc())
             .transform(gatheringPreviewParser())
             .stream()
             .sorted(Comparator.comparingInt(gathering -> ids.indexOf(gathering.getGatheringId())))
