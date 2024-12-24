@@ -13,6 +13,7 @@ import com.triplem.momoim.core.domain.review.dto.ReviewContent;
 import com.triplem.momoim.core.domain.review.model.Review;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -102,7 +103,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             .from(gatheringMemberEntity)
             .leftJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
             .leftJoin(reviewEntity).on(reviewEntity.gatheringId.eq(gatheringEntity.id))
-            .where(gatheringMemberEntity.userId.eq(userId), reviewEntity.id.isNull())
+            .where(gatheringMemberEntity.userId.eq(userId), reviewEntity.id.isNull(), gatheringEntity.nextGatheringAt.before(LocalDateTime.now()))
             .offset(paginationInformation.getOffset())
             .limit(paginationInformation.getLimit())
             .orderBy(gatheringEntity.id.desc())

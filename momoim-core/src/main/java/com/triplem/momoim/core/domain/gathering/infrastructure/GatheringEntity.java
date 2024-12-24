@@ -47,7 +47,7 @@ public class GatheringEntity {
     @Enumerated(EnumType.STRING)
     private GatheringStatus status;
 
-    @Column(nullable = false, length = 500)
+    @Column(length = 500)
     private String image;
 
     @Column(nullable = false, length = 5000)
