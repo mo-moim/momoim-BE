@@ -35,4 +35,11 @@ public class UserRepositoryImpl implements UserRepository {
             throw new BusinessException(ExceptionCode.INVALID_MEMBER_HAS_DUPLICATED_EMAIL);
         }
     }
+
+    @Override
+    public void checkDuplicatedUserName(String name) {
+        if(userJpaRepository.existsByName(name)) {
+            throw new BusinessException(ExceptionCode.INVALID_MEMBER_HAS_DUPLICATED_NAME);
+        }
+    }
 }

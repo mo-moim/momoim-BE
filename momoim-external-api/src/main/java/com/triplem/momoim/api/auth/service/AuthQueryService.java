@@ -1,6 +1,7 @@
 package com.triplem.momoim.api.auth.service;
 
 import com.triplem.momoim.api.auth.request.SigninRequest;
+import com.triplem.momoim.api.auth.response.CheckEmailNicknameResponse;
 import com.triplem.momoim.api.auth.response.SigninResponse;
 import com.triplem.momoim.api.auth.response.UserDetailResponse;
 import com.triplem.momoim.auth.jwt.JwtProvider;
@@ -20,6 +21,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthQueryService {
+
+    private static final String DUPLICATED_CHECK_ALLOW = "ALLOW";
+
     private final UserRepository userRepository;
     private final UserInterestCategoryRepository userInterestCategoryRepository;
     private final UserActiveLocationRepository userActiveLocationRepository;
@@ -51,5 +55,15 @@ public class AuthQueryService {
         List<UserInterestCategory> userInterestCategories = userInterestCategoryRepository.findAllByUserId(user.getId());
 
         return UserDetailResponse.from(user, userActiveLocations, userInterestCategories);
+    }
+
+    public CheckEmailNicknameResponse checkDuplicatedEmail(String email) {
+        userRepository.checkDuplicatedUserEmail(email);
+        return new CheckEmailNicknameResponse(DUPLICATED_CHECK_ALLOW);
+    }
+
+    public CheckEmailNicknameResponse checkDuplicatedNickname(String name) {
+        userRepository.checkDuplicatedUserName(name);
+        return new CheckEmailNicknameResponse(DUPLICATED_CHECK_ALLOW);
     }
 }
