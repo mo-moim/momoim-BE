@@ -1,17 +1,14 @@
 package com.triplem.momoim.api.auth.controller;
 
-import com.triplem.momoim.api.auth.request.SigninRequest;
-import com.triplem.momoim.api.auth.request.SignupRequest;
-import com.triplem.momoim.api.auth.request.UserProfileUpdateRequest;
+import com.triplem.momoim.api.auth.request.*;
+import com.triplem.momoim.api.auth.response.CheckEmailNicknameResponse;
 import com.triplem.momoim.api.auth.response.SigninResponse;
 import com.triplem.momoim.api.auth.response.SignupResponse;
 import com.triplem.momoim.api.auth.response.UserDetailResponse;
-import com.triplem.momoim.api.auth.response.common.Token;
 import com.triplem.momoim.api.auth.service.AuthCommandService;
 import com.triplem.momoim.api.auth.service.AuthQueryService;
 import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.auth.utils.SecurityUtil;
-import com.triplem.momoim.core.domain.user.AccountType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,7 +17,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/auths")
@@ -67,6 +63,26 @@ public class AuthController {
     public ApiResponse<UserDetailResponse> updateUserProfile(@RequestBody UserProfileUpdateRequest request) {
         Long userId = SecurityUtil.getMemberIdByPrincipal();
         UserDetailResponse response = authCommandService.updateUserProfile(userId, request);
+        return ApiResponse.success(response);
+    }
+
+    @PostMapping("/check/email")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공",  content = @Content(schema = @Schema(implementation = CheckEmailNicknameResponse.class)))
+    })
+    @Operation(operationId = "이메일 중복 체크", summary = "회원가입 전에 이메일 중복 체크를 수행", tags = {"auths"}, description = "회원가입 전에 사용할 수 있는 이메일인지 체크")
+    public ApiResponse<CheckEmailNicknameResponse> checkDuplicatedEmail(@RequestBody CheckEmailRequest request) {
+        CheckEmailNicknameResponse response = authQueryService.checkDuplicatedEmail(request.email());
+        return ApiResponse.success(response);
+    }
+
+    @PostMapping("/check/nickname")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공",  content = @Content(schema = @Schema(implementation = CheckEmailNicknameResponse.class)))
+    })
+    @Operation(operationId = "닉네임 중복 체크", summary = "회원가입 전에 닉네임 중복 체크를 수행", tags = {"auths"}, description = "회원가입 전에 사용할 수 있는 닉네임인지 체크")
+    public ApiResponse<CheckEmailNicknameResponse> checkDuplicatedNickname(@RequestBody CheckNicknameRequest request) {
+        CheckEmailNicknameResponse response = authQueryService.checkDuplicatedNickname(request.name());
         return ApiResponse.success(response);
     }
 }
