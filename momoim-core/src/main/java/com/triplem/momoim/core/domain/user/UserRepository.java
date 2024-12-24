@@ -7,4 +7,5 @@ public interface UserRepository {
 
     void checkDuplicatedUserEmail(String email);
 
+    void checkDuplicatedUserName(String name);
 }
