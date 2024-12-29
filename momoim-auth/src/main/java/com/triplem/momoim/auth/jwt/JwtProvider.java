@@ -15,10 +15,15 @@ public class JwtProvider {
 
     public TokenInfo generateAccessToken(User user) {
         long accessTokenExpireTime = jwtProperties.getAccessTokenExpireTime();
-        return generateToken(user, accessTokenExpireTime, JwtType.ACCESS_TOKEN);
+        return generateAccessTokenToken(user, accessTokenExpireTime, JwtType.ACCESS_TOKEN);
     }
 
-    private TokenInfo generateToken(User user, long expirationMillis, JwtType jwtType) {
+    public TokenInfo generateRefreshToken(User user) {
+        long refreshTokenExpireTime = jwtProperties.getRefreshTokenExpireTime();
+        return generateRefreshTokenToken(user, refreshTokenExpireTime, JwtType.REFRESH_TOKEN);
+    }
+
+    private TokenInfo generateAccessTokenToken(User user, long expirationMillis, JwtType jwtType) {
         Date now = new Date();
         Date expiredDate = new Date(now.getTime() + expirationMillis);
 
@@ -26,11 +31,25 @@ public class JwtProvider {
                 .setSubject(user.getId().toString())
                 .setIssuedAt(now)
                 .setExpiration(expiredDate)
-                .signWith(jwtProperties.getSecretKey(), SignatureAlgorithm.HS512)
+                .signWith(jwtProperties.getAccessTokenSecretKey(), SignatureAlgorithm.HS512)
                 .claim(JwtProperties.TOKEN_TYPE, jwtType.name())
                 .compact();
 
         return TokenInfo.of(accessToken, expiredDate);
+    }
 
+    private TokenInfo generateRefreshTokenToken(User user, long expirationMillis, JwtType jwtType) {
+        Date now = new Date();
+        Date expiredDate = new Date(now.getTime() + expirationMillis);
+
+        String refreshToken = Jwts.builder()
+                .setSubject(user.getId().toString())
+                .setIssuedAt(now)
+                .setExpiration(expiredDate)
+                .signWith(jwtProperties.getRefreshTokenSecretKey(), SignatureAlgorithm.HS512)
+                .claim(JwtProperties.TOKEN_TYPE, jwtType.name())
+                .compact();
+
+        return TokenInfo.of(refreshToken, expiredDate);
     }
 }

@@ -31,15 +31,37 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void checkDuplicatedUserEmail(String email) {
-        if(userJpaRepository.existsByEmail(email)) {
+        if (userJpaRepository.existsByEmail(email)) {
             throw new BusinessException(ExceptionCode.INVALID_MEMBER_HAS_DUPLICATED_EMAIL);
         }
     }
 
     @Override
     public void checkDuplicatedUserName(String name) {
-        if(userJpaRepository.existsByName(name)) {
+        if (userJpaRepository.existsByName(name)) {
             throw new BusinessException(ExceptionCode.INVALID_MEMBER_HAS_DUPLICATED_NAME);
+        }
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userJpaRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByEmailAndGoogleAccountType(String email) {
+        return userJpaRepository.existsByEmailAndAccountType(email, AccountType.GOOGLE);
+    }
+
+    @Override
+    public boolean existsByEmailAndKakaoAccountType(String email) {
+        return userJpaRepository.existsByEmailAndAccountType(email, AccountType.KAKAO);
+    }
+
+    @Override
+    public void checkDuplicatedUserEmailAndEmailAccountType(String email) {
+        if (userJpaRepository.existsByEmailAndAccountType(email, AccountType.EMAIL)) {
+            throw new BusinessException(ExceptionCode.INVALID_MEMBER_HAS_DUPLICATED_EMAIL);
         }
     }
 }

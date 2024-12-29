@@ -36,14 +36,17 @@ public class AuthQueryService {
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
             throw new BusinessException(ExceptionCode.INVALID_LOGIN);
         }
-        TokenInfo tokenInfo = jwtProvider.generateAccessToken(user);
+        TokenInfo accessTokenInfo = jwtProvider.generateAccessToken(user);
+        TokenInfo refreshTokenInfo = jwtProvider.generateRefreshToken(user);
+
         List<UserActiveLocation> userActiveLocations = userActiveLocationRepository.findAllByUserId(user.getId());
         List<UserInterestCategory> userInterestCategories = userInterestCategoryRepository.findAllByUserId(user.getId());
 
         // set cookie
-        tokenCommandService.storeAccessTokenInCookie(tokenInfo, response);
+//        tokenCommandService.storeAccessTokenInCookie(accessTokenInfo, response);
+        tokenCommandService.storeRefreshTokenInCookie(user.getId(), refreshTokenInfo, response);
 
-        return SigninResponse.from(user, tokenInfo, userActiveLocations, userInterestCategories);
+        return SigninResponse.from(user, accessTokenInfo, userActiveLocations, userInterestCategories);
     }
 
     public UserDetailResponse getUserProfile(Long userId) {

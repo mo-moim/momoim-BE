@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum AccountType {
-    EMAIL(), KAKAO();
+    EMAIL(), KAKAO(), GOOGLE();
 
     AccountType() {
     }

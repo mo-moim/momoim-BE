@@ -1,21 +1,23 @@
 package com.triplem.momoim.api.auth.controller;
 
 import com.triplem.momoim.api.auth.request.*;
-import com.triplem.momoim.api.auth.response.CheckEmailNicknameResponse;
-import com.triplem.momoim.api.auth.response.SigninResponse;
-import com.triplem.momoim.api.auth.response.SignupResponse;
-import com.triplem.momoim.api.auth.response.UserDetailResponse;
+import com.triplem.momoim.api.auth.response.*;
 import com.triplem.momoim.api.auth.service.AuthCommandService;
 import com.triplem.momoim.api.auth.service.AuthQueryService;
+import com.triplem.momoim.api.auth.service.GoogleLoginCommandService;
+import com.triplem.momoim.api.auth.service.KakaoLoginCommandService;
 import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.auth.utils.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URISyntaxException;
 
 
 @RestController
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthCommandService authCommandService;
     private final AuthQueryService authQueryService;
+    private final KakaoLoginCommandService kakaoLoginCommandService;
+    private final GoogleLoginCommandService googleLoginCommandService;
 
     @PostMapping("/signup")
     @ApiResponses(value = {
@@ -83,6 +87,49 @@ public class AuthController {
     @Operation(operationId = "닉네임 중복 체크", summary = "회원가입 전에 닉네임 중복 체크를 수행", tags = {"auths"}, description = "회원가입 전에 사용할 수 있는 닉네임인지 체크")
     public ApiResponse<CheckEmailNicknameResponse> checkDuplicatedNickname(@RequestBody CheckNicknameRequest request) {
         CheckEmailNicknameResponse response = authQueryService.checkDuplicatedNickname(request.name());
+        return ApiResponse.success(response);
+    }
+
+    @PostMapping("/kakao")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공",  content = @Content(schema = @Schema(implementation = SigninResponse.class)))
+    })
+    @Operation(operationId = "카카오 로그인", summary = "카카오 로그인", tags = {"auths"}, description = "카카오 로그인")
+    public ApiResponse<SigninResponse> kakaoLogin(@RequestParam("code") String code, HttpServletResponse response) throws URISyntaxException {
+        return ApiResponse.success(kakaoLoginCommandService.kakaoLogin(code, response));
+    }
+
+    @PostMapping("/google")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공",  content = @Content(schema = @Schema(implementation = SigninResponse.class)))
+    })
+    @Operation(operationId = "구글 로그인", summary = "구글 로그인", tags = {"auths"}, description = "구글 로그인")
+    public ApiResponse<SigninResponse> googleLogin(@RequestParam("code") String code, HttpServletResponse response) throws URISyntaxException {
+        return ApiResponse.success(googleLoginCommandService.googleLogin(code, response));
+    }
+
+    @PostMapping("/logout")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공",  content = @Content(schema = @Schema(implementation = LogoutResponse.class)))
+    })
+    @Operation(operationId = "로그아웃", summary = "로그아웃 API", tags = {"auths"}, description = "Cookie 안의 Refresh Token과 Database 안의 Refresh Token 제거")
+    public ApiResponse<LogoutResponse> logout(
+            @CookieValue("REFRESH_TOKEN") Cookie cookie,
+            HttpServletResponse response
+    ) {
+        return ApiResponse.success(authCommandService.logout(cookie, response));
+    }
+
+    @PostMapping("/refresh")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공",  content = @Content(schema = @Schema(implementation = SigninResponse.class)))
+    })
+    @Operation(operationId = "Access 토큰 재발급", summary = "Access 토큰 재발급 API", tags = {"auths"}, description = "만료된 Access Token 재발급 API")
+    public ApiResponse<SigninResponse> refreshAccessToken(
+            @CookieValue("REFRESH_TOKEN") Cookie cookie,
+            HttpServletResponse httpServletResponse
+    ) {
+        SigninResponse response = authCommandService.refreshAccessToken(cookie, httpServletResponse);
         return ApiResponse.success(response);
     }
 }
