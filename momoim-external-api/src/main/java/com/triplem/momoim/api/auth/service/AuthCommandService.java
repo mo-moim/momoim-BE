@@ -91,6 +91,7 @@ public class AuthCommandService {
 
         TokenInfo tokenInfo = jwtProvider.generateAccessToken(savedUser);
         tokenCommandService.storeAccessTokenInCookie(tokenInfo, response);
+        tokenCommandService.storeRefreshTokenInCookie(savedUser.getId(), tokenInfo, response);
 
         List<UserActiveLocation> userActiveLocations = userActiveLocationRepository.findAllByUserId(savedUser.getId());
         List<UserInterestCategory> userInterestCategories = userInterestCategoryRepository.findAllByUserId(savedUser.getId());
@@ -115,6 +116,7 @@ public class AuthCommandService {
 
         TokenInfo tokenInfo = jwtProvider.generateAccessToken(findedUser);
         tokenCommandService.storeAccessTokenInCookie(tokenInfo, response);
+        tokenCommandService.storeRefreshTokenInCookie(findedUser.getId(), tokenInfo, response);
 
         List<UserActiveLocation> userActiveLocations = userActiveLocationRepository.findAllByUserId(findedUser.getId());
         List<UserInterestCategory> userInterestCategories = userInterestCategoryRepository.findAllByUserId(findedUser.getId());

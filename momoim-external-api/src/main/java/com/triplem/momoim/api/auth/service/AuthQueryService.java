@@ -42,6 +42,7 @@ public class AuthQueryService {
 
         // set cookie
         tokenCommandService.storeAccessTokenInCookie(tokenInfo, response);
+        tokenCommandService.storeRefreshTokenInCookie(user.getId(), tokenInfo, response);
 
         return SigninResponse.from(user, tokenInfo, userActiveLocations, userInterestCategories);
     }

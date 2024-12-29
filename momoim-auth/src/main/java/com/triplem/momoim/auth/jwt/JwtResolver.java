@@ -16,8 +16,12 @@ public class JwtResolver {
     private final JwtProperties jwtProperties;
 
     public AuthUser resolveAccessToken(String token) {
-        return resolveToken(token);
+        return resolveAuthUserFromAccessToken(token);
     }
+    public AuthUser resolveRefreshToken(String token) {
+        return resolveAuthUserFromRefreshToken(token);
+    }
+
 
     /**
      * Internal method to parse and validate a JWT token. This method validates the token signature, structure, and expiration, and extracts claims to
@@ -28,13 +32,31 @@ public class JwtResolver {
      * @throws RuntimeException for various JWT parsing and validation errors
      * @apiNote Replace RuntimeException with CustomException and a well-defined ErrorCode enum for better error categorization and handling.
      */
-    private AuthUser resolveToken(String token) {
+    private AuthUser resolveAuthUserFromAccessToken(String token) {
         try {
             Claims claims = Jwts.parserBuilder()
-                .setSigningKey(jwtProperties.getSecretKey())
+                .setSigningKey(jwtProperties.getAccessTokenSecretKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+
+            Long userId = Long.valueOf(claims.getSubject());
+            return AuthUser.from(userId);
+
+        } catch (ExpiredJwtException e) {
+            throw new BusinessException(ExceptionCode.EXPIRED_JWT);
+        } catch (JwtException e) {
+            throw new BusinessException(ExceptionCode.UNKNOWN_JWT_VALIDATE_ERROR);
+        }
+    }
+
+    private AuthUser resolveAuthUserFromRefreshToken(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(jwtProperties.getRefreshTokenSecretKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
 
             Long userId = Long.valueOf(claims.getSubject());
             return AuthUser.from(userId);
