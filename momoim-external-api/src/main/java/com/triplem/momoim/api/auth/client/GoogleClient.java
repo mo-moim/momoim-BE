@@ -2,9 +2,7 @@ package com.triplem.momoim.api.auth.client;
 
 import com.triplem.momoim.api.auth.client.dto.google.GoogleInfo;
 import com.triplem.momoim.api.auth.client.dto.google.GoogleToken;
-import com.triplem.momoim.api.auth.client.dto.kakao.KakaoInfo;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
