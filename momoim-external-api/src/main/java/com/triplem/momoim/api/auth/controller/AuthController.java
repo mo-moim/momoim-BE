@@ -7,6 +7,8 @@ import com.triplem.momoim.api.auth.response.SignupResponse;
 import com.triplem.momoim.api.auth.response.UserDetailResponse;
 import com.triplem.momoim.api.auth.service.AuthCommandService;
 import com.triplem.momoim.api.auth.service.AuthQueryService;
+import com.triplem.momoim.api.auth.service.GoogleLoginCommandService;
+import com.triplem.momoim.api.auth.service.KakaoLoginCommandService;
 import com.triplem.momoim.api.common.ApiResponse;
 import com.triplem.momoim.auth.utils.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +19,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
+
 
 @RestController
 @RequestMapping("/api/auths")
@@ -24,6 +28,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthCommandService authCommandService;
     private final AuthQueryService authQueryService;
+    private final KakaoLoginCommandService kakaoLoginCommandService;
+    private final GoogleLoginCommandService googleLoginCommandService;
 
     @PostMapping("/signup")
     @ApiResponses(value = {
@@ -84,5 +90,23 @@ public class AuthController {
     public ApiResponse<CheckEmailNicknameResponse> checkDuplicatedNickname(@RequestBody CheckNicknameRequest request) {
         CheckEmailNicknameResponse response = authQueryService.checkDuplicatedNickname(request.name());
         return ApiResponse.success(response);
+    }
+
+    @PostMapping("/kakao")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공",  content = @Content(schema = @Schema(implementation = SigninResponse.class)))
+    })
+    @Operation(operationId = "카카오 로그인", summary = "카카오 로그인", tags = {"auths"}, description = "카카오 로그인")
+    public ApiResponse<SigninResponse> kakaoLogin(@RequestParam("code") String code, HttpServletResponse response) throws URISyntaxException {
+        return ApiResponse.success(kakaoLoginCommandService.kakaoLogin(code, response));
+    }
+
+    @PostMapping("/google")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "요청 성공",  content = @Content(schema = @Schema(implementation = SigninResponse.class)))
+    })
+    @Operation(operationId = "구글 로그인", summary = "구글 로그인", tags = {"auths"}, description = "구글 로그인")
+    public ApiResponse<SigninResponse> googleLogin(@RequestParam("code") String code, HttpServletResponse response) throws URISyntaxException {
+        return ApiResponse.success(googleLoginCommandService.googleLogin(code, response));
     }
 }

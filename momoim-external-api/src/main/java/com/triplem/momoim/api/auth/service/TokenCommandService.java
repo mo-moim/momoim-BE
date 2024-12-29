@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TokenCommandService {
     private static final String ACCESS_TOKEN_KEY_IN_COOKIE = "ACCESS_TOKEN";
+    private static final String REFRESH_TOKEN_KEY_IN_COOKIE = "REFRESH_TOKEN";
     private static final String COOKIE_KEY_IN_HEADER = "Set-Cookie";
     private static final String COOKIE_DEFAULT_PATH_ROOT = "/";
     private static final int DEFAULT_COOKIE_AGE = 7200;
@@ -21,6 +22,16 @@ public class TokenCommandService {
     private String cookieDomain;
 
     public void storeAccessTokenInCookie(TokenInfo tokenInfo, HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from(ACCESS_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
+                .path(COOKIE_DEFAULT_PATH_ROOT)
+                .domain(cookieDomain)
+                .httpOnly(true)
+                .maxAge(DEFAULT_COOKIE_AGE)
+                .build();
+        response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
+    }
+
+    public void storeRefreshTokenInCookie(TokenInfo tokenInfo, HttpServletResponse response) {
         ResponseCookie cookie = ResponseCookie.from(ACCESS_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
                 .path(COOKIE_DEFAULT_PATH_ROOT)
                 .domain(cookieDomain)
