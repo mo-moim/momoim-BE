@@ -1,7 +1,9 @@
 package com.triplem.momoim.core.domain.user.auth;
 
-import com.triplem.momoim.core.domain.user.User;
-
 public interface RefreshTokenRepository {
     RefreshToken save(RefreshToken refreshToken);
+
+    void delete(RefreshToken refreshToken);
+
+    RefreshToken findRefreshTokenByUserIdAndToken(Long userId, String token);
 }

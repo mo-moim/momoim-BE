@@ -2,16 +2,22 @@ package com.triplem.momoim.api.auth.service;
 
 import com.triplem.momoim.api.auth.request.SignupRequest;
 import com.triplem.momoim.api.auth.request.UserProfileUpdateRequest;
+import com.triplem.momoim.api.auth.response.LogoutResponse;
 import com.triplem.momoim.api.auth.response.SigninResponse;
 import com.triplem.momoim.api.auth.response.SignupResponse;
 import com.triplem.momoim.api.auth.response.UserDetailResponse;
+import com.triplem.momoim.auth.AuthUser;
 import com.triplem.momoim.auth.jwt.JwtProvider;
+import com.triplem.momoim.auth.jwt.JwtResolver;
 import com.triplem.momoim.auth.jwt.TokenInfo;
 import com.triplem.momoim.core.domain.user.*;
+import com.triplem.momoim.core.domain.user.auth.RefreshToken;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Transactional
 @Service
 @RequiredArgsConstructor
@@ -30,7 +37,9 @@ public class AuthCommandService {
     private final UserActiveLocationRepository userActiveLocationRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
+    private final JwtResolver jwtResolver;
     private final TokenCommandService tokenCommandService;
+    private final TokenQueryService tokenQueryService;
 
     public SignupResponse signup(SignupRequest request) {
         userRepository.checkDuplicatedUserEmail(request.email());
@@ -61,6 +70,38 @@ public class AuthCommandService {
         return UserDetailResponse.from(savedUser, userActiveLocations, userInterestCategories);
     }
 
+    public LogoutResponse logout(Cookie cookie, HttpServletResponse response) {
+        String refreshTokenInCookie = cookie.getValue();
+
+        AuthUser authUser = jwtResolver.resolveRefreshToken(refreshTokenInCookie);
+        RefreshToken refreshTokenInDatabase = tokenQueryService.getByUserIdAndToken(authUser.id(), refreshTokenInCookie);
+        tokenCommandService.delete(refreshTokenInDatabase);
+        tokenCommandService.removeRefreshTokenInCookie(response, cookie);
+
+        return LogoutResponse.createSuccessLogoutResponse();
+    }
+
+    public SigninResponse refreshAccessToken(Cookie cookie, HttpServletResponse response) {
+        String refreshTokenInCookie = cookie.getValue();
+        AuthUser authUser = jwtResolver.resolveRefreshToken(refreshTokenInCookie);
+
+        RefreshToken refreshTokenInDatabase = tokenQueryService.getByUserIdAndToken(authUser.id(), refreshTokenInCookie);
+        User user = userRepository.findById(refreshTokenInDatabase.getUserId());
+        tokenCommandService.delete(refreshTokenInDatabase);
+
+        TokenInfo accessTokenInfo = jwtProvider.generateAccessToken(user);
+        TokenInfo refreshTokenInfo = jwtProvider.generateRefreshToken(user);
+
+        List<UserActiveLocation> userActiveLocations = userActiveLocationRepository.findAllByUserId(user.getId());
+        List<UserInterestCategory> userInterestCategories = userInterestCategoryRepository.findAllByUserId(user.getId());
+
+        // set cookie
+//        tokenCommandService.storeAccessTokenInCookie(accessTokenInfo, response);
+        tokenCommandService.storeRefreshTokenInCookie(user.getId(), refreshTokenInfo, response);
+
+        return SigninResponse.from(user, accessTokenInfo, userActiveLocations, userInterestCategories);
+    }
+
     public SigninResponse socialLogin(
             String email,
             String name,
@@ -89,14 +130,16 @@ public class AuthCommandService {
         userInterestCategoryRegister.register(savedUser.getId(), List.of("ALL"));
         userActiveLocationRegister.register(savedUser.getId(), List.of("ALL"));
 
-        TokenInfo tokenInfo = jwtProvider.generateAccessToken(savedUser);
-        tokenCommandService.storeAccessTokenInCookie(tokenInfo, response);
-        tokenCommandService.storeRefreshTokenInCookie(savedUser.getId(), tokenInfo, response);
+        TokenInfo accessTokenInfo = jwtProvider.generateAccessToken(savedUser);
+        TokenInfo refreshTokenInfo = jwtProvider.generateRefreshToken(savedUser);
+
+//        tokenCommandService.storeAccessTokenInCookie(accessTokenInfo, response);
+        tokenCommandService.storeRefreshTokenInCookie(savedUser.getId(), refreshTokenInfo, response);
 
         List<UserActiveLocation> userActiveLocations = userActiveLocationRepository.findAllByUserId(savedUser.getId());
         List<UserInterestCategory> userInterestCategories = userInterestCategoryRepository.findAllByUserId(savedUser.getId());
 
-        return SigninResponse.from(user, tokenInfo, userActiveLocations, userInterestCategories);
+        return SigninResponse.from(user, accessTokenInfo, userActiveLocations, userInterestCategories);
     }
 
     private void checkDuplicatedEmail(String email, AccountType accountType) {
@@ -114,13 +157,15 @@ public class AuthCommandService {
     private SigninResponse getSigninResponseFromUser(String email, HttpServletResponse response) {
         User findedUser = userRepository.findUserByEmail(email);
 
-        TokenInfo tokenInfo = jwtProvider.generateAccessToken(findedUser);
-        tokenCommandService.storeAccessTokenInCookie(tokenInfo, response);
-        tokenCommandService.storeRefreshTokenInCookie(findedUser.getId(), tokenInfo, response);
+        TokenInfo accessTokenInfo = jwtProvider.generateAccessToken(findedUser);
+        TokenInfo refreshTokenInfo = jwtProvider.generateRefreshToken(findedUser);
+
+//        tokenCommandService.storeAccessTokenInCookie(accessTokenInfo, response);
+        tokenCommandService.storeRefreshTokenInCookie(findedUser.getId(), refreshTokenInfo, response);
 
         List<UserActiveLocation> userActiveLocations = userActiveLocationRepository.findAllByUserId(findedUser.getId());
         List<UserInterestCategory> userInterestCategories = userInterestCategoryRepository.findAllByUserId(findedUser.getId());
 
-        return SigninResponse.from(findedUser, tokenInfo, userActiveLocations, userInterestCategories);
+        return SigninResponse.from(findedUser, accessTokenInfo, userActiveLocations, userInterestCategories);
     }
 }

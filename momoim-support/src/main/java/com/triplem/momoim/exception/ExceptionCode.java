@@ -20,6 +20,7 @@ public enum ExceptionCode {
     EXPIRED_JWT(HttpStatus.UNAUTHORIZED, "EXPIRED_JWT", "만료된 토큰입니다."),
     INVALID_PRINCIPAL(HttpStatus.BAD_REQUEST, "INVALID_PRINCIPAL", "로그인 객체의 정보가 유효하지 않거나, 존재하지 않습니다."),
     INVALID_LOGIN(HttpStatus.BAD_REQUEST, "INVALID_LOGIN", "올바르지 않은 이메일 또는 비밀번호입니다."),
+    NOT_FOUND_REFRESH_TOKEN(HttpStatus.NOT_FOUND, "NOT_FOUND_REFRESH_TOKEN", "리프레시 토큰이 존재하지 않습니다."),
 
     // =============================================================
     // ==                         Member                          ==

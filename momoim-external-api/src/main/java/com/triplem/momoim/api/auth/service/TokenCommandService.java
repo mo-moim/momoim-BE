@@ -3,6 +3,7 @@ package com.triplem.momoim.api.auth.service;
 import com.triplem.momoim.auth.jwt.TokenInfo;
 import com.triplem.momoim.core.domain.user.auth.RefreshToken;
 import com.triplem.momoim.core.domain.user.auth.RefreshTokenRepository;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,5 +53,16 @@ public class TokenCommandService {
                 .maxAge(DEFAULT_REFRESH_TOKEN_COOKIE_AGE)
                 .build();
         response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
+    }
+
+    public void delete(RefreshToken token) {
+        refreshTokenRepository.delete(token);
+    }
+
+    public void removeRefreshTokenInCookie(HttpServletResponse response, Cookie refreshToken) {
+        refreshToken.setMaxAge(0);
+        refreshToken.setDomain(cookieDomain);
+        refreshToken.setPath("/");
+        response.addCookie(refreshToken);
     }
 }

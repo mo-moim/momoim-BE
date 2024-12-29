@@ -42,14 +42,14 @@ public class JwtProvider {
         Date now = new Date();
         Date expiredDate = new Date(now.getTime() + expirationMillis);
 
-        String accessToken = Jwts.builder()
+        String refreshToken = Jwts.builder()
                 .setSubject(user.getId().toString())
                 .setIssuedAt(now)
                 .setExpiration(expiredDate)
-                .signWith(jwtProperties.getAccessTokenSecretKey(), SignatureAlgorithm.HS512)
+                .signWith(jwtProperties.getRefreshTokenSecretKey(), SignatureAlgorithm.HS512)
                 .claim(JwtProperties.TOKEN_TYPE, jwtType.name())
                 .compact();
 
-        return TokenInfo.of(accessToken, expiredDate);
+        return TokenInfo.of(refreshToken, expiredDate);
     }
 }
