@@ -31,7 +31,7 @@ public record UserDetailResponse(
         List<String> regions,
 
         @Schema(description = "관심 카테고리", example = "{'CULTURE': ['MOVIE', 'CONCERT'], 'FOOD': ['COOKING']]")
-        Map<String, List<String>> interestCategories
+        List<String> interestCategories
 ) {
         public static UserDetailResponse from(
                 User user,
@@ -42,20 +42,24 @@ public record UserDetailResponse(
                         .map(UserActiveLocation::getActiveLocationType)
                         .toList();
 
-                Set<String> allCategories = userInterestCategories.stream()
-                        .map(UserInterestCategory::getCategory)
-                        .collect(Collectors.toSet());
+                List<String> interestedCategories = userInterestCategories.stream()
+                        .map(UserInterestCategory::getSubCategory)
+                        .toList();
 
-                Map<String, List<String>> interestCategories = userInterestCategories.stream()
-                        .filter(interest -> interest.getSubCategory() != null && !interest.getSubCategory().isEmpty())
-                        .collect(Collectors.groupingBy(
-                                UserInterestCategory::getCategory,
-                                Collectors.mapping(UserInterestCategory::getSubCategory, Collectors.toList())
-                        ));
-
-                allCategories.forEach(category ->
-                        interestCategories.putIfAbsent(category, Collections.emptyList())
-                );
+//                Set<String> allCategories = userInterestCategories.stream()
+//                        .map(UserInterestCategory::getCategory)
+//                        .collect(Collectors.toSet());
+//
+//                Map<String, List<String>> interestCategories = userInterestCategories.stream()
+//                        .filter(interest -> interest.getSubCategory() != null && !interest.getSubCategory().isEmpty())
+//                        .collect(Collectors.groupingBy(
+//                                UserInterestCategory::getCategory,
+//                                Collectors.mapping(UserInterestCategory::getSubCategory, Collectors.toList())
+//                        ));
+//
+//                allCategories.forEach(category ->
+//                        interestCategories.putIfAbsent(category, Collections.emptyList())
+//                );
 
                 return UserDetailResponse.builder()
                         .email(user.getEmail())
@@ -63,7 +67,7 @@ public record UserDetailResponse(
                         .profileImage(user.getProfileImage())
                         .accountType(user.getAccountType().name())
                         .regions(regions)
-                        .interestCategories(interestCategories)
+                        .interestCategories(interestedCategories)
                         .build();
         }
 }

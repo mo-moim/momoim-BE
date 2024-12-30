@@ -45,7 +45,7 @@ public record SigninResponse(
                         .toList();
 
                 List<String> interestCategories = userInterestCategories.stream()
-                        .map(UserInterestCategory::getCategory)
+                        .map(UserInterestCategory::getSubCategory)
                         .toList();
 
                 return SigninResponse.builder()
