@@ -11,6 +11,8 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -21,6 +23,7 @@ public class TokenCommandService {
     private static final String COOKIE_DEFAULT_PATH_ROOT = "/";
     private static final int DEFAULT_ACCESS_TOKEN_COOKIE_AGE = 7200;
     private static final int DEFAULT_REFRESH_TOKEN_COOKIE_AGE = 1209600;
+    private static final List<String> DEFAULT_COOKIE_DOMAINS = List.of("localhost", "momoim.co.kr");
 
     private final RefreshTokenRepository refreshTokenRepository;
 
@@ -28,13 +31,15 @@ public class TokenCommandService {
     private String cookieDomain;
 
     public void storeAccessTokenInCookie(TokenInfo tokenInfo, HttpServletResponse response) {
-        ResponseCookie cookie = ResponseCookie.from(ACCESS_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
-                .path(COOKIE_DEFAULT_PATH_ROOT)
-                .domain(cookieDomain)
-                .httpOnly(true)
-                .maxAge(DEFAULT_ACCESS_TOKEN_COOKIE_AGE)
-                .build();
-        response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
+        for (String domain : DEFAULT_COOKIE_DOMAINS) {
+            ResponseCookie cookie = ResponseCookie.from(ACCESS_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
+                    .path(COOKIE_DEFAULT_PATH_ROOT)
+                    .domain(domain)
+                    .httpOnly(true)
+                    .maxAge(DEFAULT_ACCESS_TOKEN_COOKIE_AGE)
+                    .build();
+            response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
+        }
     }
 
     public void storeRefreshTokenInCookie(Long userId, TokenInfo tokenInfo, HttpServletResponse response) {
@@ -46,13 +51,15 @@ public class TokenCommandService {
 
         refreshTokenRepository.save(refreshToken);
 
-        ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
-                .path(COOKIE_DEFAULT_PATH_ROOT)
-                .domain(cookieDomain)
-                .httpOnly(true)
-                .maxAge(DEFAULT_REFRESH_TOKEN_COOKIE_AGE)
-                .build();
-        response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
+        for (String domain : DEFAULT_COOKIE_DOMAINS) {
+            ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
+                    .path(COOKIE_DEFAULT_PATH_ROOT)
+                    .domain(domain)
+                    .httpOnly(true)
+                    .maxAge(DEFAULT_REFRESH_TOKEN_COOKIE_AGE)
+                    .build();
+            response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
+        }
     }
 
     public void delete(RefreshToken token) {
