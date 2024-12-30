@@ -66,6 +66,7 @@ public class TokenCommandService {
                 .path(COOKIE_DEFAULT_PATH_ROOT)
                 .domain(cookieDomain)
                 .httpOnly(true)
+                .sameSite("None")
                 .maxAge(DEFAULT_REFRESH_TOKEN_COOKIE_AGE)
                 .build();
         response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
