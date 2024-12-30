@@ -32,13 +32,24 @@ public class TokenCommandService {
 
     public void storeAccessTokenInCookie(TokenInfo tokenInfo, HttpServletResponse response) {
         for (String domain : DEFAULT_COOKIE_DOMAINS) {
-            ResponseCookie cookie = ResponseCookie.from(ACCESS_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
-                    .path(COOKIE_DEFAULT_PATH_ROOT)
-                    .domain(domain)
-                    .httpOnly(true)
-                    .maxAge(DEFAULT_ACCESS_TOKEN_COOKIE_AGE)
-                    .build();
-            response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
+            if (domain.equals("localhost")) {
+                ResponseCookie cookie = ResponseCookie.from(ACCESS_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
+                        .path(COOKIE_DEFAULT_PATH_ROOT)
+                        .httpOnly(true)
+                        .maxAge(DEFAULT_ACCESS_TOKEN_COOKIE_AGE)
+                        .build();
+                response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
+            } else {
+                ResponseCookie cookie = ResponseCookie.from(ACCESS_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
+                        .path(COOKIE_DEFAULT_PATH_ROOT)
+                        .domain(domain)
+                        .httpOnly(true)
+                        .maxAge(DEFAULT_ACCESS_TOKEN_COOKIE_AGE)
+                        .secure(true)
+                        .build();
+                response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
+            }
+
         }
     }
 
@@ -52,13 +63,23 @@ public class TokenCommandService {
         refreshTokenRepository.save(refreshToken);
 
         for (String domain : DEFAULT_COOKIE_DOMAINS) {
-            ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
-                    .path(COOKIE_DEFAULT_PATH_ROOT)
-                    .domain(domain)
-                    .httpOnly(true)
-                    .maxAge(DEFAULT_REFRESH_TOKEN_COOKIE_AGE)
-                    .build();
-            response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
+            if (domain.equals("localhost")) {
+                ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
+                        .path(COOKIE_DEFAULT_PATH_ROOT)
+                        .httpOnly(true)
+                        .maxAge(DEFAULT_REFRESH_TOKEN_COOKIE_AGE)
+                        .build();
+                response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
+            } else {
+                ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_KEY_IN_COOKIE, tokenInfo.getValue())
+                        .path(COOKIE_DEFAULT_PATH_ROOT)
+                        .domain(domain)
+                        .httpOnly(true)
+                        .maxAge(DEFAULT_REFRESH_TOKEN_COOKIE_AGE)
+                        .secure(true)
+                        .build();
+                response.addHeader(COOKIE_KEY_IN_HEADER, cookie.toString());
+            }
         }
     }
 
@@ -67,9 +88,11 @@ public class TokenCommandService {
     }
 
     public void removeRefreshTokenInCookie(HttpServletResponse response, Cookie refreshToken) {
-        refreshToken.setMaxAge(0);
-        refreshToken.setDomain(cookieDomain);
-        refreshToken.setPath("/");
-        response.addCookie(refreshToken);
+        for (String domain : DEFAULT_COOKIE_DOMAINS) {
+            refreshToken.setMaxAge(0);
+            refreshToken.setDomain(domain);
+            refreshToken.setPath("/");
+            response.addCookie(refreshToken);
+        }
     }
 }
