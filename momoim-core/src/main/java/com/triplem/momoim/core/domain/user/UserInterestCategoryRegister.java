@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -49,21 +48,18 @@ public class UserInterestCategoryRegister {
 
     }
 
-    public void modify(Long userId, Map<String, List<String>> categories) {
+    public void modify(Long userId, List<String> categories) {
         userInterestCategoryRepository.deleteAllByUserId(userId);
 
-        for (Map.Entry<String, List<String>> entry : categories.entrySet()) {
-            String category = entry.getKey();
-            List<String> subCategories = entry.getValue();
+        for (String category : categories) {
+            GatheringSubCategory gatheringSubCategory = GatheringSubCategory.valueOf(category);
 
-            for (String subCategory : subCategories) {
-                UserInterestCategory userInterestCategory = UserInterestCategory.builder()
-                        .category(category)
-                        .subCategory(subCategory)
-                        .userId(userId)
-                        .build();
-                userInterestCategoryRepository.save(userInterestCategory);
-            }
+            UserInterestCategory userInterestCategory = UserInterestCategory.builder()
+                    .category(gatheringSubCategory.getParentCategory().name())
+                    .subCategory(category)
+                    .userId(userId)
+                    .build();
+            userInterestCategoryRepository.save(userInterestCategory);
         }
     }
 

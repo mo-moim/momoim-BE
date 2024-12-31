@@ -21,8 +21,8 @@ public record UserProfileUpdateRequest(
         @Schema(description = "활동할 지역", example = "['SEOUL', 'BUSAN]' or '[ALL]'")
         List<String> regions,
 
-        @Schema(description = "관심 카테고리", example = "{'CULTURE': ['MOVIE', 'CONCERT'], 'FOOD': ['COOKING']}")
-        Map<String, List<String>> interestCategories
+        @Schema(description = "관심 카테고리", example = "['MOVIE', 'CONCERT']")
+        List<String> interestCategories
 ) {
         public User toUpdatedUser(User user) {
                 return User.builder()
