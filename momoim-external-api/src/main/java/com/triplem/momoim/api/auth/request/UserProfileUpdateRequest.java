@@ -22,7 +22,7 @@ public record UserProfileUpdateRequest(
         List<String> regions,
 
         @Schema(description = "관심 카테고리", example = "{'CULTURE': ['MOVIE', 'CONCERT'], 'FOOD': ['COOKING']}")
-        Map<String, List<String>> interestCategories
+        List<String> interestCategories
 ) {
         public User toUpdatedUser(User user) {
                 return User.builder()
