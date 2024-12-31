@@ -39,7 +39,7 @@ public class GatheringMemberRemover {
             throw new BusinessException(ExceptionCode.FORBIDDEN_GATHERING);
         }
 
-        if (!managerId.equals(kickMemberId)) {
+        if (managerId.equals(kickMember.getUserId())) {
             throw new BusinessException(ExceptionCode.UNAVAILABLE_MANAGER_LEAVE);
         }
 
