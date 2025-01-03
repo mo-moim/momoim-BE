@@ -24,11 +24,13 @@ import com.triplem.momoim.core.domain.member.dto.GatheringMemberDetail;
 import com.triplem.momoim.core.domain.member.infrastructure.QGatheringMemberEntity;
 import com.triplem.momoim.exception.BusinessException;
 import com.triplem.momoim.exception.ExceptionCode;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
@@ -154,6 +156,19 @@ public class GatheringRepositoryImpl implements GatheringRepository {
             .stream()
             .sorted(Comparator.comparingInt(gathering -> ids.indexOf(gathering.getGatheringId())))
             .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void updateGatheringStatusFinished() {
+        jpaQueryFactory.update(gatheringEntity)
+            .set(gatheringEntity.status, GatheringStatus.FINISHED)
+            .where(
+                gatheringEntity.status.eq(GatheringStatus.OPEN).or(gatheringEntity.status.eq(GatheringStatus.CLOSED)),
+                gatheringEntity.isPeriodic.eq(false),
+                gatheringEntity.nextGatheringAt.before(LocalDateTime.now())
+            )
+            .execute();
     }
 
     private BooleanBuilder whereGatheringSearchOption(GatheringSearchOption searchOption) {

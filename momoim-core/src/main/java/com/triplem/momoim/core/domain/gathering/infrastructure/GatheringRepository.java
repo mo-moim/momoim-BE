@@ -21,4 +21,6 @@ public interface GatheringRepository {
     List<Long> getMyMadeGatherings(Long userId, PaginationInformation paginationInformation);
 
     List<GatheringPreview> getGatheringPreviewsById(Long userId, List<Long> ids);
+
+    void updateGatheringStatusFinished();
 }
