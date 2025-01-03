@@ -31,6 +31,10 @@ public class GatheringUpdater {
             throw new BusinessException(ExceptionCode.FORBIDDEN_GATHERING);
         }
 
+        if (gathering.isEnd()) {
+            throw new BusinessException(ExceptionCode.UNAVAILABLE_GATHERING);
+        }
+
         gathering.modify(modifyGathering);
         gatheringRepository.save(gathering);
     }
