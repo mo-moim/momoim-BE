@@ -71,6 +71,7 @@ public class Gathering {
     }
 
     public void modify(ModifyGathering modifyGathering) {
+        this.category = modifyGathering.getGatheringCategory().name();
         this.subCategory = modifyGathering.getSubCategory().name();
         this.name = modifyGathering.getName();
         this.status = modifyGathering.getStatus();

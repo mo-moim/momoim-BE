@@ -1,5 +1,6 @@
 package com.triplem.momoim.core.domain.gathering.dto;
 
+import com.triplem.momoim.core.domain.gathering.enums.GatheringCategory;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringLocation;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import com.triplem.momoim.core.domain.gathering.enums.GatheringSubCategory;
@@ -12,6 +13,7 @@ import lombok.Getter;
 @Builder
 public class ModifyGathering {
     private Long gatheringId;
+    private GatheringCategory gatheringCategory;
     private GatheringSubCategory subCategory;
     private String name;
     private GatheringStatus status;
