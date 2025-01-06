@@ -8,6 +8,7 @@ import static com.triplem.momoim.core.domain.user.QUserEntity.userEntity;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.triplem.momoim.core.common.PaginationInformation;
+import com.triplem.momoim.core.domain.gathering.enums.GatheringStatus;
 import com.triplem.momoim.core.domain.review.dto.MyReview;
 import com.triplem.momoim.core.domain.review.dto.ReviewContent;
 import com.triplem.momoim.core.domain.review.model.Review;
@@ -102,8 +103,13 @@ public class ReviewRepositoryImpl implements ReviewRepository {
         return jpaQueryFactory.select(gatheringEntity.id)
             .from(gatheringMemberEntity)
             .leftJoin(gatheringEntity).on(gatheringEntity.id.eq(gatheringMemberEntity.gatheringId))
-            .leftJoin(reviewEntity).on(reviewEntity.gatheringId.eq(gatheringEntity.id))
-            .where(gatheringMemberEntity.userId.eq(userId), reviewEntity.id.isNull(), gatheringEntity.nextGatheringAt.before(LocalDateTime.now()))
+            .leftJoin(reviewEntity).on(reviewEntity.gatheringId.eq(gatheringEntity.id), reviewEntity.userId.eq(userId))
+            .where(
+                gatheringMemberEntity.userId.eq(userId),
+                reviewEntity.id.isNull(),
+                gatheringEntity.nextGatheringAt.before(LocalDateTime.now()),
+                gatheringEntity.status.ne(GatheringStatus.CANCELED)
+            )
             .offset(paginationInformation.getOffset())
             .limit(paginationInformation.getLimit())
             .orderBy(gatheringEntity.id.desc())
